@@ -11,7 +11,7 @@ import ConditionalDevFeatures from '../../vision/ConditionalDevFeatures.jsx';
 function MainLayout({ children }) {
   const { getSelectedImage } = useSlideshow();
   const { getPageControls } = usePage();
-  const { isSidebarOpen } = useDevTools();
+  const { isSidebarOpen, isDevMode, isMobileView } = useDevTools();
   const logger = useLogger('MainLayout', {
     logMount: true,
     logUnmount: true,
@@ -49,10 +49,12 @@ function MainLayout({ children }) {
   }, [backgroundImageSrc, globalControls]);
 
   // Update sidebar state for CSS Grid layout
+  // Must match the same conditions as DevToolsContext for --sidebar-width
   useEffect(() => {
     const root = document.documentElement;
-    root.setAttribute('data-sidebar-expanded', isSidebarOpen ? 'true' : 'false');
-  }, [isSidebarOpen]);
+    const shouldExpand = isSidebarOpen && isDevMode && !isMobileView;
+    root.setAttribute('data-sidebar-expanded', shouldExpand ? 'true' : 'false');
+  }, [isSidebarOpen, isDevMode, isMobileView]);
 
   // Layout state logging - simplified
   useEffect(() => {

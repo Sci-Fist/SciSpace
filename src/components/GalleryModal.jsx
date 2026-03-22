@@ -27,143 +27,11 @@ function GalleryModal({ isOpen, onClose, items, currentIndex, onNavigate }) {
   const modalRef = useRef(null);
   const hideButtonRef = useRef(null);
 
-  // Position and spacing logging
-  useEffect(() => {
-    if (modalRef.current && hideButtonRef.current) {
-      const modalRect = modalRef.current.getBoundingClientRect();
-      const buttonRect = hideButtonRef.current.getBoundingClientRect();
-
-      logger.debug('Modal and button positioning', {
-        modalDimensions: {
-          width: modalRect.width,
-          height: modalRect.height,
-          top: modalRect.top,
-          left: modalRect.left,
-          right: modalRect.right,
-          bottom: modalRect.bottom
-        },
-        buttonPosition: {
-          top: buttonRect.top,
-          left: buttonRect.left,
-          right: buttonRect.right,
-          bottom: buttonRect.bottom,
-          width: buttonRect.width,
-          height: buttonRect.height
-        },
-        relativePosition: {
-          buttonTopFromModal: buttonRect.top - modalRect.top,
-          buttonLeftFromModal: buttonRect.left - modalRect.left,
-          buttonRightFromModal: modalRect.right - buttonRect.right
-        },
-        animationState: animationSequence,
-        controlsHidden: areControlsHidden,
-        timestamp: new Date().toISOString()
-      }, 'modal-positioning');
-    }
-  }, [animationSequence, areControlsHidden]);
-
-  // Log animation sequence changes
-  useEffect(() => {
-    logger.debug('Animation sequence changed', {
-      newSequence: animationSequence,
-      controlsHidden: areControlsHidden,
-      timestamp: new Date().toISOString()
-    }, 'modal-animation');
-
-    console.log('🎭 Animation sequence updated:', {
-      animating: animationSequence.animating,
-      showing: animationSequence.showing,
-      step1Complete: animationSequence.step1Complete,
-      step2Complete: animationSequence.step2Complete,
-      controlsHidden: areControlsHidden
-    });
-  }, [animationSequence, areControlsHidden]);
-
-  // Log state changes for description expansion
-  useEffect(() => {
-    logger.debug('Description expansion state changed', {
-      isExpanded: isDescriptionExpanded,
-      itemTitle: currentItem?.title,
-      timestamp: new Date().toISOString()
-    }, 'modal-description');
-
-    console.log('📝 Description state:', {
-      expanded: isDescriptionExpanded,
-      itemTitle: currentItem?.title
-    });
-  }, [isDescriptionExpanded, currentItem]);
-
-  // Enhanced logging for modal render cycle
-  logger.debug('GalleryModal render cycle', {
-    isOpen,
-    currentIndex,
-    currentItem: currentItem ? {
-      title: currentItem.title,
-      type: currentItem.type,
-      category: currentItem.category,
-      src: currentItem.src?.substring(0, 50) + '...'
-    } : null,
-    itemsLength: items?.length,
-    areControlsHidden,
-    animationSequence,
-    isDescriptionExpanded,
-    timestamp: new Date().toISOString()
-  }, 'modal-render');
-
-  console.log('GalleryModal render:', {
-    isOpen,
-    currentIndex,
-    itemTitle: currentItem?.title,
-    itemType: currentItem?.type,
-    itemCategory: currentItem?.category,
-    itemsLength: items?.length,
-    controlsHidden: areControlsHidden
-  });
+  // Position and spacing logging (removed excessive logging)
 
   if (!isOpen || !currentItem) {
-    logger.debug('GalleryModal not rendering - conditions not met', {
-      isOpen,
-      hasCurrentItem: !!currentItem,
-      currentItemDetails: currentItem ? {
-        title: currentItem.title,
-        type: currentItem.type
-      } : null,
-      timestamp: new Date().toISOString()
-    }, 'modal-render');
-
-    console.log('GalleryModal not rendering:', {
-      isOpen,
-      hasCurrentItem: !!currentItem,
-      reason: !isOpen ? 'modal not open' : 'no current item'
-    });
     return null;
   }
-
-  logger.debug('GalleryModal rendering modal for item', {
-    itemTitle: currentItem.title,
-    itemType: currentItem.type,
-    itemCategory: currentItem.category,
-    itemSrc: currentItem.src,
-    modalState: {
-      controlsHidden: areControlsHidden,
-      descriptionExpanded: isDescriptionExpanded,
-      animationActive: animationSequence.animating
-    },
-    navigation: {
-      canGoPrev: currentIndex > 0,
-      canGoNext: currentIndex < items.length - 1,
-      totalItems: items.length
-    },
-    timestamp: new Date().toISOString()
-  }, 'modal-render');
-
-  console.log('GalleryModal rendering modal for item:', {
-    title: currentItem.title,
-    type: currentItem.type,
-    category: currentItem.category,
-    index: currentIndex,
-    total: items.length
-  });
 
   return (
     <div className="gallery-modal-overlay" onClick={onClose}>
@@ -187,20 +55,7 @@ function GalleryModal({ isOpen, onClose, items, currentIndex, onNavigate }) {
                 {currentIndex > 0 && (
                   <button
                     className="modal-nav-btn prev"
-                    onClick={() => {
-                      logger.debug('Previous navigation clicked', {
-                        currentIndex,
-                        targetIndex: currentIndex - 1,
-                        itemTitle: currentItem.title,
-                        timestamp: new Date().toISOString()
-                      }, 'modal-navigation');
-                      console.log('⬅️ Previous button clicked:', {
-                        from: currentItem.title,
-                        toIndex: currentIndex - 1,
-                        total: items.length
-                      });
-                      onNavigate(-1);
-                    }}
+                    onClick={() => onNavigate(-1)}
                   >
                     ‹
                   </button>
@@ -208,28 +63,13 @@ function GalleryModal({ isOpen, onClose, items, currentIndex, onNavigate }) {
                 {currentIndex < items.length - 1 && (
                   <button
                     className="modal-nav-btn next"
-                    onClick={() => {
-                      logger.debug('Next navigation clicked', {
-                        currentIndex,
-                        targetIndex: currentIndex + 1,
-                        itemTitle: currentItem.title,
-                        timestamp: new Date().toISOString()
-                      }, 'modal-navigation');
-                      console.log('➡️ Next button clicked:', {
-                        from: currentItem.title,
-                        toIndex: currentIndex + 1,
-                        total: items.length
-                      });
-                      onNavigate(1);
-                    }}
+                    onClick={() => onNavigate(1)}
                   >
                     ›
                   </button>
                 )}
               </div>
 
-              {/* Debug: Hide button should be visible */}
-              {console.log('🎭 Rendering hide button, areControlsHidden:', areControlsHidden, 'animationSequence:', animationSequence)}
               {/* Hide Controls button - positioned inside header */}
               <button
                 ref={hideButtonRef}
@@ -305,16 +145,7 @@ function GalleryModal({ isOpen, onClose, items, currentIndex, onNavigate }) {
               {!areControlsHidden && (
                 <button
                   className="modal-close-btn"
-                  onClick={() => {
-                    logger.debug('Modal close button clicked', {
-                      itemTitle: currentItem.title,
-                      itemType: currentItem.type,
-                      itemCategory: currentItem.category,
-                      timestamp: new Date().toISOString()
-                    }, 'modal-close');
-                    console.log('❌ Modal close button clicked for:', currentItem.title);
-                    onClose();
-                  }}
+                  onClick={onClose}
                 >
                   ×
                 </button>
@@ -331,20 +162,7 @@ function GalleryModal({ isOpen, onClose, items, currentIndex, onNavigate }) {
               {currentIndex > 0 && (
                 <button
                   className="modal-nav-btn prev music-nav"
-                  onClick={() => {
-                    logger.debug('Music modal previous navigation clicked', {
-                      currentIndex,
-                      targetIndex: currentIndex - 1,
-                      itemTitle: currentItem.title,
-                      timestamp: new Date().toISOString()
-                    }, 'modal-navigation');
-                    console.log('🎵 ⬅️ Music modal previous clicked:', {
-                      from: currentItem.title,
-                      toIndex: currentIndex - 1,
-                      total: items.length
-                    });
-                    onNavigate(-1);
-                  }}
+                  onClick={() => onNavigate(-1)}
                 >
                   ‹
                 </button>
@@ -352,20 +170,7 @@ function GalleryModal({ isOpen, onClose, items, currentIndex, onNavigate }) {
               {currentIndex < items.length - 1 && (
                 <button
                   className="modal-nav-btn next music-nav"
-                  onClick={() => {
-                    logger.debug('Music modal next navigation clicked', {
-                      currentIndex,
-                      targetIndex: currentIndex + 1,
-                      itemTitle: currentItem.title,
-                      timestamp: new Date().toISOString()
-                    }, 'modal-navigation');
-                    console.log('🎵 ➡️ Music modal next clicked:', {
-                      from: currentItem.title,
-                      toIndex: currentIndex + 1,
-                      total: items.length
-                    });
-                    onNavigate(1);
-                  }}
+                  onClick={() => onNavigate(1)}
                 >
                   ›
                 </button>
@@ -374,16 +179,7 @@ function GalleryModal({ isOpen, onClose, items, currentIndex, onNavigate }) {
               {/* Close button for music items */}
               <button
                 className="modal-close-btn music-close"
-                onClick={() => {
-                  logger.debug('Music modal close button clicked', {
-                    itemTitle: currentItem.title,
-                    itemType: currentItem.type,
-                    itemCategory: currentItem.category,
-                    timestamp: new Date().toISOString()
-                  }, 'modal-close');
-                  console.log('🎵 ❌ Music modal close button clicked for:', currentItem.title);
-                  onClose();
-                }}
+                onClick={onClose}
               >
                 ×
               </button>
@@ -393,26 +189,15 @@ function GalleryModal({ isOpen, onClose, items, currentIndex, onNavigate }) {
 
         {/* Modal content based on item type and category */}
         <div className="modal-media-container">
-          {(() => {
-            console.log('🎵 GalleryModal rendering item:', {
-              title: currentItem.title,
-              type: currentItem.type,
-              typeType: typeof currentItem.type,
-              typeEqualsAudio: currentItem.type === 'audio',
-              category: currentItem.category,
-              src: currentItem.src
-            });
-            // Show enhanced music card for audio tracks OR music category items (track covers, album art)
-            return (currentItem.type === 'audio' || currentItem.category === 'Music') ? (
-              <ModalMusicPlayer item={currentItem} />
-            ) : (
-              <img
-                src={currentItem.src}
-                alt={currentItem.alt}
-                className="modal-image"
-              />
-            );
-          })()}
+          {(currentItem.type === 'audio' || currentItem.category === 'Music') ? (
+            <ModalMusicPlayer item={currentItem} />
+          ) : (
+            <img
+              src={currentItem.src}
+              alt={currentItem.alt}
+              className="modal-image"
+            />
+          )}
         </div>
 
         {/* Category - Bottom Right */}
@@ -464,9 +249,6 @@ function GalleryModal({ isOpen, onClose, items, currentIndex, onNavigate }) {
  * ModalMusicPlayer Component - Specialized audio player for modal view
  */
 function ModalMusicPlayer({ item }) {
-  console.log('🎵 ModalMusicPlayer rendering with item:', item);
-
-  const logger = useLogger();
   const {
     currentTrack,
     isPlaying,
@@ -526,117 +308,17 @@ function ModalMusicPlayer({ item }) {
     return "https://res.cloudinary.com/ddrvulhwz/image/upload/v1774139229/scispace/media/glassesroompostpc1.png";
   };
 
-  // Debug logging for modal layout
-  useEffect(() => {
-    console.log('🎵 ModalMusicPlayer mounted - direct console log');
-    console.log('🎵 Item received:', item);
-    console.log('🎵 Modal ref exists:', !!modalRef.current);
-
-    logger.debug('ModalMusicPlayer mounted', {
-      itemTitle: item?.title,
-      itemCategory: item?.category,
-      modalRef: !!modalRef.current
-    }, 'music-modal');
-
-    if (modalRef.current) {
-      const rect = modalRef.current.getBoundingClientRect();
-      console.log('🎵 Modal dimensions:', rect);
-      logger.debug('Modal dimensions', {
-        width: rect.width,
-        height: rect.height,
-        top: rect.top,
-        left: rect.left,
-        modalElement: modalRef.current
-      }, 'music-modal');
-    }
-  }, [item]);
-
-  // Log timeline visibility
-  useEffect(() => {
-    const checkTimelineVisibility = () => {
-      if (modalRef.current) {
-        const timelineElement = modalRef.current.querySelector('.music-progress');
-        console.log('🎵 Timeline element found:', !!timelineElement);
-
-        if (timelineElement) {
-          const timelineRect = timelineElement.getBoundingClientRect();
-          const modalRect = modalRef.current.getBoundingClientRect();
-
-          console.log('🎵 Timeline visibility details:', {
-            timelineRect,
-            modalRect,
-            windowHeight: window.innerHeight,
-            isVisible: timelineRect.top < window.innerHeight && timelineRect.bottom > 0
-          });
-
-          logger.debug('Timeline visibility check', {
-            timelineVisible: timelineRect.top < window.innerHeight && timelineRect.bottom > 0,
-            timelineRect: {
-              top: timelineRect.top,
-              bottom: timelineRect.bottom,
-              height: timelineRect.height
-            },
-            modalRect: {
-              top: modalRect.top,
-              bottom: modalRect.bottom,
-              height: modalRect.height
-            },
-            windowHeight: window.innerHeight
-          }, 'music-modal');
-        } else {
-          console.log('🎵 Timeline element NOT found in DOM');
-        }
-      } else {
-        console.log('🎵 Modal ref not available for timeline check');
-      }
-    };
-
-    // Check immediately and after a short delay to allow rendering
-    checkTimelineVisibility();
-    const timeoutId = setTimeout(checkTimelineVisibility, 100);
-
-    return () => clearTimeout(timeoutId);
-  }, [currentTime, duration]);
 
   /**
    * Handles play/pause button clicks with proper track synchronization
    * Ensures modal can start playing its track even when different track is active
    */
   const handlePlayPause = () => {
-    logger.debug('Modal Play/Pause button clicked', {
-      currentState: isPlaying,
-      currentTrackTitle: currentTrack?.title,
-      modalItemTitle: item.title,
-      isCurrentlyPlayingTrack,
-      currentTime,
-      duration,
-      timestamp: new Date().toISOString()
-    }, 'music-player-interaction');
-
-    console.log('🎵 Modal Play/Pause clicked:', {
-      wasPlaying: isPlaying,
-      currentTrack: currentTrack?.title,
-      modalTrack: item.title,
-      isCurrentlyPlayingTrack,
-      currentTime: formatTime(currentTime),
-      duration: formatTime(duration)
-    });
-
     // If this modal's track is currently playing, toggle play/pause
     if (isCurrentlyPlayingTrack) {
-      logger.info('Toggling play/pause for current track', {
-        trackTitle: item.title,
-        wasPlaying: isPlaying
-      }, 'music-player');
       togglePlayPause();
     } else {
       // If different track is playing or nothing is playing, start this track
-      logger.info('Starting new track from modal', {
-        newTrackTitle: item.title,
-        previousTrackTitle: currentTrack?.title,
-        audioSrc: item.src
-      }, 'music-player');
-
       playTrack({
         title: item.title,
         category: item.category,
@@ -650,40 +332,11 @@ function ModalMusicPlayer({ item }) {
     const clickX = e.clientX - rect.left;
     const percentage = clickX / rect.width;
     const newTime = percentage * duration;
-
-    logger.debug('Audio seek initiated', {
-      itemTitle: item.title,
-      clickPosition: clickX,
-      percentage,
-      seekToTime: newTime,
-      formattedSeekTime: formatTime(newTime),
-      currentTime,
-      duration,
-      timestamp: new Date().toISOString()
-    }, 'music-player-seek');
-
-    console.log('🎵 Seeking to:', formatTime(newTime), `(${percentage.toFixed(2)}%)`);
-
     seekTo(newTime);
   };
 
   const handleSkip = (seconds) => {
-    const oldTime = currentTime;
     const newTime = Math.max(0, Math.min(duration, currentTime + seconds));
-
-    logger.debug('Skip operation', {
-      itemTitle: item.title,
-      skipDirection: seconds > 0 ? 'forward' : 'backward',
-      skipAmount: Math.abs(seconds),
-      oldTime,
-      newTime,
-      formattedOldTime: formatTime(oldTime),
-      formattedNewTime: formatTime(newTime),
-      timestamp: new Date().toISOString()
-    }, 'music-player-skip');
-
-    console.log('🎵 Skipping:', seconds > 0 ? 'forward' : 'backward', `${Math.abs(seconds)}s to`, formatTime(newTime));
-
     seekTo(newTime);
   };
 
@@ -746,16 +399,7 @@ function ModalMusicPlayer({ item }) {
             <div className="music-controls enhanced">
               <button
                 className="control-btn skip-back enhanced"
-                onClick={() => {
-                  logger.debug('Skip backward clicked', {
-                    itemTitle: item.title,
-                    skipAmount: -10,
-                    currentTime,
-                    timestamp: new Date().toISOString()
-                  }, 'music-player-skip');
-                  console.log('🎵 ⏪ Skip backward clicked for:', item.title);
-                  handleSkip(-10);
-                }}
+                onClick={() => handleSkip(-10)}
                 aria-label="Skip backward 10 seconds"
                 title="Skip backward 10 seconds"
               >
@@ -773,16 +417,7 @@ function ModalMusicPlayer({ item }) {
 
               <button
                 className="control-btn skip-forward enhanced"
-                onClick={() => {
-                  logger.debug('Skip forward clicked', {
-                    itemTitle: item.title,
-                    skipAmount: 10,
-                    currentTime,
-                    timestamp: new Date().toISOString()
-                  }, 'music-player-skip');
-                  console.log('🎵 ⏩ Skip forward clicked for:', item.title);
-                  handleSkip(10);
-                }}
+                onClick={() => handleSkip(10)}
                 aria-label="Skip forward 10 seconds"
                 title="Skip forward 10 seconds"
               >

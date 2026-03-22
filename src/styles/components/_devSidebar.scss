@@ -74,7 +74,7 @@
   /* Responsive adjustments for sidebar */
   @media (max-width: variables.$breakpoint-md) {
     position: fixed; /* Switch back to fixed positioning on mobile for overlay behavior */
-    width: 280px; /* Standard mobile width */
+    width: 300px; /* Standard mobile width */
     padding: 15px; /* Adjust padding for smaller screens */
 
     .sidebar-content {
