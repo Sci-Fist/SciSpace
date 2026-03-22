@@ -327,11 +327,11 @@ function MixedMediaGallery() {
   // Centralized album cover mapping for consistent, meaningful cover assignment
   const albumCoverMapping = {
     "Banger": "https://res.cloudinary.com/ddrvulhwz/image/upload/v1774139229/scispace/media/glassesroompostpc1.png", // Futuristic room - energetic electronic
-    "Blaaaaaaaa": "https://res.cloudinary.com/ddrvulhwz/image/upload/v1774139280/scispace/media/sushi-2.jpg", // Sushi - ambient, atmospheric
+    "Blaaaaaaaa": "https://res.cloudinary.com/ddrvulhwz/image/upload/v1774139280/scispace/media/sushi-3.jpg", // Sushi - ambient, atmospheric
     "Melancholische Scheiße": "https://res.cloudinary.com/ddrvulhwz/image/upload/v1774139240/scispace/media/shader_pause.jpg", // Shader work - melancholic, introspective
     "Strange V2-1": "https://res.cloudinary.com/ddrvulhwz/image/upload/v1774139238/scispace/media/sci_fist.jpg", // Digital portrait - experimental, abstract
     "Strange V2": "https://res.cloudinary.com/ddrvulhwz/image/upload/v1774139238/scispace/media/sci_fist.jpg", // Digital portrait - experimental, abstract
-    "Chronic Stress Syndrom": "https://res.cloudinary.com/ddrvulhwz/image/upload/v1774139280/scispace/media/sushi-1.jpg", // Sushi - meditative, calm
+    "Chronic Stress Syndrom": "https://res.cloudinary.com/ddrvulhwz/image/upload/v1774139280/scispace/media/sushi-3.jpg", // Sushi - meditative, calm
     "Idee1": "https://res.cloudinary.com/ddrvulhwz/image/upload/v1774139219/scispace/media/backhumanoid.png", // Sci-fi character - conceptual, abstract
     "Still": "https://res.cloudinary.com/ddrvulhwz/image/upload/v1774139267/scispace/media/01090060.jpg", // Architecture - serene, calm
     "Sci Fist": "https://res.cloudinary.com/ddrvulhwz/image/upload/v1774139238/scispace/media/sci_fist.jpg", // Digital portrait - track cover
@@ -398,18 +398,11 @@ function MixedMediaGallery() {
 
     // Photography
     {
-      src: "https://res.cloudinary.com/ddrvulhwz/image/upload/v1774139280/scispace/media/sushi-1.jpg",
+      src: "https://res.cloudinary.com/ddrvulhwz/image/upload/v1774139280/scispace/media/sushi-3.jpg",
       title: "Culinary Photography",
       category: "Photography",
       type: "image",
       description: "Professional food photography capturing the artistry of sushi presentation. Features careful composition, lighting, and focus on texture, color, and culinary craftsmanship."
-    },
-    {
-      src: "https://res.cloudinary.com/ddrvulhwz/image/upload/v1774139280/scispace/media/sushi-2.jpg",
-      title: "Food Art",
-      category: "Photography",
-      type: "image",
-      description: "Creative food photography transforming culinary elements into artistic compositions. Explores the intersection of gastronomy and visual art through innovative presentation."
     },
     {
       src: "https://res.cloudinary.com/ddrvulhwz/image/upload/v1774139267/scispace/media/01090060.jpg",
