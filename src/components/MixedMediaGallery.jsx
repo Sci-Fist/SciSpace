@@ -676,7 +676,7 @@ function MixedMediaGallery() {
         )}
 
         <div className="gallery-actions">
-          <a href="/3d-art" className="btn secondary-btn">View 3D Art Gallery</a>
+          <a href="/3d-art" className="btn secondary-btn">View Art Gallery</a>
           <a href="/photography" className="btn secondary-btn">View Photography</a>
           <a href="/sketches" className="btn secondary-btn">View Sketches</a>
           <a href="/music" className="btn secondary-btn">Listen to Music</a>
