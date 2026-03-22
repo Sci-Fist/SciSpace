@@ -115,7 +115,7 @@ function ShopPage() {
 
   return (
     <section
-      className="generic-page force-center"
+      className="generic-page"
       style={{
         opacity: controls.contentOpacity || 1,
         maxWidth: controls.contentWidth ? `${controls.contentWidth}%` : '900px',
