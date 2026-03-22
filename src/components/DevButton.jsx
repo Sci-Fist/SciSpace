@@ -5,6 +5,11 @@ import '../styles/components/_devButton.scss';
 function DevButton() {
   const { isDevMode, toggleDevMode, isMobileView } = useDevTools();
 
+  // Only show in development mode - hide in production
+  if (!import.meta.env.DEV) {
+    return null;
+  }
+
   return (
     <button
       className={`dev-mode-toggle-btn ${isDevMode ? 'active' : ''}`}
