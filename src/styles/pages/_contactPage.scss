@@ -1,0 +1,164 @@
+// Specific styles for the ContactPage component
+@use '../variables';
+
+.contact-page {
+  // Let main layout handle centering
+  width: 100%;
+  text-align: center;
+
+  .background-pattern {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    pointer-events: none;
+    z-index: -1;
+  }
+
+  // Animation classes
+  &.animate-in {
+    animation: fadeInUp 0.8s ease-out;
+  }
+
+  .animate-in {
+    opacity: 0;
+    animation: fadeInUp 0.8s ease-out forwards;
+  }
+
+  .contact-form {
+    background-color: var(--color-surface-transparent);
+    backdrop-filter: blur(variables.$blur-strength);
+    border-radius: variables.$border-radius-md;
+    padding: variables.$spacing-xl;
+    margin-top: variables.$spacing-xl;
+    box-shadow: var(--box-shadow-base);
+    max-width: 600px;
+    margin-left: auto;
+    margin-right: auto;
+    display: block;
+    width: 100%;
+    text-align: center;
+    transition: background-color variables.$transition-speed-normal variables.$transition-ease,
+                box-shadow variables.$transition-speed-normal variables.$transition-ease;
+    position: relative;
+
+    .form-group {
+      margin-bottom: variables.$spacing-lg;
+
+      label {
+        display: block;
+        font-family: variables.$font-family-heading;
+        font-size: variables.$font-size-body;
+        color: var(--color-secondary); // Use CSS variable
+        margin-bottom: variables.$spacing-sm;
+      }
+
+      input[type="text"],
+      input[type="email"],
+      textarea {
+        width: 100%;
+        padding: variables.$spacing-sm;
+        border: 1px solid rgba(var(--color-primary-rgb), 0.4); // Use CSS variable
+        border-radius: variables.$border-radius-sm;
+        background-color: var(--color-background-transparent); // Transparent background for inputs
+        color: var(--color-text); // Use CSS variable
+        font-family: variables.$font-family-body;
+        font-size: variables.$font-size-body;
+        backdrop-filter: blur(calc(variables.$blur-strength / 2)); // Subtle blur for inputs
+        transition: border-color variables.$transition-speed-normal variables.$transition-ease, box-shadow variables.$transition-speed-normal variables.$transition-ease,
+                    background-color variables.$transition-speed-normal variables.$transition-ease, color variables.$transition-speed-normal variables.$transition-ease;
+
+        &:focus {
+          outline: none;
+          border-color: var(--color-primary); // Use CSS variable
+          box-shadow: 0 0 8px rgba(var(--color-primary-rgb), 0.6); // Use CSS variable
+          background-color: rgba(var(--color-background-rgb), 0.7); // Slightly less transparent on focus
+        }
+      }
+
+      textarea {
+        resize: vertical;
+        min-height: 120px;
+      }
+    }
+
+    .btn {
+      width: auto; // Allow button to size naturally
+      padding: variables.$spacing-sm variables.$spacing-xl;
+      margin-top: variables.$spacing-md;
+      display: block; // Make button take full width if needed, or adjust
+      margin-left: auto;
+      margin-right: auto;
+
+      &:hover {
+        transform: scale(var(--hover-scale, 1.05));
+      }
+    }
+  }
+
+  .social-contact {
+    margin-top: variables.$spacing-xl * 2;
+    margin-left: auto;
+    margin-right: auto;
+    max-width: 600px;
+    width: 100%;
+    display: block;
+    text-align: center;
+
+    h3 {
+      font-size: variables.$font-size-h3;
+      color: var(--color-primary);
+      margin-bottom: variables.$spacing-md;
+      text-align: center;
+    }
+
+    p {
+      font-size: variables.$font-size-body;
+      color: var(--color-text);
+      margin-bottom: variables.$spacing-md;
+      text-align: center;
+    }
+
+    .social-icons {
+      position: relative;
+      width: 100%;
+      margin: 0 auto;
+      padding: 0;
+      display: flex;
+      justify-content: space-around;
+      align-items: center;
+      gap: variables.$spacing-md;
+
+      a {
+        font-family: variables.$font-family-heading;
+        font-size: variables.$font-size-h3;
+        color: var(--color-primary);
+        text-decoration: none;
+        display: inline-block;
+        margin: 0;
+        padding: 0;
+        position: relative;
+        flex: 1;
+        text-align: center;
+        min-width: 0;
+
+        &:hover {
+          color: var(--color-secondary);
+          text-shadow: 0 0 10px rgba(var(--color-primary-rgb), 0.5);
+        }
+      }
+    }
+  }
+}
+
+@media (max-width: 768px) {
+  .contact-page {
+    .contact-form {
+      padding: variables.$spacing-lg;
+    }
+    .social-contact {
+      margin-top: variables.$spacing-xl;
+    }
+  }
+}

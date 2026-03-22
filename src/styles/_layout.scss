@@ -1,0 +1,248 @@
+// =============================================================================
+// MODERN LAYOUT SYSTEM - CSS Grid Based
+// =============================================================================
+@use 'variables';
+
+
+// ============================================================================
+// ROOT LAYOUT CONTAINER - CSS Grid System
+// ============================================================================
+
+.app-container {
+  // CSS Grid layout for the entire application
+  display: grid;
+  grid-template-areas:
+    "header"
+    "main"; /* Default: single column for header and main */
+  grid-template-columns: 1fr; /* Default: main content takes full width */
+  grid-template-rows: var(--header-height) 1fr;
+
+  min-height: 100vh;
+  width: 100vw;
+
+  // Dynamic background styling from CSS custom properties
+  background-image: var(--app-background-image, none);
+  background-size: var(--app-background-size, cover);
+  background-position: var(--app-background-position, center);
+  background-repeat: var(--app-background-repeat, no-repeat);
+  background-attachment: var(--app-background-attachment, fixed);
+  opacity: var(--app-background-opacity, 1);
+  filter: var(--app-background-filter, none);
+
+  // Retro-futuristic grid overlay
+  &::before {
+    content: '';
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background-image:
+      linear-gradient(to right, rgba(var(--color-text-rgb), 0.03) 1px, transparent 1px),
+      linear-gradient(to bottom, rgba(var(--color-text-rgb), 0.03) 1px, transparent 1px);
+    background-size: 20px 20px;
+    pointer-events: none;
+    z-index: var(--z-index-base);
+    opacity: 0.8;
+  }
+}
+
+// When sidebar is expanded, adjust the layout of the app-container
+html[data-sidebar-expanded="true"] .app-container {
+  grid-template-areas:
+    "header header"
+    "main main"; /* Adjust to accommodate sidebar as an overlay */
+  grid-template-columns: 1fr; /* Main content remains 1fr */
+
+  // Sidebar expansion constraints now handled by individual page styles
+  // Main element no longer centers itself - pages handle their own centering
+}
+
+
+
+// ============================================================================
+// HEADER AREA
+// ============================================================================
+
+.app-container > header {
+  grid-area: header;
+  position: sticky;
+  top: 0;
+  z-index: var(--z-index-sticky);
+}
+
+// ============================================================================
+// MAIN CONTENT AREA
+// ============================================================================
+
+.app-container > main {
+  position: relative;
+  grid-area: main; /* Explicitly assign main to its area */
+  z-index: var(--z-index-base);
+  min-height: calc(100vh - var(--header-height));
+
+  // No padding - centering handled by page content
+  width: 100%;
+  // Removed: max-width and margin centering - now handled by individual pages
+}
+
+// ============================================================================
+// CONTAINER UTILITY CLASSES
+// ============================================================================
+
+// ============================================================================
+// CONTAINER UTILITY CLASSES
+// ============================================================================
+
+.container {
+  width: 100%;
+  max-width: var(--container-7xl);
+  margin: 0 auto;
+  padding-left: var(--space-4);
+  padding-right: var(--space-4);
+}
+
+.container-sm { max-width: var(--container-sm); }
+.container-md { max-width: var(--container-md); }
+.container-lg { max-width: var(--container-lg); }
+.container-xl { max-width: var(--container-xl); }
+.container-2xl { max-width: var(--container-2xl); }
+.container-3xl { max-width: var(--container-3xl); }
+.container-4xl { max-width: var(--container-4xl); }
+.container-5xl { max-width: var(--container-5xl); }
+.container-6xl { max-width: var(--container-6xl); }
+.container-7xl { max-width: var(--container-7xl); }
+.container-full { max-width: var(--container-full); }
+
+// ============================================================================
+// FLEXBOX UTILITIES
+// ============================================================================
+
+.flex {
+  display: flex;
+}
+
+.flex-col {
+  flex-direction: column;
+}
+
+.items-center {
+  align-items: center;
+}
+
+.justify-center {
+  justify-content: center;
+}
+
+.justify-between {
+  justify-content: space-between;
+}
+
+.gap-1 { gap: var(--space-1); }
+.gap-2 { gap: var(--space-2); }
+.gap-3 { gap: var(--space-3); }
+.gap-4 { gap: var(--space-4); }
+.gap-5 { gap: var(--space-5); }
+.gap-6 { gap: var(--space-6); }
+
+// ============================================================================
+// RESPONSIVE DESIGN - Mobile First
+// ============================================================================
+
+@media (max-width: 640px) {
+  .app-container > main {
+    padding: var(--space-2);
+
+    > * {
+      padding: var(--space-2);
+    }
+  }
+
+  .container {
+    padding-left: var(--space-2);
+    padding-right: var(--space-2);
+  }
+}
+
+@media (max-width: 768px) {
+  .app-container > main {
+    padding: var(--space-3);
+
+    > * {
+      padding: var(--space-3);
+    }
+  }
+
+  .container {
+    padding-left: var(--space-3);
+    padding-right: var(--space-3);
+  }
+}
+
+@media (min-width: 1024px) {
+  .app-container > main {
+    padding: var(--space-6);
+
+    > * {
+      padding: var(--space-6);
+    }
+  }
+}
+
+@media (min-width: 1280px) {
+  .app-container > main {
+    padding: var(--space-8);
+
+    > * {
+      padding: var(--space-8);
+    }
+  }
+}
+
+// ============================================================================
+// VIEW SWITCHER - Global Layout Overrides
+// ============================================================================
+
+// Force mobile view - simulate mobile viewport for entire application
+body.force-mobile-view {
+  .app-container {
+    width: 100%; // Allow it to take the full width of its constrained parent
+    max-width: var(--breakpoint-sm); // Use breakpoint variable for consistent mobile width
+    margin: 0 auto; // Center it
+    overflow-x: hidden;
+    min-height: 100vh; // Ensure it still takes full height
+    // Removed transform: scale; for natural reflow
+  }
+
+  // Prevent scrolling outside the simulated viewport
+  html, body {
+    overflow: hidden;
+  }
+}
+
+// Force desktop view - ensure full desktop layout
+body.force-desktop-view {
+  .app-container {
+    width: 100%; // Reset to full width
+    max-width: 100%;
+    margin: 0;
+    overflow-x: auto;
+    transform: none;
+  }
+}
+
+// ============================================================================
+// LEGACY COMPATIBILITY - Remove after full migration
+// ============================================================================
+
+// Temporary support for old layout classes during transition
+.force-center {
+  margin: 0 auto;
+  max-width: var(--container-5xl);
+}
+
+.page-content {
+  width: 100%;
+  margin: 0 auto;
+}
+

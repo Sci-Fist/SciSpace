@@ -1,0 +1,33 @@
+// ALL @use RULES MUST BE AT THE TOP - SCSS REQUIREMENT
+@use 'variables';
+
+@use 'base';
+@use 'layout';
+@use 'components/header';
+@use 'components/hamburgerMenu';
+@use 'components/mobileNavMenu';
+@use 'components/footer';
+@use 'components/devButton';
+@use 'components/devSidebar';
+@use 'components/viewSwitcher';
+@use 'components/mobileExpandButton';
+@use 'components/devSidebarToggle';
+@use 'components/imageSlideshow';
+@use 'components/galleryModal';
+@use 'components/musicModal';
+@use 'components/mixedMediaGallery';
+@use 'dev-tools.scss';
+@use 'pages/homePage';
+@use 'pages/portfolioPage';
+@use 'pages/musicPage';
+@use 'pages/genericPage';
+@use 'pages/contactPage';
+@use 'pages/shopPage';
+@use 'pages/resumePage';
+
+// Removed: @import '../assets/images/Pandora.png'; // This line caused the error
+
+// Global utility classes or overrides can go here
+
+// Centering fix for generic pages - now properly handled in _genericPage.scss
+// Removed emergency fix as the root cause has been addressed

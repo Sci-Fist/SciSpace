@@ -1,0 +1,239 @@
+// =============================================================================
+// MODERN DESIGN TOKEN SYSTEM - CSS Custom Properties First
+// =============================================================================
+
+// Core Design Tokens - CSS Custom Properties for theme-able values
+:root {
+  // ===========================================================================
+  // COLOR SYSTEM - Semantic color tokens
+  // ===========================================================================
+
+  // Base colors
+  --color-background: #1a1a2e;
+  --color-surface: #2a2a4a;
+  --color-surface-elevated: #3a3a5a;
+  --color-text: #e0e0e0;
+  --color-text-muted: #a0a0c0;
+  --color-text-inverse: #1a1a2e;
+
+  // Brand colors
+  --color-primary: #00e6e6;
+  --color-primary-hover: #00cccc;
+  --color-secondary: #ff69b4;
+  --color-secondary-hover: #ff5ca0;
+  --color-accent: #ffaa00;
+
+  // Semantic colors
+  --color-success: #00e676;
+  --color-warning: #ff9800;
+  --color-error: #f44336;
+  --color-info: #2196f3;
+
+  // RGB values for rgba() usage
+  --color-primary-rgb: 0, 230, 230;
+  --color-background-rgb: 26, 26, 46;
+  --color-surface-rgb: 42, 42, 74;
+  --color-text-rgb: 224, 224, 224;
+
+  // ===========================================================================
+  // TYPOGRAPHY SYSTEM
+  // ===========================================================================
+
+  // Font families
+  --font-family-body: 'Roboto', system-ui, -apple-system, sans-serif;
+  --font-family-heading: 'Orbitron', 'Roboto', system-ui, -apple-system, sans-serif;
+  --font-family-mono: 'Fira Code', 'Roboto Mono', monospace;
+
+  // Font sizes - Fluid typography with clamp()
+  --font-size-xs: clamp(0.75rem, 0.7rem + 0.25vw, 0.875rem);    // 12px - 14px
+  --font-size-sm: clamp(0.875rem, 0.8rem + 0.375vw, 1rem);      // 14px - 16px
+  --font-size-base: clamp(1rem, 0.9rem + 0.5vw, 1.125rem);       // 16px - 18px
+  --font-size-lg: clamp(1.125rem, 1rem + 0.625vw, 1.25rem);      // 18px - 20px
+  --font-size-xl: clamp(1.25rem, 1.1rem + 0.75vw, 1.5rem);       // 20px - 24px
+  --font-size-2xl: clamp(1.5rem, 1.3rem + 1vw, 2rem);            // 24px - 32px
+  --font-size-3xl: clamp(2rem, 1.7rem + 1.5vw, 2.5rem);          // 32px - 40px
+  --font-size-4xl: clamp(2.5rem, 2rem + 2.5vw, 3.5rem);          // 40px - 56px
+
+  // Line heights
+  --line-height-tight: 1.25;
+  --line-height-normal: 1.5;
+  --line-height-relaxed: 1.75;
+
+  // Font weights
+  --font-weight-light: 300;
+  --font-weight-normal: 400;
+  --font-weight-medium: 500;
+  --font-weight-semibold: 600;
+  --font-weight-bold: 700;
+
+  // ===========================================================================
+  // SPACING SYSTEM - Consistent spacing scale
+  // ===========================================================================
+
+  --space-1: clamp(0.25rem, 0.2rem + 0.25vw, 0.5rem);    // 4px - 8px
+  --space-2: clamp(0.5rem, 0.4rem + 0.5vw, 0.75rem);     // 8px - 12px
+  --space-3: clamp(0.75rem, 0.6rem + 0.75vw, 1rem);      // 12px - 16px
+  --space-4: clamp(1rem, 0.8rem + 1vw, 1.5rem);          // 16px - 24px
+  --space-5: clamp(1.25rem, 1rem + 1.25vw, 2rem);        // 20px - 32px
+  --space-6: clamp(1.5rem, 1.2rem + 1.5vw, 2.5rem);      // 24px - 40px
+  --space-7: clamp(2rem, 1.6rem + 2vw, 3rem);            // 32px - 48px
+  --space-8: clamp(2.5rem, 2rem + 2.5vw, 4rem);          // 40px - 64px
+
+  // ===========================================================================
+  // BORDER RADIUS SYSTEM
+  // ===========================================================================
+
+  --radius-sm: 0.25rem;    // 4px
+  --radius-md: 0.5rem;     // 8px
+  --radius-lg: 0.75rem;    // 12px
+  --radius-xl: 1rem;       // 16px
+  --radius-full: 9999px;   // Fully rounded
+
+  // ===========================================================================
+  // SHADOW SYSTEM
+  // ===========================================================================
+
+  --shadow-sm: 0 1px 2px 0 rgba(var(--color-background-rgb), 0.05);
+  --shadow-md: 0 4px 6px -1px rgba(var(--color-background-rgb), 0.1), 0 2px 4px -1px rgba(var(--color-background-rgb), 0.06);
+  --shadow-lg: 0 10px 15px -3px rgba(var(--color-background-rgb), 0.1), 0 4px 6px -2px rgba(var(--color-background-rgb), 0.05);
+  --shadow-xl: 0 20px 25px -5px rgba(var(--color-background-rgb), 0.1), 0 10px 10px -5px rgba(var(--color-background-rgb), 0.04);
+  --shadow-glow: 0 0 20px rgba(var(--color-primary-rgb), 0.3);
+
+  // ===========================================================================
+  // TRANSITION SYSTEM
+  // ===========================================================================
+
+  --transition-fast: 150ms ease-in-out;
+  --transition-normal: 300ms ease-in-out;
+  --transition-slow: 500ms ease-in-out;
+
+  // ===========================================================================
+  // LAYOUT SYSTEM
+  // ===========================================================================
+
+  // Container max-widths
+  --container-xs: 20rem;      // 320px
+  --container-sm: 24rem;      // 384px
+  --container-md: 28rem;      // 448px
+  --container-lg: 32rem;      // 512px
+  --container-xl: 36rem;      // 576px
+  --container-2xl: 42rem;     // 672px
+  --container-3xl: 48rem;     // 768px
+  --container-4xl: 56rem;     // 896px
+  --container-5xl: 64rem;     // 1024px
+  --container-6xl: 72rem;     // 1152px
+  --container-7xl: 80rem;     // 1280px
+  --container-full: 100%;
+
+  // Sidebar width (for dev tools)
+  --sidebar-width: 0px;
+  --sidebar-width-expanded: 280px;
+
+  // Header height
+  --header-height: 4rem;
+
+  // ===========================================================================
+  // Z-INDEX SCALE
+  // ===========================================================================
+
+  --z-index-base: 0;
+  --z-index-docked: 10;
+  --z-index-dropdown: 100;
+  --z-index-sticky: 200;
+  --z-index-banner: 300;
+  --z-index-overlay: 400;
+  --z-index-modal: 500;
+  --z-index-popover: 600;
+  --z-index-skip-link: 700;
+  --z-index-toast: 800;
+  --z-index-tooltip: 900;
+  --z-index-dev-tools: 1000;
+
+  // ===========================================================================
+  // BREAKPOINTS - Enhanced granular system for mobile-first design
+  // ===========================================================================
+
+  --breakpoint-xs: 475px;   // Extra small devices (large phones/small tablets)
+  --breakpoint-sm: 640px;   // Small phones
+  --breakpoint-md: 768px;   // Large phones/small tablets
+  --breakpoint-lg: 1024px;  // Tablets/laptops
+  --breakpoint-xl: 1280px;  // Desktops
+  --breakpoint-2xl: 1536px; // Large desktops
+}
+
+// Light Theme Overrides
+[data-theme="light"] {
+  --color-background: #f8fafc;
+  --color-surface: #ffffff;
+  --color-surface-elevated: #f1f5f9;
+  --color-text: #1e293b;
+  --color-text-muted: #64748b;
+  --color-text-inverse: #ffffff;
+
+  --color-primary: #0891b2;
+  --color-primary-hover: #0e7490;
+  --color-secondary: #be185d;
+  --color-secondary-hover: #9d174d;
+
+  --color-background-rgb: 248, 250, 252;
+  --color-surface-rgb: 255, 255, 255;
+  --color-text-rgb: 30, 41, 59;
+}
+
+// =============================================================================
+// LEGACY SASS VARIABLES - For backward compatibility during transition
+// =============================================================================
+
+// Spacing (legacy - prefer CSS custom properties)
+$spacing-xs: 0.25rem;
+$spacing-sm: 0.5rem;
+$spacing-md: 1rem;
+$spacing-lg: 1.5rem;
+$spacing-xl: 2rem;
+$spacing-xxl: 3rem;
+
+// Font Sizes (legacy - prefer CSS custom properties)
+$font-size-small: 0.875rem;
+$font-size-body-sm: 0.9rem;
+$font-size-body: 1rem;
+$font-size-body-lg: 1.125rem;
+$font-size-h4: 1.125rem;
+$font-size-h3: 1.25rem;
+$font-size-h2: 1.5rem;
+$font-size-h1: 2.5rem;
+
+// Line Heights (legacy)
+$line-height-body: 1.6;
+$line-height-heading: 1.2;
+
+// Font Families (legacy)
+$font-family-body: 'Roboto', sans-serif;
+$font-family-heading: 'Orbitron', sans-serif;
+
+// Border Radius (legacy)
+$border-radius-sm: 4px;
+$border-radius-md: 8px;
+$border-radius-lg: 12px;
+
+// Transitions (legacy)
+$transition-speed-fast: 0.15s;
+$transition-speed-normal: 0.3s;
+$transition-speed-slow: 0.5s;
+$transition-ease: ease-in-out;
+
+// Z-index (legacy)
+$z-index-low: 10;
+$z-index-mid: 100;
+$z-index-high: 1000;
+$z-index-overlay: 2000;
+$z-index-dev-tools: 3000;
+
+// Breakpoints (legacy)
+$breakpoint-sm: 576px;
+$breakpoint-md: 768px;
+$breakpoint-lg: 992px;
+$breakpoint-xl: 1200px;
+
+// Acrylic Effect Variables (legacy)
+$blur-strength: 10px;
+$sidebar-width: 280px;

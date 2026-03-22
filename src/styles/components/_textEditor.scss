@@ -1,0 +1,87 @@
+// Text Editor Component Styles
+@use '../variables';
+
+.text-editor {
+  margin-bottom: variables.$spacing-md;
+  padding: variables.$spacing-sm;
+  background-color: rgba(var(--color-surface-rgb), 0.5);
+  border-radius: variables.$border-radius-sm;
+  border: 1px solid rgba(var(--color-primary-rgb), 0.2);
+
+  .text-editor-label {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    font-size: variables.$font-size-small;
+    font-weight: 600;
+    color: var(--color-secondary);
+    margin-bottom: variables.$spacing-xs;
+
+    .edit-btn {
+      background: none;
+      border: none;
+      cursor: pointer;
+      font-size: 14px;
+      padding: 2px 6px;
+      border-radius: 3px;
+      transition: background-color variables.$transition-speed-fast variables.$transition-ease;
+
+      &:hover {
+        background-color: rgba(var(--color-primary-rgb), 0.1);
+      }
+    }
+  }
+
+  .text-editor-display {
+    .text-content {
+      font-size: variables.$font-size-body;
+      color: var(--color-text);
+      line-height: 1.4;
+
+      .placeholder {
+        color: var(--color-text-muted);
+        font-style: italic;
+      }
+    }
+  }
+
+  .text-editor-editing {
+    input, textarea {
+      width: 100%;
+      padding: variables.$spacing-xs variables.$spacing-sm;
+      border: 1px solid rgba(var(--color-primary-rgb), 0.3);
+      border-radius: variables.$border-radius-sm;
+      background-color: var(--color-surface);
+      color: var(--color-text);
+      font-size: variables.$font-size-body;
+      font-family: inherit;
+      transition: border-color variables.$transition-speed-fast variables.$transition-ease;
+
+      &:focus {
+        outline: none;
+        border-color: var(--color-primary);
+        box-shadow: 0 0 0 2px rgba(var(--color-primary-rgb), 0.2);
+      }
+
+      &::placeholder {
+        color: var(--color-text-muted);
+      }
+    }
+
+    textarea {
+      resize: vertical;
+      min-height: 80px;
+    }
+
+    .text-editor-actions {
+      display: flex;
+      gap: variables.$spacing-xs;
+      margin-top: variables.$spacing-sm;
+
+      .btn {
+        padding: variables.$spacing-xs variables.$spacing-sm;
+        font-size: variables.$font-size-small;
+      }
+    }
+  }
+}

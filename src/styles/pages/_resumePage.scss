@@ -1,0 +1,181 @@
+// Specific styles for the ResumePage component
+@use '../variables';
+
+.resume-page {
+  // Let main layout handle centering - remove conflicting positioning
+  width: 100%;
+  text-align: center;
+
+  .background-pattern {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    pointer-events: none;
+    z-index: -1;
+  }
+
+  // Animation classes
+  &.animate-in {
+    animation: fadeInUp 0.8s ease-out;
+  }
+
+  .animate-in {
+    opacity: 0;
+    animation: fadeInUp 0.8s ease-out forwards;
+  }
+
+  .resume-content-wrapper {
+    text-align: center;
+
+    .resume-section {
+      margin-bottom: variables.$spacing-xl;
+      text-align: center;
+
+      h3 {
+        font-size: variables.$font-size-h3;
+        color: var(--color-primary);
+        margin-bottom: variables.$spacing-md;
+        border-bottom: 2px solid rgba(var(--color-primary-rgb), 0.3);
+        padding-bottom: variables.$spacing-sm;
+      }
+
+      h4 {
+        font-size: variables.$font-size-h4;
+        color: var(--color-secondary);
+        margin-bottom: variables.$spacing-sm;
+        margin-top: variables.$spacing-md;
+      }
+
+      p {
+        margin-bottom: variables.$spacing-md;
+        color: var(--color-text);
+        line-height: 1.6;
+      }
+
+      ul {
+        list-style: none;
+        padding: 0;
+
+        li {
+          margin-bottom: variables.$spacing-sm;
+          padding: variables.$spacing-sm;
+          background-color: rgba(var(--color-surface-rgb), 0.5);
+          border-radius: variables.$border-radius-sm;
+          border-left: 4px solid var(--color-primary);
+
+          strong {
+            color: var(--color-secondary);
+          }
+        }
+      }
+    }
+
+    .summary-section {
+      .summary-text {
+        font-size: variables.$font-size-body-lg;
+        font-style: italic;
+        color: var(--color-text-secondary);
+        background-color: rgba(var(--color-surface-rgb), 0.3);
+        padding: variables.$spacing-lg;
+        border-radius: variables.$border-radius-md;
+        border-left: 4px solid var(--color-primary);
+      }
+    }
+
+    .experience-section {
+      .experience-item {
+        margin-bottom: variables.$spacing-lg;
+        padding: variables.$spacing-md;
+        background-color: rgba(var(--color-background-rgb), 0.3);
+        border-radius: variables.$border-radius-sm;
+        border: 1px solid rgba(var(--color-primary-rgb), 0.2);
+
+        p {
+          margin: 0;
+
+          strong {
+            color: var(--color-secondary);
+            font-size: 1.1em;
+          }
+        }
+      }
+    }
+
+    .education-section,
+    .projects-section {
+      .project-item {
+        margin-bottom: variables.$spacing-md;
+        padding: variables.$spacing-sm;
+        background-color: rgba(var(--color-surface-rgb), 0.4);
+        border-radius: variables.$border-radius-sm;
+
+        h4 {
+          margin: 0 0 variables.$spacing-xs 0;
+          color: var(--color-secondary);
+        }
+
+        p {
+          margin: 0;
+          font-size: variables.$font-size-body-sm;
+        }
+      }
+    }
+  }
+
+  .call-to-action {
+    margin-top: variables.$spacing-xl * 2;
+    text-align: center;
+
+    .btn {
+      display: inline-block;
+      padding: variables.$spacing-md variables.$spacing-xl;
+      background-color: var(--color-primary);
+      color: var(--color-background);
+      text-decoration: none;
+      border-radius: variables.$border-radius-md;
+      font-weight: 600;
+      transition: all variables.$transition-speed-normal variables.$transition-ease;
+      border: 2px solid var(--color-primary);
+
+      &:hover {
+        background-color: var(--color-background);
+        color: var(--color-primary);
+        transform: translateY(-2px);
+        box-shadow: 0 4px 12px rgba(var(--color-primary-rgb), 0.3);
+      }
+    }
+  }
+}
+
+@media (max-width: 768px) {
+  .resume-page {
+    .resume-content-wrapper {
+      .resume-section {
+        margin-bottom: variables.$spacing-lg;
+
+        h3 {
+          font-size: variables.$font-size-h4;
+        }
+
+        ul li {
+          padding: variables.$spacing-xs;
+        }
+
+        .experience-item {
+          padding: variables.$spacing-sm;
+        }
+      }
+    }
+
+    .call-to-action {
+      margin-top: variables.$spacing-xl;
+
+      .btn {
+        padding: variables.$spacing-sm variables.$spacing-lg;
+        font-size: variables.$font-size-body-sm;
+      }
+    }
+  }
+}

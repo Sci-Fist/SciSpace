@@ -1,0 +1,265 @@
+// Styles specific to the Header component
+@use '../variables';
+
+.main-header {
+  background-color: var(--color-surface-transparent); // Use transparent surface
+  backdrop-filter: blur(variables.$blur-strength); // Acrylic blur effect
+  padding: variables.$spacing-md variables.$spacing-lg;
+  position: fixed !important; // Fixed positioning to stay above gallery
+  top: 0 !important;
+  left: 0 !important;
+  right: 0 !important;
+  width: 100% !important; // Use 100% instead of 100vw to avoid scroll bar overlap
+  z-index: 15 !important; // Higher than gallery and footer
+  border-bottom: 1px solid rgba(var(--color-primary-rgb), 0.1); // Softer border
+  box-shadow: 0 2px 15px rgba(var(--color-background-rgb), 0.3); // Softer shadow
+  transition: background-color variables.$transition-speed-normal variables.$transition-ease,
+              box-shadow variables.$transition-speed-normal variables.$transition-ease;
+
+  // Header content container
+  .header-content {
+    display: flex !important;
+    align-items: center !important;
+    justify-content: space-between !important; // Space between logo and nav/hamburger
+    max-width: 1200px; // Limit max width for better layout
+    margin: 0 auto; // Center the content
+    position: relative; // For absolute positioning of theme button
+    width: 100%;
+  }
+
+  .logo-section {
+    flex-shrink: 0; // Prevent logo from shrinking
+    margin-right: variables.$spacing-lg; // Space from navigation
+
+    h1 {
+      margin: 0;
+      font-size: variables.$font-size-h2;
+      a {
+        color: var(--color-primary); // Use CSS variable
+        text-decoration: none;
+        &:hover {
+          color: var(--color-secondary); // Use CSS variable
+        }
+      }
+    }
+  }
+
+  .nav-section {
+    flex: 0 0 auto; // Don't grow, use natural width
+    margin: 0 variables.$spacing-lg; // Space around navigation
+    min-width: 0; // Allow shrinking
+
+    .main-nav {
+      position: relative;
+
+      ul {
+        display: flex;
+        flex-direction: row;
+        gap: variables.$spacing-lg;
+        flex-wrap: nowrap;
+        justify-content: center; // Center navigation items by default
+        align-items: center;
+        overflow-x: visible; // No overflow by default
+        overflow-y: hidden;
+        scroll-behavior: smooth;
+        white-space: nowrap;
+        padding: 0 variables.$spacing-md;
+        margin: 0;
+        position: relative;
+
+        // Active navigation item highlighting
+        li.active a {
+          color: var(--color-primary);
+          font-weight: 600;
+          transform: scale(1.05);
+          text-shadow: 0 0 6px rgba(var(--color-primary-rgb), 0.3);
+          position: relative;
+        }
+
+        li.active a::after {
+          content: '';
+          position: absolute;
+          bottom: -8px;
+          left: 50%;
+          transform: translateX(-50%);
+          width: 20px;
+          height: 2px;
+          background: var(--color-primary);
+          border-radius: 1px;
+          box-shadow: 0 0 4px rgba(var(--color-primary-rgb), 0.5);
+        }
+
+        li {
+          flex-shrink: 0; // Prevent items from shrinking
+
+          a {
+            font-family: variables.$font-family-heading;
+            font-size: variables.$font-size-body;
+            color: var(--color-text);
+            text-transform: uppercase;
+            padding: variables.$spacing-xs 0;
+            position: relative;
+            white-space: nowrap;
+            display: inline-block;
+            cursor: pointer; // Ensure cursor shows pointer on hover
+            transition: color variables.$transition-speed-fast variables.$transition-ease;
+
+            &:hover {
+              color: var(--color-primary);
+              text-decoration: none;
+              transform: translateY(-1px); // Subtle lift effect
+            }
+
+            // Enhanced underline effect on hover
+            &::after {
+              content: '';
+              position: absolute;
+              left: 50%;
+              bottom: -5px;
+              width: 0;
+              height: 2px;
+              background: linear-gradient(90deg, var(--color-primary), var(--color-secondary));
+              border-radius: 1px;
+              transition: all variables.$transition-speed-normal variables.$transition-ease;
+              transform: translateX(-50%);
+            }
+
+            &:hover::after {
+              width: 100%;
+              left: 50%;
+              transform: translateX(-50%);
+              box-shadow: 0 0 6px rgba(var(--color-primary-rgb), 0.4);
+            }
+
+            // Ensure hover works even when scrolled
+            &:focus {
+              outline: 2px solid var(--color-primary);
+              outline-offset: 2px;
+            }
+          }
+        }
+      }
+    }
+  }
+
+// Theme toggle button moved to be positioned next to ViewSwitcher
+}
+
+// Switch to scrollable navigation when viewport is too narrow to fit all items
+@media (max-width: 1200px) {
+  .main-header .nav-section .main-nav {
+    // Constrain width to available space, never exceed viewport
+    max-width: calc(100vw - 220px); // Account for logo and margins, 80px wider
+    width: 100%; // Take full available width
+    height: 61px; // Increased by 20px from default for more button area
+  }
+
+  .main-header .nav-section .main-nav ul {
+    justify-content: flex-start; // Left-align for scrolling
+    overflow-x: scroll; // Always show scrollbar on narrow screens
+    overflow-y: hidden;
+
+    // Add scrollbar styling for narrow screens
+    &::-webkit-scrollbar {
+      height: 41px; // Increased by 15px from 26px
+      position: absolute;
+      bottom: 0;
+    }
+
+    &::-webkit-scrollbar-track {
+      background: rgba(var(--color-background-rgb), 0.2);
+      border-radius: 3px;
+      margin: 0 10px;
+    }
+
+    &::-webkit-scrollbar-thumb {
+      background: rgba(var(--color-primary-rgb), 0.6);
+      border-radius: 3px;
+      border: 1px solid rgba(var(--color-background-rgb), 0.3);
+      &:hover {
+        background: rgba(var(--color-primary-rgb), 0.8);
+      }
+    }
+
+    scrollbar-width: thin;
+    scrollbar-color: rgba(var(--color-primary-rgb), 0.6) rgba(var(--color-background-rgb), 0.2);
+  }
+}
+
+// Responsive adjustments for header - maintain horizontal scrolling for navigation
+@media (max-width: 768px) {
+  .main-header {
+    padding: variables.$spacing-sm variables.$spacing-md;
+
+    .logo h1 {
+      font-size: variables.$font-size-h3; // Slightly smaller logo on mobile
+    }
+
+    .main-nav {
+      width: min(400px, calc(100vw - 200px)); // Smaller max width on mobile
+    }
+
+    .main-nav ul {
+      gap: variables.$spacing-md; // Reduced gap for more items visible
+      padding: 0 variables.$spacing-md; // Reduced padding
+
+      li a {
+        font-size: variables.$font-size-small; // Smaller text on mobile
+        padding: variables.$spacing-xs variables.$spacing-sm; // Smaller padding
+      }
+    }
+
+    .theme-toggle-btn {
+      right: variables.$spacing-md; // Adjust right spacing for mobile
+      font-size: variables.$font-size-small; // Smaller button text
+      padding: variables.$spacing-xs variables.$spacing-sm; // Smaller button padding
+    }
+  }
+}
+
+// Extra small screens - force horizontal scrolling with minimal items visible
+@media (max-width: 480px) {
+  .main-header {
+    .main-nav {
+      width: min(300px, calc(100vw - 150px)); // Very small width on tiny screens
+    }
+
+    .main-nav ul {
+      gap: variables.$spacing-sm; // Minimal gap
+      padding: 0 variables.$spacing-sm; // Minimal padding
+
+      li a {
+        font-size: variables.$font-size-small; // Small text for maximum items
+        padding: 2px variables.$spacing-xs; // Minimal padding
+      }
+    }
+  }
+}
+
+// Mobile-first responsive design - hide desktop nav and show hamburger on mobile
+@media (max-width: 1024px) {
+  .main-header {
+    .nav-section {
+      display: none; // Hide desktop navigation on mobile
+    }
+
+    .header-content {
+      justify-content: space-between; // Ensure proper spacing
+    }
+
+    .logo-section {
+      margin-right: auto; // Push logo to the left
+    }
+  }
+}
+
+// Extra small mobile adjustments
+@media (max-width: 640px) {
+  .main-header {
+    padding: variables.$spacing-sm;
+
+    .logo-section h1 {
+      font-size: variables.$font-size-h3; // Smaller logo on very small screens
+    }
+  }
+}

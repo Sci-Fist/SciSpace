@@ -1,0 +1,113 @@
+// Styles for hamburger menu button component
+@use '../variables';
+
+.hamburger-menu {
+  display: none; // Hidden by default, shown on mobile
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 44px;
+  height: 44px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: var(--space-2);
+  border-radius: var(--radius-md);
+  position: relative;
+  z-index: calc(var(--z-index-overlay) + 2);
+  transition: background-color var(--transition-fast);
+
+  &:hover {
+    background-color: rgba(var(--color-primary-rgb), 0.1);
+  }
+
+  &:focus {
+    outline: 2px solid var(--color-primary);
+    outline-offset: 2px;
+  }
+
+  &:active {
+    background-color: rgba(var(--color-primary-rgb), 0.2);
+    transform: scale(0.95);
+  }
+}
+
+.hamburger-line {
+  display: block;
+  width: 24px;
+  height: 2px;
+  background-color: var(--color-text);
+  margin: 3px 0;
+  border-radius: 1px;
+  transition: all var(--transition-normal);
+  transform-origin: center;
+
+  .hamburger-menu:hover & {
+    background-color: var(--color-primary);
+  }
+}
+
+// Animate to X when open
+.hamburger-menu.open .hamburger-line:nth-child(1) {
+  transform: rotate(45deg) translate(6px, 6px);
+}
+
+.hamburger-menu.open .hamburger-line:nth-child(2) {
+  opacity: 0;
+  transform: translateX(20px);
+}
+
+.hamburger-menu.open .hamburger-line:nth-child(3) {
+  transform: rotate(-45deg) translate(6px, -6px);
+}
+
+// Show hamburger menu on mobile devices
+@media (max-width: 1024px) {
+  .hamburger-menu {
+    display: flex;
+  }
+}
+
+// High contrast mode support
+@media (prefers-contrast: high) {
+  .hamburger-menu {
+    border: 1px solid var(--color-text);
+
+    &:hover,
+    &:focus {
+      border-color: var(--color-primary);
+      background-color: rgba(var(--color-primary-rgb), 0.1);
+    }
+  }
+
+  .hamburger-line {
+    background-color: var(--color-text);
+    height: 3px;
+
+    .hamburger-menu:hover & {
+      background-color: var(--color-primary);
+    }
+  }
+}
+
+// Reduced motion support
+@media (prefers-reduced-motion: reduce) {
+  .hamburger-menu,
+  .hamburger-line {
+    transition: none;
+  }
+
+  .hamburger-menu:active {
+    transform: none;
+  }
+
+  .hamburger-menu.open .hamburger-line:nth-child(1),
+  .hamburger-menu.open .hamburger-line:nth-child(3) {
+    transform: none;
+  }
+
+  .hamburger-menu.open .hamburger-line:nth-child(2) {
+    opacity: 0;
+    transform: none;
+  }
+}

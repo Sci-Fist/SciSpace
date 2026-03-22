@@ -1,0 +1,645 @@
+// =============================================================================
+// HOMEPAGE STYLES - Clean and Focused
+// =============================================================================
+@use '../variables';
+
+.home-page {
+  // Default max-width for centering (consistent with other pages)
+  max-width: var(--container-7xl);
+  margin: 0 auto;
+  min-height: 100%;
+
+  // Handle sidebar expansion - reduce available width
+  html[data-sidebar-expanded="true"] & {
+    max-width: calc(var(--container-7xl) - var(--sidebar-width-expanded));
+  }
+
+  // Page-specific spacing and layout
+  padding: var(--space-8) var(--space-4);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-8);
+
+  // Typography - centered by default
+  text-align: center;
+
+  // Hero section - full width within content area
+  .hero-section {
+    position: relative;
+    width: 100%;
+    max-width: var(--container-7xl);
+    min-height: 500px;
+    border-radius: var(--radius-lg);
+    overflow: hidden;
+    box-shadow: var(--shadow-xl);
+    margin-bottom: var(--space-8);
+
+    .hero-visual {
+      position: relative;
+      width: 100%;
+      height: 100%;
+      min-height: 500px;
+
+      .hero-image {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        transition: opacity var(--transition-normal);
+
+        &.hero-image-current {
+          z-index: 1;
+          opacity: 1;
+        }
+
+        &.hero-image-next {
+          z-index: 2;
+          opacity: 0;
+
+          &.fading-in {
+            opacity: 1;
+          }
+        }
+      }
+    }
+
+    .hero-content {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      z-index: 3;
+      padding: var(--space-6);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: var(--space-4);
+      text-align: center;
+      background: rgba(var(--color-background-rgb), 0.8);
+      backdrop-filter: blur(10px);
+      border-radius: var(--radius-lg);
+      border: 1px solid rgba(var(--color-primary-rgb), 0.2);
+      box-shadow: var(--shadow-lg);
+      max-width: 600px;
+      width: 90%;
+
+      h2 {
+        font-size: var(--font-size-4xl);
+        margin-bottom: var(--space-2);
+        color: var(--color-text);
+        text-shadow: 0 0 20px rgba(var(--color-primary-rgb), 0.5);
+      }
+
+      p {
+        font-size: var(--font-size-lg);
+        color: var(--color-text-muted);
+        margin-bottom: var(--space-4);
+        line-height: var(--line-height-relaxed);
+      }
+
+      .call-to-action {
+        display: flex;
+        gap: var(--space-4);
+        flex-wrap: wrap;
+        justify-content: center;
+
+        .btn {
+          min-width: 160px;
+          padding: var(--space-3) var(--space-5);
+          font-size: var(--font-size-lg);
+        }
+      }
+    }
+  }
+
+  // View Style Selector - Clean and simple
+  .view-style-selector {
+    display: block;
+    width: 100%;
+    margin: var(--space-4) 0;
+    text-align: center;
+
+    .view-style-btn {
+      display: inline-block;
+      padding: var(--space-2) var(--space-4);
+      border: 2px solid var(--color-primary);
+      border-radius: var(--radius-md);
+      background-color: var(--color-surface);
+      color: var(--color-text);
+      font-size: var(--font-size-base);
+      font-weight: 600;
+      cursor: pointer;
+      transition: all var(--transition-normal);
+
+      &:hover {
+        background-color: rgba(var(--color-primary-rgb), 0.1);
+        border-color: var(--color-secondary);
+        transform: translateY(-2px);
+      }
+
+      .dropdown-arrow {
+        margin-left: var(--space-2);
+        font-size: var(--font-size-lg);
+      }
+    }
+  }
+
+  // Mixed Media Gallery Section - Simplified
+  .mixed-media-gallery-section {
+    padding: var(--space-6) 0;
+    width: 100%;
+
+    .mixed-media-gallery-container {
+      max-width: var(--container-6xl);
+      margin: 0 auto;
+      padding: 0 var(--space-4);
+
+      h3 {
+        font-size: var(--font-size-2xl);
+        color: var(--color-text);
+        margin-bottom: var(--space-2);
+        text-align: center;
+      }
+
+      p {
+        font-size: var(--font-size-base);
+        color: var(--color-text-muted);
+        margin-bottom: var(--space-6);
+        text-align: center;
+        max-width: 600px;
+        margin-left: auto;
+        margin-right: auto;
+      }
+    }
+  }
+
+  // Gallery action buttons
+  .gallery-actions {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: var(--space-4);
+    margin-top: var(--space-6);
+    flex-wrap: wrap;
+
+    .btn {
+      min-width: 160px;
+      padding: var(--space-2) var(--space-4);
+      font-size: var(--font-size-base);
+      font-weight: 600;
+    }
+  }
+}
+
+// Responsive design
+@media (max-width: 768px) {
+  .home-page {
+    padding: var(--space-4) 0;
+
+    .hero-section {
+      min-height: 400px;
+      margin-bottom: var(--space-4);
+
+      .hero-content {
+        padding: var(--space-4);
+        max-width: 90%;
+
+        h2 {
+          font-size: var(--font-size-2xl);
+        }
+
+        p {
+          font-size: var(--font-size-base);
+          margin-bottom: var(--space-2);
+        }
+
+        .call-to-action {
+          gap: var(--space-2);
+
+          .btn {
+            min-width: 140px;
+            padding: var(--space-2) var(--space-4);
+            font-size: var(--font-size-base);
+          }
+        }
+      }
+    }
+
+    .mixed-media-gallery-section {
+      padding: var(--space-4) 0;
+
+      .mixed-media-gallery-container {
+        padding: 0 var(--space-2);
+      }
+    }
+
+    .gallery-actions {
+      gap: var(--space-2);
+
+      .btn {
+        min-width: 140px;
+        font-size: var(--font-size-sm);
+      }
+    }
+  }
+}
+
+@media (max-width: 480px) {
+  .home-page {
+    .hero-section .hero-content .call-to-action {
+      flex-direction: column;
+
+      .btn {
+        width: 100%;
+        min-width: unset;
+      }
+    }
+
+    .gallery-actions {
+      flex-direction: column;
+
+      .btn {
+        width: 100%;
+        min-width: unset;
+      }
+    }
+  }
+}
+
+// View Style Selector - Ensure proper block flow below text
+.view-style-selector {
+  display: block;
+  width: 100%;
+  margin: var(--space-6) 0;
+  text-align: center;
+
+  .view-style-btn {
+    display: inline-block;
+    padding: var(--space-2) var(--space-4);
+    border: 2px solid var(--color-primary);
+    border-radius: var(--radius-md);
+    background-color: var(--color-surface);
+    color: var(--color-text);
+    font-size: var(--font-size-base);
+    font-weight: 600;
+    cursor: pointer;
+    transition: all var(--transition-normal);
+
+    &:hover {
+      background-color: rgba(var(--color-primary-rgb), 0.1);
+      border-color: var(--color-secondary);
+      transform: translateY(-2px);
+    }
+
+    .dropdown-arrow {
+      margin-left: var(--space-2);
+      font-size: var(--font-size-lg);
+    }
+  }
+}
+
+// Slideshow transition animations for hero image
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@keyframes slideInLeft {
+  from {
+    opacity: 0;
+    transform: translateX(-100%);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes slideInRight {
+  from {
+    opacity: 0;
+    transform: translateX(100%);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes zoomIn {
+  from {
+    opacity: 0;
+    transform: scale(0.8);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+.hero-glow {
+  /* This class is a hook for dynamic glow styles applied via inline styles in JSX. */
+  /* The actual box-shadow properties will be generated based on controls.heroGlowColor and controls.heroGlowIntensity. */
+}
+
+/* ===========================================
+   MIXED MEDIA GALLERY SECTION - HOME PAGE
+   ===========================================
+   Clean gallery layout that flows naturally within the main layout
+   =========================================== */
+
+.mixed-media-gallery-section {
+  padding: var(--space-6) 0;
+  width: 100%;
+  margin: 0 0 var(--space-8) 0;
+  display: block;
+  text-align: center;
+
+  .mixed-media-gallery-container {
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 0 var(--space-6);
+
+    h3 {
+      font-size: var(--font-size-2xl);
+      color: var(--color-text);
+      margin-bottom: var(--space-2);
+      text-align: center;
+    }
+
+    p {
+      font-size: var(--font-size-base);
+      color: var(--color-text-muted);
+      margin-bottom: var(--space-8);
+      text-align: center;
+      max-width: 600px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+  }
+}
+
+// Mixed Media Gallery Layout - Using same CSS columns masonry as 3D art gallery
+// Override the 3D art gallery styles for mixed media items
+
+// Clean positioning for mixed media gallery
+.mixed-media-gallery-section .gallery-masonry,
+.mixed-media-gallery-section .mixed-media-gallery-grid,
+.mixed-media-gallery-section .mixed-media-gallery-list {
+  position: static;
+  top: auto;
+  left: auto;
+  right: auto;
+  bottom: auto;
+  z-index: auto;
+  overflow: visible;
+  padding: 0;
+  box-sizing: border-box;
+  text-align: center;
+}
+
+.mixed-media-gallery-section .gallery-masonry {
+  column-count: var(--masonry-columns);
+  column-gap: 15px;
+  width: 100%;
+}
+
+.mixed-media-gallery-section .gallery-masonry .gallery-item {
+  break-inside: avoid;
+  margin-bottom: 15px;
+  display: block;
+  width: 100%;
+  position: relative;
+  overflow: hidden;
+  border-radius: 16px;
+  transition: all var(--transition-normal);
+  cursor: pointer;
+  background: rgba(var(--color-background-rgb), 0.05);
+  border: 2px solid transparent;
+
+  &:hover {
+    transform: scale(1.02);
+    box-shadow: 0 8px 25px rgba(var(--color-primary-rgb), 0.15);
+    border-color: rgba(var(--color-primary-rgb), 0.2);
+  }
+}
+
+.mixed-media-gallery-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 15px;
+  width: 100%;
+  margin: 0 auto;
+  padding: 0;
+  box-sizing: border-box;
+  justify-content: center;
+  text-align: center;
+  z-index: 1;
+}
+
+// Dynamic column classes for mixed media gallery
+.masonry-cols-3 .mixed-media-item {
+  width: calc(33.333% - 10px) !important;
+  margin-bottom: 15px !important;
+}
+
+.masonry-cols-4 .mixed-media-item {
+  width: calc(25% - 11.25px) !important;
+  margin-bottom: 15px !important;
+}
+
+.masonry-cols-5 .mixed-media-item {
+  width: calc(20% - 12px) !important;
+  margin-bottom: 15px !important;
+}
+
+.masonry-cols-6 .mixed-media-item {
+  width: calc(16.666% - 12.5px) !important;
+  margin-bottom: 15px !important;
+}
+
+// Individual mixed media item styling
+.mixed-media-item {
+  position: relative;
+  overflow: hidden;
+  border-radius: 16px;
+  transition: all var(--transition-normal);
+  cursor: pointer;
+  background: rgba(var(--color-background-rgb), 0.05);
+  border: 2px solid transparent;
+
+  &:hover {
+    transform: scale(1.02);
+    box-shadow: 0 8px 25px rgba(var(--color-primary-rgb), 0.15);
+    border-color: rgba(var(--color-primary-rgb), 0.2);
+  }
+
+  img {
+    width: 100%;
+    height: auto;
+    object-fit: cover;
+    border-radius: 12px;
+    transition: transform var(--transition-normal);
+    display: block;
+  }
+
+  &:hover img {
+    transform: scale(1.05);
+  }
+}
+
+// List layout for mixed media gallery
+.mixed-media-gallery-list {
+  display: flex !important;
+  flex-direction: column !important;
+  gap: 30px !important;
+  width: 100% !important;
+  margin: 0 auto !important; // Center the list container
+  padding: 0 !important;
+  box-sizing: border-box !important;
+  align-items: stretch !important;
+  text-align: center !important; // Center text content
+  z-index: 1 !important;
+}
+
+.mixed-media-gallery-list .mixed-media-item {
+  display: flex !important;
+  flex-direction: row !important;
+  align-items: center !important;
+  gap: 20px !important;
+  width: 100% !important;
+  max-width: none !important;
+  padding: 20px !important;
+  background: rgba(var(--color-background-rgb), 0.95) !important;
+  border-radius: 16px !important;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1) !important;
+  transition: all var(--transition-normal) !important;
+  border: 2px solid transparent !important;
+}
+
+.mixed-media-gallery-list .mixed-media-item:hover {
+  transform: translateY(-4px) !important;
+  box-shadow: 0 8px 32px rgba(var(--color-primary-rgb), 0.2) !important;
+  border-color: rgba(var(--color-primary-rgb), 0.3) !important;
+}
+
+.mixed-media-gallery-list .mixed-media-item img {
+  width: 120px !important;
+  height: 120px !important;
+  object-fit: cover !important;
+  border-radius: 12px !important;
+  flex-shrink: 0 !important;
+}
+
+.mixed-media-gallery-list .mixed-media-item .item-info {
+  flex: 1 !important;
+  display: flex !important;
+  flex-direction: column !important;
+  gap: 8px !important;
+}
+
+.mixed-media-gallery-list .mixed-media-item .item-title {
+  font-size: var(--font-size-lg) !important;
+  font-weight: 600 !important;
+  color: var(--color-text) !important;
+  margin: 0 !important;
+}
+
+.mixed-media-gallery-list .mixed-media-item .item-description {
+  font-size: var(--font-size-base) !important;
+  color: var(--color-text-secondary) !important;
+  margin: 0 !important;
+  line-height: 1.5 !important;
+}
+
+// Gallery action buttons below the mixed media gallery
+.gallery-actions {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: var(--space-4);
+  margin-top: var(--space-8);
+  flex-wrap: wrap;
+
+  .btn {
+    min-width: 160px;
+    padding: var(--space-2) var(--space-4);
+    font-size: var(--font-size-base);
+    font-weight: 600;
+  }
+}
+
+// Responsive adjustments for home page
+@media (max-width: 768px) {
+  .home-page {
+    padding: var(--space-4) 0;
+
+    .hero-section {
+      min-height: 400px;
+      margin-bottom: var(--space-4);
+
+      .hero-content {
+        padding: var(--space-4);
+        max-width: 90%;
+
+        h2 {
+          font-size: var(--font-size-2xl);
+        }
+
+        p {
+          font-size: var(--font-size-base);
+          margin-bottom: var(--space-2);
+        }
+
+        .call-to-action {
+          gap: var(--space-2);
+
+          .btn {
+            min-width: 140px;
+            padding: var(--space-2) var(--space-4);
+            font-size: var(--font-size-base);
+          }
+        }
+      }
+    }
+
+    .mixed-media-gallery-section {
+      padding: var(--space-4) 0;
+
+      .mixed-media-gallery-container {
+        padding: 0 var(--space-2);
+      }
+    }
+
+    .gallery-actions {
+      gap: var(--space-2);
+
+      .btn {
+        min-width: 140px;
+        font-size: var(--font-size-sm);
+      }
+    }
+  }
+}
+
+@media (max-width: 480px) {
+  .mixed-media-gallery-section {
+    .gallery-actions {
+      flex-direction: column;
+
+      .btn {
+        width: 100%;
+        min-width: unset;
+      }
+    }
+  }
+}

@@ -1,0 +1,208 @@
+// View Switcher Styles
+@use '../variables';
+
+.view-switcher {
+  position: fixed;
+  bottom: variables.$spacing-lg;
+  left: variables.$spacing-lg;
+  z-index: 1000; // High z-index to appear above content
+
+  .view-btn {
+    padding: variables.$spacing-sm variables.$spacing-md;
+    border: 2px solid var(--color-primary);
+    border-radius: variables.$border-radius-md;
+    background-color: var(--color-surface);
+    backdrop-filter: blur(variables.$blur-strength);
+    color: var(--color-text);
+    font-size: variables.$font-size-small;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all variables.$transition-speed-fast variables.$transition-ease;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    min-width: 120px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: variables.$spacing-xs;
+
+    &:hover {
+      background-color: rgba(var(--color-primary-rgb), 0.1);
+      border-color: var(--color-secondary);
+      transform: translateY(-2px);
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+    }
+
+    &:active {
+      transform: translateY(0);
+    }
+
+    // Mobile-specific adjustments
+    @media (max-width: variables.$breakpoint-sm) {
+      min-width: 100px;
+      padding: variables.$spacing-sm;
+      font-size: variables.$font-size-small;
+
+      &:active {
+        transform: scale(0.95) translateY(0);
+      }
+    }
+  }
+
+  // Adjust position for mobile to account for safe areas
+  @media (max-width: variables.$breakpoint-sm) {
+    bottom: calc(variables.$spacing-lg + env(safe-area-inset-bottom, 0));
+    left: calc(variables.$spacing-lg + env(safe-area-inset-left, 0));
+  }
+}
+
+// Theme toggle button positioned next to ViewSwitcher
+.theme-toggle-btn {
+  position: fixed;
+  bottom: variables.$spacing-lg;
+  left: calc(variables.$spacing-lg + 155px); // Position to the right of ViewSwitcher (120px min-width + spacing + 15px)
+  z-index: 1000; // Same z-index as ViewSwitcher
+
+  padding: variables.$spacing-sm variables.$spacing-md;
+  border: 1px solid rgba(var(--color-primary-rgb), 0.4);
+  border-radius: variables.$border-radius-lg;
+  background-color: var(--color-surface-transparent);
+  backdrop-filter: blur(calc(variables.$blur-strength / 2));
+  color: var(--color-text);
+  font-size: variables.$font-size-small;
+  cursor: pointer;
+  transition: background-color variables.$transition-speed-normal variables.$transition-ease,
+              color variables.$transition-speed-normal variables.$transition-ease,
+              border-color variables.$transition-speed-normal variables.$transition-ease,
+              box-shadow variables.$transition-speed-normal variables.$transition-ease;
+  white-space: nowrap;
+
+  &:hover {
+    background-color: rgba(var(--color-primary-rgb), 0.2);
+    color: var(--color-primary);
+    border-color: var(--color-primary);
+    box-shadow: 0 0 10px rgba(var(--color-primary-rgb), 0.5);
+  }
+
+  // Mobile adjustments
+  @media (max-width: variables.$breakpoint-sm) {
+    left: calc(variables.$spacing-lg + 125px); // Adjust for smaller mobile button + 15px
+    bottom: calc(variables.$spacing-lg + env(safe-area-inset-bottom, 0));
+    font-size: variables.$font-size-small;
+    padding: variables.$spacing-xs variables.$spacing-sm;
+  }
+}
+
+  // Force mobile view styles
+.force-mobile-view {
+  // Apply to all screen sizes when forcing mobile view
+  .dev-sidebar {
+    width: 100vw !important;
+    height: 100vh !important;
+    top: 0 !important;
+    bottom: 0 !important;
+    left: 0 !important;
+    right: 0 !important;
+    transform: translateX(0) !important; // Start visible (not translated)
+    margin: 0 !important;
+    padding: 0 !important;
+    border: none !important;
+    border-radius: 0 !important;
+    box-sizing: border-box !important;
+    overflow: hidden !important;
+    box-shadow: none !important;
+    background-color: var(--color-surface) !important;
+    z-index: 10001 !important; // Match mobile sidebar z-index
+
+    &.closed {
+      transform: translateX(100%) !important; // Slide off-screen to the right
+    }
+
+    .sidebar-toggle-btn {
+      top: variables.$spacing-md !important;
+      right: variables.$spacing-md !important;
+      left: auto !important;
+      transform: none !important;
+      border-radius: variables.$border-radius-md !important;
+      border: 2px solid var(--color-primary) !important;
+      min-width: 50px !important;
+      min-height: 50px !important;
+      width: 50px !important;
+      height: 50px !important;
+      background-color: var(--color-surface) !important;
+      backdrop-filter: blur(calc(variables.$blur-strength / 2)) !important;
+      z-index: 10000 !important;
+    }
+
+    .sidebar-content {
+      padding: 0 !important;
+      overflow-x: hidden !important;
+      max-height: calc(100% - 40px) !important;
+      display: flex !important;
+      flex-direction: column !important;
+    }
+  }
+
+  // Prevent body scrolling when sidebar is open in mobile view
+  .dev-sidebar:not(.closed) ~ * {
+    overflow: hidden !important;
+  }
+}
+
+// Force desktop view styles
+.force-desktop-view {
+  @media (max-width: variables.$breakpoint-sm) {
+    // Force desktop styles on mobile
+    .dev-sidebar {
+      width: variables.$sidebar-width !important;
+      height: 100vh !important;
+      top: 0 !important;
+      right: 0 !important;
+      left: auto !important;
+      bottom: auto !important;
+      transform: translateX(0) !important;
+      margin: 0 !important;
+      padding: 0 !important;
+      border: 2px solid #00ffff !important;
+      border-left: 2px solid #00ffff !important;
+      border-right: none !important;
+      border-top: none !important;
+      border-bottom: none !important;
+      border-radius: 0 !important;
+      box-sizing: border-box !important;
+      overflow: visible !important;
+      box-shadow: -5px 0 15px rgba(var(--color-background-rgb), 0.3) !important;
+      background-color: var(--color-surface-transparent) !important;
+      backdrop-filter: blur(variables.$blur-strength) !important;
+      z-index: variables.$z-index-dev-tools !important;
+
+      &.closed {
+        transform: translateX(100%) !important;
+      }
+
+      .sidebar-toggle-btn {
+        top: variables.$spacing-xl !important;
+        left: -40px !important;
+        right: auto !important;
+        transform: none !important;
+        border-radius: variables.$border-radius-md 0 0 variables.$border-radius-md !important;
+        border: 1px solid rgba(var(--color-primary-rgb), 0.4) !important;
+        border-right: none !important;
+        min-width: 40px !important;
+        min-height: 40px !important;
+        width: 40px !important;
+        height: 40px !important;
+        background-color: var(--color-surface-transparent) !important;
+        backdrop-filter: blur(calc(variables.$blur-strength / 2)) !important;
+        z-index: auto !important;
+      }
+
+      .sidebar-content {
+        padding: variables.$spacing-lg variables.$spacing-lg variables.$spacing-lg variables.$spacing-xl !important;
+        overflow-x: visible !important;
+        max-height: none !important;
+        display: block !important;
+        flex-direction: unset !important;
+      }
+    }
+  }
+}

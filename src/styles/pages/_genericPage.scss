@@ -1,0 +1,516 @@
+// =============================================================================
+// GENERIC PAGE STYLES - Modern Component-Based Design
+// =============================================================================
+@use '../variables';
+
+// ============================================================================
+// BASE GENERIC PAGE STYLES
+// ============================================================================
+
+.generic-page {
+  // CSS Grid layout for reliable centering
+  display: grid;
+  place-items: center; // Centers all content both horizontally and vertically
+  width: 100%;
+  max-width: var(--container-5xl); // Constrain the width
+  margin: 0 auto; // Center the section itself
+  padding: var(--space-6) 0;
+  min-height: 100%;
+  text-align: center;
+
+  // Handle sidebar expansion - push content to the right
+  html[data-sidebar-expanded="true"] & {
+    width: calc(100% - var(--sidebar-width));
+    max-width: calc(100vw - var(--sidebar-width));
+    margin-left: var(--sidebar-width);
+    margin-right: 0;
+  }
+
+  // Headings
+  h1, h2, h3, h4, h5, h6 {
+    text-align: center;
+    margin-bottom: var(--space-4);
+  }
+
+  h2 {
+    font-size: var(--font-size-3xl);
+    margin-bottom: var(--space-6);
+  }
+
+  // Paragraphs
+  p {
+    margin-bottom: var(--space-4);
+    line-height: var(--line-height-relaxed);
+    font-size: var(--font-size-lg);
+    text-align: center; // RESTORED: Force text centering
+    max-width: var(--container-2xl);
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  // Lists
+  ul, ol {
+    text-align: left;
+    max-width: var(--container-xl);
+    margin: 0 auto var(--space-4) auto;
+  }
+
+  // Links
+  a {
+    color: var(--color-primary);
+
+    &:hover {
+      color: var(--color-primary-hover);
+    }
+  }
+
+  // Images
+  img {
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-lg);
+  }
+}
+
+
+
+// ============================================================================
+// PROCESS PAGE SPECIFIC STYLES
+// ============================================================================
+
+.process-page {
+  .process-steps {
+    text-align: left;
+    max-width: var(--container-2xl);
+    margin: 0 auto;
+    padding: 0 var(--space-4);
+
+    h3 {
+      text-align: center;
+      margin: var(--space-6) 0 var(--space-3) 0;
+      font-size: var(--font-size-xl);
+      color: var(--color-primary);
+      font-weight: var(--font-weight-semibold);
+    }
+
+    ol {
+      text-align: left;
+      margin: 0 auto var(--space-4) auto;
+      padding-left: var(--space-6);
+      max-width: var(--container-xl);
+
+      li {
+        margin-bottom: var(--space-2);
+        line-height: var(--line-height-relaxed);
+        padding-left: var(--space-2);
+
+        strong {
+          color: var(--color-secondary);
+          font-weight: var(--font-weight-semibold);
+        }
+
+        // Nested content
+        p {
+          text-align: left;
+          margin-bottom: var(--space-2);
+          font-size: var(--font-size-base);
+        }
+      }
+    }
+
+    // Process step cards
+    .process-step {
+      background: var(--color-surface);
+      border-radius: var(--radius-lg);
+      padding: var(--space-5);
+      margin-bottom: var(--space-4);
+      box-shadow: var(--shadow-md);
+      border: 1px solid var(--color-surface-elevated);
+
+      &:hover {
+        box-shadow: var(--shadow-lg);
+        transform: translateY(-2px);
+        transition: all var(--transition-normal);
+      }
+
+      h4 {
+        color: var(--color-primary);
+        margin-bottom: var(--space-2);
+        font-size: var(--font-size-lg);
+      }
+
+      p {
+        text-align: left;
+        font-size: var(--font-size-base);
+        margin-bottom: 0;
+      }
+    }
+  }
+}
+
+// ============================================================================
+// BLOG PAGE STYLES
+// ============================================================================
+
+.blog-page {
+  .blog-posts {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: var(--space-6);
+    width: 100%;
+    max-width: var(--container-5xl);
+    margin: 0 auto;
+
+    .blog-post {
+      background: var(--color-surface);
+      border-radius: var(--radius-lg);
+      padding: var(--space-5);
+      box-shadow: var(--shadow-md);
+      border: 1px solid var(--color-surface-elevated);
+      transition: all var(--transition-normal);
+
+      &:hover {
+        box-shadow: var(--shadow-lg);
+        transform: translateY(-2px);
+      }
+
+      h3 {
+        color: var(--color-primary);
+        margin-bottom: var(--space-2);
+        font-size: var(--font-size-lg);
+      }
+
+      .post-meta {
+        color: var(--color-text-muted);
+        font-size: var(--font-size-sm);
+        margin-bottom: var(--space-3);
+      }
+
+      p {
+        text-align: left;
+        font-size: var(--font-size-base);
+        margin-bottom: var(--space-3);
+      }
+
+      .read-more {
+        color: var(--color-primary);
+        font-weight: var(--font-weight-medium);
+        text-decoration: none;
+
+        &:hover {
+          color: var(--color-primary-hover);
+          text-decoration: underline;
+        }
+      }
+    }
+  }
+}
+
+// ============================================================================
+// TESTIMONIALS PAGE STYLES
+// ============================================================================
+
+.testimonials-page {
+  .testimonials-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: var(--space-6);
+    width: 100%;
+    max-width: var(--container-5xl);
+    margin: 0 auto;
+
+    .testimonial-card {
+      background: var(--color-surface);
+      border-radius: var(--radius-lg);
+      padding: var(--space-5);
+      box-shadow: var(--shadow-md);
+      border: 1px solid var(--color-surface-elevated);
+      text-align: left;
+      transition: all var(--transition-normal);
+
+      &:hover {
+        box-shadow: var(--shadow-lg);
+        transform: translateY(-2px);
+      }
+
+      .testimonial-quote {
+        font-style: italic;
+        font-size: var(--font-size-lg);
+        line-height: var(--line-height-relaxed);
+        margin-bottom: var(--space-4);
+        color: var(--color-text);
+      }
+
+      .testimonial-author {
+        font-weight: var(--font-weight-semibold);
+        color: var(--color-primary);
+        margin-bottom: var(--space-1);
+      }
+
+      .testimonial-role {
+        color: var(--color-text-muted);
+        font-size: var(--font-size-sm);
+      }
+
+      .testimonial-avatar {
+        width: 48px;
+        height: 48px;
+        border-radius: var(--radius-full);
+        margin-bottom: var(--space-3);
+        object-fit: cover;
+      }
+    }
+  }
+}
+
+// ============================================================================
+// SHOP PAGE STYLES
+// ============================================================================
+
+.shop-page {
+  .shop-items-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: var(--space-6);
+    width: 100%;
+    max-width: var(--container-5xl);
+    margin: 0 auto;
+
+    .shop-item {
+      background: var(--color-surface);
+      border-radius: var(--radius-lg);
+      padding: var(--space-5);
+      box-shadow: var(--shadow-md);
+      border: 1px solid var(--color-surface-elevated);
+      text-align: center;
+      transition: all var(--transition-normal);
+
+      &:hover {
+        box-shadow: var(--shadow-lg);
+        transform: translateY(-2px);
+      }
+
+      .item-image {
+        width: 100%;
+        height: 200px;
+        object-fit: cover;
+        border-radius: var(--radius-md);
+        margin-bottom: var(--space-4);
+      }
+
+      h3 {
+        color: var(--color-primary);
+        margin-bottom: var(--space-2);
+        font-size: var(--font-size-lg);
+      }
+
+      .item-price {
+        font-size: var(--font-size-xl);
+        font-weight: var(--font-weight-bold);
+        color: var(--color-secondary);
+        margin-bottom: var(--space-3);
+      }
+
+      .item-description {
+        color: var(--color-text-muted);
+        font-size: var(--font-size-sm);
+        margin-bottom: var(--space-4);
+        text-align: left;
+      }
+
+      .btn {
+        width: 100%;
+      }
+    }
+  }
+}
+
+// ============================================================================
+// LINKS PAGE STYLES
+// ============================================================================
+
+.links-page {
+  .links-category {
+    background: var(--color-surface);
+    border-radius: var(--radius-lg);
+    padding: var(--space-5);
+    margin-bottom: var(--space-5);
+    box-shadow: var(--shadow-md);
+    border: 1px solid var(--color-surface-elevated);
+
+    h3 {
+      color: var(--color-primary);
+      margin-bottom: var(--space-3);
+      font-size: var(--font-size-lg);
+    }
+
+    ul {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+
+      li {
+        margin-bottom: var(--space-2);
+
+        a {
+          display: flex;
+          align-items: center;
+          gap: var(--space-2);
+          padding: var(--space-2);
+          border-radius: var(--radius-md);
+          text-decoration: none;
+          color: var(--color-text);
+          transition: all var(--transition-normal);
+
+          &:hover {
+            background: var(--color-surface-elevated);
+            color: var(--color-primary);
+            transform: translateX(var(--space-1));
+          }
+
+          &::before {
+            content: '→';
+            color: var(--color-primary);
+            font-weight: var(--font-weight-bold);
+            transition: transform var(--transition-normal);
+          }
+
+          &:hover::before {
+            transform: translateX(var(--space-1));
+          }
+        }
+      }
+    }
+  }
+}
+
+// ============================================================================
+// RESPONSIVE DESIGN - Mobile First
+// ============================================================================
+
+@media (max-width: 640px) {
+  .generic-page {
+    padding: var(--space-4) var(--space-2);
+
+    h2 {
+      font-size: var(--font-size-2xl);
+    }
+
+    p {
+      font-size: var(--font-size-base);
+      padding: 0 var(--space-1);
+      margin-bottom: var(--space-3);
+    }
+
+    .blog-posts .blog-post,
+    .testimonials-grid .testimonial-card,
+    .shop-items-grid .shop-item {
+      padding: var(--space-3);
+    }
+
+    .process-steps {
+      padding: 0;
+
+      h3 {
+        font-size: var(--font-size-lg);
+        margin: var(--space-4) 0 var(--space-2) 0;
+      }
+
+      ol {
+        padding-left: var(--space-4);
+        max-width: 100%;
+      }
+
+      .process-step {
+        padding: var(--space-3);
+      }
+    }
+
+    .links-category ul {
+      padding-left: var(--space-4);
+    }
+  }
+}
+
+@media (max-width: 768px) {
+  .generic-page {
+    padding: var(--space-5) var(--space-3);
+
+    .blog-posts,
+    .testimonials-grid,
+    .shop-items-grid {
+      grid-template-columns: 1fr;
+      gap: var(--space-4);
+    }
+  }
+}
+
+// ============================================================================
+// GLOBAL CONTENT WRAPPER STYLES - Moved outside .about-page
+// ============================================================================
+
+// Specific Page Content Wrappers - Global styles for all pages
+.about-content,
+.resume-content,
+.contact-content,
+.blog-content,
+.process-content,
+.testimonials-content,
+.shop-content,
+.links-content {
+  margin: 0 auto;
+  width: 100%;
+  max-width: var(--container-3xl); // Standardized width
+  padding: 0 var(--space-6);
+  text-align: center; // Force text centering here
+}
+
+// ============================================================================
+// ABOUT PAGE SPECIFIC STYLES
+// ============================================================================
+
+.about-page {
+  // About page specific styling - layout handled by .generic-page
+  padding: var(--space-8) 0;
+  min-height: 100%;
+
+  // Headings
+  h2 {
+    font-size: var(--font-size-3xl);
+    margin-bottom: var(--space-6);
+  }
+
+  // Paragraph styling for better readability
+  p {
+    max-width: var(--container-3xl); // Slightly increase max-width for paragraphs to align better with content block
+    margin: 0 auto var(--space-4) auto; // Center the paragraph block and apply bottom margin
+    line-height: var(--line-height-relaxed);
+    font-size: var(--font-size-lg);
+  }
+
+  .about-content {
+    // Ensure this block is correctly centered and its internal padding is handled
+    max-width: var(--container-4xl); // Keep the main content block max-width
+    margin: 0 auto; // Ensure the block itself is centered
+    width: 100%;
+    // REMOVE horizontal padding from .about-content and let paragraphs handle their own horizontal spacing
+    // We want the .about-content to be the centered 'container' and paragraphs to center within it.
+    // The padding on 'p' or the 'section' itself can provide overall horizontal spacing.
+    padding: var(--space-4) 0; // Only apply vertical padding to the content block
+  }
+}
+
+// ============================================================================
+// LEGACY COMPATIBILITY - Remove after full migration
+// ============================================================================
+
+// Temporary support for old centering class
+.force-center {
+  text-align: center !important;
+  display: grid !important;
+  place-items: center !important;
+
+  // Ensure all text children are centered
+  p, h1, h2, h3, h4, .about-content, .resume-content-wrapper {
+    text-align: center !important;
+  }
+}

@@ -1,0 +1,119 @@
+// Page Controls Component Styles
+@use '../variables';
+
+.page-controls {
+  padding: variables.$spacing-md;
+
+  h3 {
+    color: var(--color-secondary);
+    margin-bottom: variables.$spacing-lg;
+    font-size: variables.$font-size-h2;
+    border-bottom: 1px solid rgba(var(--color-primary-rgb), 0.2);
+    padding-bottom: variables.$spacing-sm;
+  }
+
+  .control-section {
+    margin-bottom: variables.$spacing-xl;
+    padding: variables.$spacing-md;
+    background-color: rgba(var(--color-surface-rgb), 0.3);
+    border-radius: variables.$border-radius-md;
+    border: 1px solid rgba(var(--color-primary-rgb), 0.1);
+
+    h4 {
+      color: var(--color-secondary);
+      margin-bottom: variables.$spacing-md;
+      font-size: variables.$font-size-h3;
+      font-weight: 600;
+    }
+
+    .control-group {
+      margin-bottom: variables.$spacing-md;
+      display: flex;
+      flex-direction: column;
+      gap: variables.$spacing-xs;
+
+      label {
+        font-size: variables.$font-size-small;
+        color: var(--color-text);
+        font-weight: 500;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+
+        input[type="checkbox"] {
+          margin-left: variables.$spacing-sm;
+        }
+      }
+
+      input[type="range"] {
+        width: 100%;
+        -webkit-appearance: none;
+        appearance: none;
+        height: 6px;
+        background: rgba(var(--color-primary-rgb), 0.2);
+        border-radius: 3px;
+        outline: none;
+        cursor: pointer;
+
+        &::-webkit-slider-thumb {
+          -webkit-appearance: none;
+          appearance: none;
+          width: 16px;
+          height: 16px;
+          background: var(--color-primary);
+          border-radius: 50%;
+          transition: background-color variables.$transition-speed-fast variables.$transition-ease;
+
+          &:hover {
+            background: var(--color-secondary);
+          }
+        }
+
+        &::-moz-range-thumb {
+          width: 16px;
+          height: 16px;
+          background: var(--color-primary);
+          border-radius: 50%;
+          border: none;
+          transition: background-color variables.$transition-speed-fast variables.$transition-ease;
+
+          &:hover {
+            background: var(--color-secondary);
+          }
+        }
+      }
+
+      input[type="text"],
+      input[type="email"],
+      input[type="url"],
+      textarea {
+        width: 100%;
+        padding: variables.$spacing-xs variables.$spacing-sm;
+        border: 1px solid rgba(var(--color-primary-rgb), 0.3);
+        border-radius: variables.$border-radius-sm;
+        background-color: var(--color-surface);
+        color: var(--color-text);
+        font-size: variables.$font-size-body;
+        font-family: inherit;
+        transition: border-color variables.$transition-speed-fast variables.$transition-ease;
+
+        &:focus {
+          outline: none;
+          border-color: var(--color-primary);
+          box-shadow: 0 0 0 2px rgba(var(--color-primary-rgb), 0.2);
+        }
+
+        &::placeholder {
+          color: var(--color-text-muted);
+        }
+      }
+
+      textarea {
+        resize: vertical;
+        min-height: 80px;
+      }
+    }
+  }
+
+  // Specific page control styles can be added here as needed
+}

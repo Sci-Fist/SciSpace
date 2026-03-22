@@ -1,0 +1,284 @@
+// Audio Player Controls Component Styles
+@use '../variables';
+
+.audio-player-controls {
+  width: 100%;
+  background-color: var(--color-surface-transparent);
+  backdrop-filter: blur(variables.$blur-strength);
+  border-radius: variables.$border-radius-md;
+  padding: variables.$spacing-md;
+  box-shadow: var(--box-shadow-base);
+  display: flex;
+  flex-direction: column;
+  gap: variables.$spacing-md;
+
+  &.compact {
+    padding: variables.$spacing-sm;
+    background-color: transparent;
+    backdrop-filter: none;
+    box-shadow: none;
+    border-radius: 0;
+
+    .play-pause-btn {
+      background: rgba(var(--color-primary-rgb), 0.9);
+      border: 2px solid var(--color-primary);
+      border-radius: 50%;
+      width: 50px;
+      height: 50px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 20px;
+      color: var(--color-text);
+      cursor: pointer;
+      transition: all variables.$transition-speed-fast variables.$transition-ease;
+      outline: none;
+
+      &:hover {
+        background: var(--color-primary);
+        transform: scale(1.05);
+        box-shadow: 0 4px 12px rgba(var(--color-primary-rgb), 0.4);
+      }
+
+      &:active {
+        transform: scale(0.95);
+      }
+
+      &.playing {
+        background: var(--color-accent);
+        border-color: var(--color-accent);
+        box-shadow: 0 0 15px rgba(var(--color-accent-rgb), 0.6);
+
+        &:hover {
+          background: var(--color-accent-hover);
+          border-color: var(--color-accent-hover);
+          box-shadow: 0 0 20px rgba(var(--color-accent-rgb), 0.8);
+        }
+      }
+    }
+  }
+
+  &.full {
+    // Full player styles
+  }
+
+  .progress-section {
+    display: flex;
+    flex-direction: column;
+    gap: variables.$spacing-sm;
+
+    .progress-bar {
+      position: relative;
+      width: 100%;
+      height: 8px;
+      background-color: rgba(var(--color-primary-rgb), 0.2);
+      border-radius: 4px;
+      cursor: pointer;
+      transition: background-color variables.$transition-speed-fast variables.$transition-ease;
+
+      &:hover {
+        background-color: rgba(var(--color-primary-rgb), 0.3);
+      }
+
+      .progress-fill {
+        height: 100%;
+        background: linear-gradient(90deg, var(--color-primary), var(--color-accent));
+        border-radius: 4px;
+        transition: width variables.$transition-speed-fast variables.$transition-ease;
+      }
+
+      .progress-handle {
+        position: absolute;
+        top: 50%;
+        transform: translate(-50%, -50%);
+        width: 16px;
+        height: 16px;
+        background-color: var(--color-primary);
+        border: 2px solid var(--color-background);
+        border-radius: 50%;
+        cursor: grab;
+        transition: all variables.$transition-speed-fast variables.$transition-ease;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+
+        &:hover {
+          transform: translate(-50%, -50%) scale(1.1);
+          background-color: var(--color-accent);
+        }
+
+        &:active {
+          cursor: grabbing;
+          transform: translate(-50%, -50%) scale(1.2);
+        }
+      }
+    }
+
+    .time-display {
+      display: flex;
+      justify-content: space-between;
+      font-size: variables.$font-size-body-sm;
+      color: var(--color-text-muted);
+      font-family: 'Courier New', monospace;
+
+      .current-time,
+      .duration {
+        min-width: 35px;
+        text-align: center;
+      }
+    }
+  }
+
+  .controls-section {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: variables.$spacing-md;
+
+    .control-btn {
+      background: rgba(var(--color-primary-rgb), 0.9);
+      border: 2px solid var(--color-primary);
+      border-radius: 50%;
+      width: 50px;
+      height: 50px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 18px;
+      color: var(--color-text);
+      cursor: pointer;
+      transition: all variables.$transition-speed-fast variables.$transition-ease;
+      outline: none;
+
+      &:hover:not(:disabled) {
+        background: var(--color-primary);
+        transform: scale(1.05);
+        box-shadow: 0 4px 12px rgba(var(--color-primary-rgb), 0.4);
+      }
+
+      &:active:not(:disabled) {
+        transform: scale(0.95);
+      }
+
+      &:disabled {
+        opacity: 0.4;
+        cursor: not-allowed;
+      }
+
+      &.play-pause {
+        width: 60px;
+        height: 60px;
+        font-size: 24px;
+
+        &.playing {
+          background: var(--color-accent);
+          border-color: var(--color-accent);
+          box-shadow: 0 0 15px rgba(var(--color-accent-rgb), 0.6);
+
+          &:hover {
+            background: var(--color-accent-hover);
+            border-color: var(--color-accent-hover);
+            box-shadow: 0 0 20px rgba(var(--color-accent-rgb), 0.8);
+          }
+        }
+      }
+
+      &.skip-backward,
+      &.skip-forward {
+        width: 40px;
+        height: 40px;
+        font-size: 14px;
+        opacity: 0.6;
+
+        &:hover:not(:disabled) {
+          opacity: 1;
+        }
+      }
+    }
+  }
+
+  .volume-section {
+    display: flex;
+    align-items: center;
+    gap: variables.$spacing-sm;
+
+    .volume-icon {
+      font-size: 16px;
+      color: var(--color-text-muted);
+    }
+
+    .volume-slider {
+      flex: 1;
+      height: 4px;
+      background: rgba(var(--color-primary-rgb), 0.2);
+      border-radius: 2px;
+      outline: none;
+      cursor: pointer;
+      -webkit-appearance: none;
+
+      &::-webkit-slider-thumb {
+        -webkit-appearance: none;
+        width: 16px;
+        height: 16px;
+        background: var(--color-primary);
+        border-radius: 50%;
+        cursor: pointer;
+        transition: all variables.$transition-speed-fast variables.$transition-ease;
+
+        &:hover {
+          background: var(--color-accent);
+          transform: scale(1.1);
+        }
+      }
+
+      &::-moz-range-thumb {
+        width: 16px;
+        height: 16px;
+        background: var(--color-primary);
+        border-radius: 50%;
+        cursor: pointer;
+        border: none;
+        transition: all variables.$transition-speed-fast variables.$transition-ease;
+
+        &:hover {
+          background: var(--color-accent);
+          transform: scale(1.1);
+        }
+      }
+    }
+  }
+}
+
+// Responsive adjustments
+@media (max-width: 768px) {
+  .audio-player-controls {
+    &.full {
+      .controls-section {
+        gap: variables.$spacing-sm;
+
+        .control-btn {
+          &.play-pause {
+            width: 50px;
+            height: 50px;
+            font-size: 20px;
+          }
+
+          &.skip-backward,
+          &.skip-forward {
+            width: 35px;
+            height: 35px;
+            font-size: 12px;
+          }
+        }
+      }
+
+      .volume-section {
+        .volume-slider {
+          &::-webkit-slider-thumb,
+          &::-moz-range-thumb {
+            width: 14px;
+            height: 14px;
+          }
+        }
+      }
+    }
+  }
+}

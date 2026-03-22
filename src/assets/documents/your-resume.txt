@@ -1,0 +1,4 @@
+This is a placeholder for a resume PDF file.
+Replace this file with an actual resume document (PDF format required).
+File should be named: your-resume.pdf
+Include professional experience, skills, education, and contact information.

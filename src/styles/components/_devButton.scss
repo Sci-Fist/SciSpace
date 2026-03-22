@@ -1,0 +1,62 @@
+// Styles for the Dev Mode Toggle Button
+@use '../variables';
+
+.dev-mode-toggle-btn {
+  position: fixed;
+  bottom: variables.$spacing-lg;
+  right: variables.$spacing-lg;
+  background-color: var(--color-surface-transparent);
+  backdrop-filter: blur(calc(variables.$blur-strength / 2));
+  color: var(--color-text);
+  border: 1px solid rgba(var(--color-primary-rgb), 0.4);
+  padding: variables.$spacing-sm variables.$spacing-md;
+  border-radius: variables.$border-radius-lg;
+  cursor: pointer;
+  font-family: variables.$font-family-heading;
+  font-size: variables.$font-size-small;
+  z-index: variables.$z-index-dev-tools; // Ensure it's on top
+  transition: background-color variables.$transition-speed-normal variables.$transition-ease,
+              color variables.$transition-speed-normal variables.$transition-ease,
+              border-color variables.$transition-speed-normal variables.$transition-ease,
+              box-shadow variables.$transition-speed-normal variables.$transition-ease,
+              transform variables.$transition-speed-normal variables.$transition-ease;
+
+  &:hover {
+    background-color: rgba(var(--color-primary-rgb), 0.2);
+    border-color: var(--color-primary);
+    box-shadow: 0 0 10px rgba(var(--color-primary-rgb), 0.5);
+    transform: translateY(-2px);
+  }
+
+  &.active {
+    background-color: var(--color-primary);
+    color: var(--color-background);
+    border-color: var(--color-primary);
+    box-shadow: 0 0 15px rgba(var(--color-primary-rgb), 0.7);
+
+    &:hover {
+      background-color: var(--color-secondary);
+      border-color: var(--color-secondary);
+      box-shadow: 0 0 20px rgba(var(--color-primary-rgb), 0.9);
+    }
+  }
+
+  // Ensure button is always visible regardless of view mode
+  // Responsive adjustments - force positioning above footer on mobile
+  @media (max-width: variables.$breakpoint-sm) {
+    bottom: calc(2.5rem + variables.$spacing-sm) !important; // Position above footer (footer height + spacing)
+    right: auto !important;
+    left: 50% !important;
+    transform: translateX(-50%) !important;
+    padding: variables.$spacing-xs variables.$spacing-sm;
+    font-size: variables.$font-size-small * 0.9;
+  }
+
+  // Force visibility in all view modes
+  &.active,
+  &:not(.active) {
+    display: block !important;
+    visibility: visible !important;
+    opacity: 1 !important;
+  }
+}

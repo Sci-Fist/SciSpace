@@ -1,0 +1,48 @@
+// Desktop Expand Button Styles (matches sidebar toggle button)
+@use '../variables';
+
+.desktop-expand-btn {
+  position: fixed;
+  top: 10px;
+  right: 10px;
+  width: 30px;
+  height: 30px;
+  background-color: var(--color-primary);
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 16px;
+  font-weight: bold;
+  z-index: 9999; // Above ViewSwitcher (1000) but below mobile sidebar (10001)
+  transition: background-color variables.$transition-speed-fast variables.$transition-ease;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+
+  .expand-icon {
+    line-height: 1;
+  }
+
+  &:hover {
+    background-color: var(--color-secondary);
+    transform: scale(1.05);
+  }
+
+  &:active {
+    transform: scale(0.95);
+  }
+
+  // Animation for appearance/disappearance
+  animation: fadeIn 0.3s ease-out;
+
+  @keyframes fadeIn {
+    from {
+      opacity: 0;
+    }
+    to {
+      opacity: 1;
+    }
+  }
+}

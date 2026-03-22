@@ -1,0 +1,83 @@
+// Mobile Expand Button Styles
+@use '../variables';
+
+.mobile-expand-btn {
+  position: fixed;
+  bottom: 10px;     // Position at bottom of screen
+  left: 50%;        // Center horizontally
+  transform: translateX(-50%); // Perfect centering
+  z-index: 9999; // Above ViewSwitcher (1000) but below mobile sidebar (10001)
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: variables.$spacing-xs;
+
+  padding: variables.$spacing-sm variables.$spacing-md;
+  border: 2px solid var(--color-primary);
+  border-radius: variables.$border-radius-lg;
+  background-color: var(--color-surface);
+  backdrop-filter: blur(variables.$blur-strength);
+  color: var(--color-text);
+  font-size: variables.$font-size-small;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all variables.$transition-speed-fast variables.$transition-ease;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.2);
+
+  // Button styling (always in collapsed state since it only shows when sidebar is closed)
+  background-color: rgba(var(--color-primary-rgb), 0.1);
+  border-color: var(--color-primary);
+
+  &:hover {
+    background-color: rgba(var(--color-primary-rgb), 0.2);
+    border-color: var(--color-secondary);
+    transform: translateX(-50%) translateY(-2px);
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
+  }
+
+  &:active {
+    transform: translateX(-50%) scale(0.95);
+    transition: transform 0.1s ease;
+  }
+
+  .expand-icon,
+  .collapse-icon {
+    font-size: variables.$font-size-body;
+    line-height: 1;
+  }
+
+  .expand-text {
+    white-space: nowrap;
+    line-height: 1;
+  }
+
+  // Mobile-specific adjustments
+  @media (max-width: variables.$breakpoint-sm) {
+    padding: variables.$spacing-sm variables.$spacing-lg;
+    font-size: variables.$font-size-small;
+
+    &:active {
+      transform: translateX(-50%) scale(0.95);
+      transition: transform 0.1s ease;
+    }
+
+    .expand-text {
+      display: none; // Hide text on very small screens to save space
+    }
+  }
+
+  // Animation for appearance/disappearance
+  animation: fadeInUp 0.3s ease-out;
+
+  @keyframes fadeInUp {
+    from {
+      opacity: 0;
+      transform: translateX(-50%) translateY(20px);
+    }
+    to {
+      opacity: 1;
+      transform: translateX(-50%) translateY(0);
+    }
+  }
+}

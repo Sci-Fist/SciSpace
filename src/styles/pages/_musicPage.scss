@@ -1,0 +1,279 @@
+// Specific styles for the MusicPage component
+@use '../variables';
+
+.music-page {
+  .music-section {
+    margin-bottom: variables.$spacing-xl;
+
+    h3 {
+      font-size: variables.$font-size-h2;
+      color: var(--color-primary);
+      margin-bottom: variables.$spacing-lg;
+      text-shadow: 0 0 5px rgba(var(--color-primary-rgb), 0.3);
+      border-bottom: 2px solid var(--color-primary);
+      padding-bottom: variables.$spacing-sm;
+    }
+  }
+
+  .music-list {
+    display: flex;
+    flex-direction: column;
+    gap: variables.$spacing-lg;
+    margin-top: variables.$spacing-xl;
+
+    .music-item {
+      background-color: var(--color-surface-transparent); // Acrylic background
+      backdrop-filter: blur(variables.$blur-strength); // Acrylic blur effect
+      border-radius: variables.$border-radius-md;
+      padding: variables.$spacing-lg;
+      box-shadow: var(--box-shadow-base); // Use CSS variable
+      text-align: left;
+      transition: transform variables.$transition-speed-normal variables.$transition-ease, box-shadow variables.$transition-speed-normal variables.$transition-ease;
+
+      &:hover {
+        transform: translateY(-3px);
+        box-shadow: var(--box-shadow-hover); // Use CSS variable
+      }
+
+      .music-item-content {
+        display: flex;
+        align-items: center;
+        gap: variables.$spacing-lg;
+      }
+
+      .album-cover-section {
+        flex-shrink: 0;
+        position: relative;
+        width: 160px;
+        height: 160px;
+      }
+
+      .track-album-cover {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        border-radius: variables.$border-radius-sm;
+        box-shadow: var(--box-shadow-base);
+      }
+
+      .album-cover-fallback {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background-color: var(--color-surface);
+        border-radius: variables.$border-radius-sm;
+        font-size: 24px;
+        color: var(--color-text-muted);
+      }
+
+      .track-info-section {
+        flex: 1;
+        min-width: 0; // Allow text to wrap
+      }
+
+      h4 {
+        font-size: variables.$font-size-h4;
+        color: var(--color-primary); // Use CSS variable
+        margin-bottom: variables.$spacing-sm;
+        text-shadow: 0 0 5px rgba(var(--color-primary-rgb), 0.3); // Use CSS variable
+      }
+
+      p {
+        font-size: variables.$font-size-body;
+        color: var(--color-text-muted); // Use CSS variable
+        margin-bottom: variables.$spacing-md;
+      }
+
+      .audio-controls-container {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        padding: variables.$spacing-sm;
+      }
+
+      .audio-play-btn {
+        background: rgba(var(--color-primary-rgb), 0.9);
+        border: 2px solid var(--color-primary);
+        border-radius: 50%;
+        width: 60px;
+        height: 60px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 24px;
+        color: var(--color-text);
+        cursor: pointer;
+        transition: all variables.$transition-speed-fast variables.$transition-ease;
+        outline: none;
+
+        &:hover {
+          background: var(--color-primary);
+          transform: scale(1.05);
+          box-shadow: 0 4px 12px rgba(var(--color-primary-rgb), 0.4);
+        }
+
+        &:active {
+          transform: scale(0.95);
+        }
+
+        &.playing {
+          background: var(--color-accent);
+          border-color: var(--color-accent);
+          box-shadow: 0 0 15px rgba(var(--color-accent-rgb), 0.6);
+
+          &:hover {
+            background: var(--color-accent-hover);
+            border-color: var(--color-accent-hover);
+            box-shadow: 0 0 20px rgba(var(--color-accent-rgb), 0.8);
+          }
+        }
+      }
+
+      audio {
+        width: 100%;
+        background-color: var(--color-background-transparent); // Use transparent background for audio player
+        border-radius: variables.$border-radius-sm;
+        outline: none; // Remove default outline
+        // The filter below attempts to tint controls teal, but browser support/consistency varies.
+        // It might need adjustment or a custom audio player for full theme integration.
+        filter: invert(100%) sepia(100%) saturate(1000%) hue-rotate(130deg) brightness(100%) contrast(100%);
+
+        &::-webkit-media-controls-panel {
+          background-color: var(--color-background); // Use CSS variable
+          color: var(--color-primary); // Use CSS variable
+        }
+        &::-webkit-media-controls-play-button,
+        &::-webkit-media-controls-current-time-display,
+        &::-webkit-media-controls-time-remaining-display {
+          color: var(--color-primary); // Use CSS variable
+        }
+        &::-webkit-media-controls-timeline {
+          background-color: rgba(var(--color-primary-rgb), 0.2); // Use CSS variable
+        }
+        &::-webkit-media-controls-volume-slider {
+          background-color: rgba(var(--color-primary-rgb), 0.2); // Use CSS variable
+        }
+      }
+    }
+  }
+
+  .cover-art-grid {
+    display: flex;
+    gap: variables.$spacing-lg;
+    margin-top: variables.$spacing-lg;
+    overflow-x: auto;
+    padding-bottom: variables.$spacing-md;
+    scrollbar-width: thin;
+    scrollbar-color: var(--color-primary) var(--color-background);
+
+    &::-webkit-scrollbar {
+      height: 6px;
+    }
+
+    &::-webkit-scrollbar-track {
+      background: var(--color-background);
+      border-radius: 3px;
+    }
+
+    &::-webkit-scrollbar-thumb {
+      background: var(--color-primary);
+      border-radius: 3px;
+    }
+
+    &::-webkit-scrollbar-thumb:hover {
+      background: var(--color-primary-hover);
+    }
+  }
+
+  .cover-art-item {
+    background-color: var(--color-surface-transparent);
+    backdrop-filter: blur(variables.$blur-strength);
+    border-radius: variables.$border-radius-md;
+    padding: variables.$spacing-md;
+    box-shadow: var(--box-shadow-base);
+    transition: transform variables.$transition-speed-normal variables.$transition-ease, box-shadow variables.$transition-speed-normal variables.$transition-ease;
+    text-align: center;
+    position: relative;
+
+    &:hover {
+      transform: translateY(-3px);
+      box-shadow: var(--box-shadow-hover);
+    }
+
+    .preview-play-btn {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%) scale(0.8);
+      opacity: 0;
+      background: rgba(var(--color-primary-rgb), 0.9);
+      border: 2px solid var(--color-primary);
+      border-radius: 50%;
+      width: 50px;
+      height: 50px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 18px;
+      color: var(--color-text);
+      cursor: pointer;
+      transition: all variables.$transition-speed-fast variables.$transition-ease;
+      z-index: 10;
+
+      &:hover {
+        background: var(--color-primary);
+        transform: translate(-50%, -50%) scale(1);
+        box-shadow: 0 4px 12px rgba(var(--color-primary-rgb), 0.4);
+      }
+    }
+
+    &:hover .preview-play-btn {
+      opacity: 1;
+      transform: translate(-50%, -50%) scale(1);
+    }
+
+    .track-cover-image,
+    .album-cover-image {
+      width: 180px;
+      height: 180px;
+      object-fit: cover;
+      border-radius: variables.$border-radius-sm;
+      margin-bottom: variables.$spacing-sm;
+      flex-shrink: 0;
+    }
+
+    .album-cover-image {
+      width: 220px;
+      height: 220px;
+    }
+
+    .cover-caption {
+      font-size: variables.$font-size-body-sm;
+      color: var(--color-text-muted);
+      margin: 0;
+      font-style: italic;
+    }
+  }
+
+  .album-placeholder {
+    grid-column: 1 / -1;
+    text-align: center;
+    padding: variables.$spacing-xl;
+    background-color: var(--color-surface-transparent);
+    backdrop-filter: blur(variables.$blur-strength);
+    border-radius: variables.$border-radius-md;
+    box-shadow: var(--box-shadow-base);
+
+    p {
+      font-size: variables.$font-size-body;
+      color: var(--color-text-muted);
+      margin: 0;
+      font-style: italic;
+    }
+  }
+}
