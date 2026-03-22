@@ -327,13 +327,13 @@ function MixedMediaGallery() {
   // Centralized album cover mapping for consistent, meaningful cover assignment
   const albumCoverMapping = {
     "Banger": "https://res.cloudinary.com/ddrvulhwz/image/upload/v1774139229/scispace/media/glassesroompostpc1.png", // Futuristic room - energetic electronic
-    "Blaaaaaaaa": "/assets/photography/Sushi-2.jpg", // Sushi - ambient, atmospheric
+    "Blaaaaaaaa": "https://res.cloudinary.com/ddrvulhwz/image/upload/v1774139280/scispace/media/sushi-2.jpg", // Sushi - ambient, atmospheric
     "Melancholische Scheiße": "https://res.cloudinary.com/ddrvulhwz/image/upload/v1774139240/scispace/media/shader_pause.jpg", // Shader work - melancholic, introspective
     "Strange V2-1": "https://res.cloudinary.com/ddrvulhwz/image/upload/v1774139238/scispace/media/sci_fist.jpg", // Digital portrait - experimental, abstract
     "Strange V2": "https://res.cloudinary.com/ddrvulhwz/image/upload/v1774139238/scispace/media/sci_fist.jpg", // Digital portrait - experimental, abstract
-    "Chronic Stress Syndrom": "/assets/photography/Sushi-1.jpg", // Sushi - meditative, calm
+    "Chronic Stress Syndrom": "https://res.cloudinary.com/ddrvulhwz/image/upload/v1774139280/scispace/media/sushi-1.jpg", // Sushi - meditative, calm
     "Idee1": "https://res.cloudinary.com/ddrvulhwz/image/upload/v1774139219/scispace/media/backhumanoid.png", // Sci-fi character - conceptual, abstract
-    "Still": "/assets/photography/01090055.jpg", // Architecture - serene, calm
+    "Still": "https://res.cloudinary.com/ddrvulhwz/image/upload/v1774139267/scispace/media/01090060.jpg", // Architecture - serene, calm
     "Sci Fist": "https://res.cloudinary.com/ddrvulhwz/image/upload/v1774139238/scispace/media/sci_fist.jpg", // Digital portrait - track cover
     "Shader Pause": "https://res.cloudinary.com/ddrvulhwz/image/upload/v1774139240/scispace/media/shader_pause.jpg", // Shader work - track cover
     "Sunken": "https://res.cloudinary.com/ddrvulhwz/image/upload/v1774139240/scispace/media/sunken.jpg", // Abstract art - track cover
@@ -343,7 +343,7 @@ function MixedMediaGallery() {
     "Glasses Book Room": "https://res.cloudinary.com/ddrvulhwz/image/upload/v1774139222/scispace/media/glasses-book-room.png", // Room scene - album cover
     "Glasses Book Room Vol. 2": "https://res.cloudinary.com/ddrvulhwz/image/upload/v1774139224/scispace/media/glasses-book-room1.png", // Room scene variant - album cover
     "Room Perspective": "https://res.cloudinary.com/ddrvulhwz/image/upload/v1774139228/scispace/media/glassesroompostpc.png", // Room perspective - album cover
-    "Pixel Art Collection": "/assets/images/Sharing my pixel art.png", // Pixel art - album cover
+    "Pixel Art Collection": "https://res.cloudinary.com/ddrvulhwz/image/upload/v1774139242/scispace/media/untitled-08-07-2024-12-37-07.png", // Pixel art - album cover
     "Untitled Study": "https://res.cloudinary.com/ddrvulhwz/image/upload/v1774139242/scispace/media/untitled-08-07-2024-12-37-07.png", // Digital study - album cover
     "Digital Study": "https://res.cloudinary.com/ddrvulhwz/image/upload/v1774139239/scispace/media/screenshot_2025.04.14_15.02.05.335.png" // Digital study - album cover
   };
@@ -398,21 +398,21 @@ function MixedMediaGallery() {
 
     // Photography
     {
-      src: "/assets/photography/Sushi-1.jpg",
+      src: "https://res.cloudinary.com/ddrvulhwz/image/upload/v1774139280/scispace/media/sushi-1.jpg",
       title: "Culinary Photography",
       category: "Photography",
       type: "image",
       description: "Professional food photography capturing the artistry of sushi presentation. Features careful composition, lighting, and focus on texture, color, and culinary craftsmanship."
     },
     {
-      src: "/assets/photography/Sushi-2.jpg",
+      src: "https://res.cloudinary.com/ddrvulhwz/image/upload/v1774139280/scispace/media/sushi-2.jpg",
       title: "Food Art",
       category: "Photography",
       type: "image",
       description: "Creative food photography transforming culinary elements into artistic compositions. Explores the intersection of gastronomy and visual art through innovative presentation."
     },
     {
-      src: "/assets/photography/01090055.jpg",
+      src: "https://res.cloudinary.com/ddrvulhwz/image/upload/v1774139267/scispace/media/01090060.jpg",
       title: "Architecture",
       category: "Photography",
       type: "image",
@@ -430,14 +430,14 @@ function MixedMediaGallery() {
 
     // Animations/GIFs
     {
-      src: "/assets/gifs/glassesroombook.gif",
+      src: "https://res.cloudinary.com/ddrvulhwz/image/upload/v1774139260/scispace/media/sprite-0004.gif",
       title: "3D Animation",
       category: "Animation",
       type: "gif",
       description: "A short animated sequence exploring a 3D environment with glass elements. Showcases camera movement, lighting dynamics, and the illusion of depth in animated storytelling."
     },
     {
-      src: "/assets/gifs/render.gif",
+      src: "https://res.cloudinary.com/ddrvulhwz/image/upload/v1774139242/scispace/media/arc_logo_without_first_shot%28small%29.gif",
       title: "Render Sequence",
       category: "Animation",
       type: "gif",
