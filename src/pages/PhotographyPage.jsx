@@ -235,7 +235,7 @@ function PhotographyPage() {
       description: "Minimalist composition showcasing the purity and freshness of premium sashimi"
     },
     {
-      src: "/assets/photography/Sushi-3.jpg",
+      src: "https://res.cloudinary.com/ddrvulhwz/image/upload/v1774139280/scispace/media/sushi-3.jpg",
       alt: "Sushi Photography - Roll Composition",
       title: "Roll Masterpiece",
       category: "Food Photography",
@@ -258,7 +258,7 @@ function PhotographyPage() {
       description: "Geometric patterns and modern architectural elements captured with precision"
     },
     {
-      src: "/assets/photography/01090060.jpg",
+      src: "https://res.cloudinary.com/ddrvulhwz/image/upload/v1774139267/scispace/media/01090060.jpg",
       alt: "Urban Photography - Cityscape Detail",
       title: "Metropolitan Detail",
       category: "Urban",
@@ -274,7 +274,7 @@ function PhotographyPage() {
 
     // Additional Photography
     {
-      src: "/assets/photography/01030007.jpg",
+      src: "https://res.cloudinary.com/ddrvulhwz/image/upload/v1774139261/scispace/media/01030007.jpg",
       alt: "Photography Study - 01030007",
       title: "Photography Study 01030007",
       category: "Photography",
@@ -283,7 +283,7 @@ function PhotographyPage() {
 
     // Video Content
     {
-      src: "/assets/videos/even tho.mp4",
+      src: "https://res.cloudinary.com/ddrvulhwz/video/upload/v1774139323/scispace/music/even-tho.mp4",
       alt: "Video Work - Even Though",
       title: "Even Though",
       category: "Video",

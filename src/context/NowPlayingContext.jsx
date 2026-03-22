@@ -3,17 +3,17 @@ import React, { createContext, useContext, useState, useCallback, useRef, useEff
 // Global tracks data - available across the entire app
 const GLOBAL_TRACKS = [
   {
-    src: "/src/assets/music/Banger.mp4",
+    src: "https://res.cloudinary.com/ddrvulhwz/video/upload/v1774139289/scispace/music/banger.mp4",
     alt: "Banger - Electronic Track",
     title: "Banger",
     category: "Music",
     description: "Genre: Electronic | Mood: Energetic, Driving",
     isAudio: true,
-    albumCover: "/src/assets/images/glassesroompostpc1.png",
+    albumCover: "https://res.cloudinary.com/ddrvulhwz/image/upload/v1774139229/scispace/media/glassesroompostpc1.png",
     type: "audio"
   },
   {
-    src: "/src/assets/music/blaaaaaaaaaaa.mp4",
+    src: "https://res.cloudinary.com/ddrvulhwz/video/upload/v1774139290/scispace/music/blaaaaaaaaaaa.mp4",
     alt: "Blaaaaaaaa - Ambient Track",
     title: "Blaaaaaaaa",
     category: "Music",
@@ -23,37 +23,37 @@ const GLOBAL_TRACKS = [
     type: "audio"
   },
   {
-    src: "/src/assets/music/melancholische scheiße.mp4",
+    src: "https://res.cloudinary.com/ddrvulhwz/video/upload/v1774139295/scispace/music/melancholische-schei%C3%9Fe.mp4",
     alt: "Melancholische Scheiße - Ambient Track",
     title: "Melancholische Scheiße",
     category: "Music",
     description: "Genre: Ambient | Mood: Melancholic, Reflective",
     isAudio: true,
-    albumCover: "/src/assets/images/shader_pause.jpg",
+    albumCover: "https://res.cloudinary.com/ddrvulhwz/image/upload/v1774139240/scispace/media/shader_pause.jpg",
     type: "audio"
   },
   {
-    src: "/src/assets/music/StrangeV2-1.wav",
+    src: "https://res.cloudinary.com/ddrvulhwz/video/upload/v1774139309/scispace/music/strangev2-1.wav",
     alt: "Strange V2-1 - Experimental Track",
     title: "Strange V2-1",
     category: "Music",
     description: "Genre: Experimental | Mood: Abstract, Unconventional",
     isAudio: true,
-    albumCover: "/src/assets/images/Sci_Fist.jpg",
+    albumCover: "https://res.cloudinary.com/ddrvulhwz/image/upload/v1774139238/scispace/media/sci_fist.jpg",
     type: "audio"
   },
   {
-    src: "/src/assets/music/StrangeV2.wav",
+    src: "https://res.cloudinary.com/ddrvulhwz/video/upload/v1774139322/scispace/music/strangev2.wav",
     alt: "Strange V2 - Experimental Track",
     title: "Strange V2",
     category: "Music",
     description: "Genre: Experimental | Mood: Abstract, Unconventional",
     isAudio: true,
-    albumCover: "/src/assets/images/Sci_Fist.jpg",
+    albumCover: "https://res.cloudinary.com/ddrvulhwz/image/upload/v1774139238/scispace/media/sci_fist.jpg",
     type: "audio"
   },
   {
-    src: "/src/assets/music/Chronic Stress Syndrom.mp3",
+    src: "https://res.cloudinary.com/ddrvulhwz/video/upload/v1774139292/scispace/music/chronic-stress-syndrom.mp3",
     alt: "Chronic Stress Syndrom - Ambient Track",
     title: "Chronic Stress Syndrom",
     category: "Music",
@@ -63,17 +63,17 @@ const GLOBAL_TRACKS = [
     type: "audio"
   },
   {
-    src: "/src/assets/music/idee1.mp3",
+    src: "https://res.cloudinary.com/ddrvulhwz/video/upload/v1774139294/scispace/music/idee1.mp3",
     alt: "Idee1 - Experimental Track",
     title: "Idee1",
     category: "Music",
     description: "Genre: Experimental | Mood: Abstract, Conceptual",
     isAudio: true,
-    albumCover: "/src/assets/images/backhumanoid.png",
+    albumCover: "https://res.cloudinary.com/ddrvulhwz/image/upload/v1774139219/scispace/media/backhumanoid.png",
     type: "audio"
   },
   {
-    src: "/src/assets/music/still.mp3",
+    src: "https://res.cloudinary.com/ddrvulhwz/video/upload/v1774139297/scispace/music/still.mp3",
     alt: "Still - Ambient Track",
     title: "Still",
     category: "Music",

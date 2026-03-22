@@ -326,54 +326,54 @@ function MixedMediaGallery() {
 
   // Centralized album cover mapping for consistent, meaningful cover assignment
   const albumCoverMapping = {
-    "Banger": "/assets/images/glassesroompostpc1.png", // Futuristic room - energetic electronic
+    "Banger": "https://res.cloudinary.com/ddrvulhwz/image/upload/v1774139229/scispace/media/glassesroompostpc1.png", // Futuristic room - energetic electronic
     "Blaaaaaaaa": "/assets/photography/Sushi-2.jpg", // Sushi - ambient, atmospheric
-    "Melancholische Scheiße": "/assets/images/shader_pause.jpg", // Shader work - melancholic, introspective
-    "Strange V2-1": "/assets/images/Sci_Fist.jpg", // Digital portrait - experimental, abstract
-    "Strange V2": "/assets/images/Sci_Fist.jpg", // Digital portrait - experimental, abstract
+    "Melancholische Scheiße": "https://res.cloudinary.com/ddrvulhwz/image/upload/v1774139240/scispace/media/shader_pause.jpg", // Shader work - melancholic, introspective
+    "Strange V2-1": "https://res.cloudinary.com/ddrvulhwz/image/upload/v1774139238/scispace/media/sci_fist.jpg", // Digital portrait - experimental, abstract
+    "Strange V2": "https://res.cloudinary.com/ddrvulhwz/image/upload/v1774139238/scispace/media/sci_fist.jpg", // Digital portrait - experimental, abstract
     "Chronic Stress Syndrom": "/assets/photography/Sushi-1.jpg", // Sushi - meditative, calm
-    "Idee1": "/assets/images/backhumanoid.png", // Sci-fi character - conceptual, abstract
+    "Idee1": "https://res.cloudinary.com/ddrvulhwz/image/upload/v1774139219/scispace/media/backhumanoid.png", // Sci-fi character - conceptual, abstract
     "Still": "/assets/photography/01090055.jpg", // Architecture - serene, calm
-    "Sci Fist": "/assets/images/Sci_Fist.jpg", // Digital portrait - track cover
-    "Shader Pause": "/assets/images/shader_pause.jpg", // Shader work - track cover
-    "Sunken": "/assets/images/Sunken.jpeg", // Abstract art - track cover
-    "Sword": "/assets/images/Sword.png", // Fantasy art - track cover
-    "Pandora": "/assets/images/Pandora.png", // Character art - track cover
-    "Back Humanoid": "/assets/images/backhumanoid.png", // Sci-fi character - track cover
-    "Glasses Book Room": "/assets/images/glasses book room.png", // Room scene - album cover
-    "Glasses Book Room Vol. 2": "/assets/images/glasses book room1.png", // Room scene variant - album cover
-    "Room Perspective": "/assets/images/glassesroompostpc.png", // Room perspective - album cover
+    "Sci Fist": "https://res.cloudinary.com/ddrvulhwz/image/upload/v1774139238/scispace/media/sci_fist.jpg", // Digital portrait - track cover
+    "Shader Pause": "https://res.cloudinary.com/ddrvulhwz/image/upload/v1774139240/scispace/media/shader_pause.jpg", // Shader work - track cover
+    "Sunken": "https://res.cloudinary.com/ddrvulhwz/image/upload/v1774139240/scispace/media/sunken.jpg", // Abstract art - track cover
+    "Sword": "https://res.cloudinary.com/ddrvulhwz/image/upload/v1774139241/scispace/media/sword.png", // Fantasy art - track cover
+    "Pandora": "https://res.cloudinary.com/ddrvulhwz/image/upload/v1774139237/scispace/media/pandora.png", // Character art - track cover
+    "Back Humanoid": "https://res.cloudinary.com/ddrvulhwz/image/upload/v1774139219/scispace/media/backhumanoid.png", // Sci-fi character - track cover
+    "Glasses Book Room": "https://res.cloudinary.com/ddrvulhwz/image/upload/v1774139222/scispace/media/glasses-book-room.png", // Room scene - album cover
+    "Glasses Book Room Vol. 2": "https://res.cloudinary.com/ddrvulhwz/image/upload/v1774139224/scispace/media/glasses-book-room1.png", // Room scene variant - album cover
+    "Room Perspective": "https://res.cloudinary.com/ddrvulhwz/image/upload/v1774139228/scispace/media/glassesroompostpc.png", // Room perspective - album cover
     "Pixel Art Collection": "/assets/images/Sharing my pixel art.png", // Pixel art - album cover
-    "Untitled Study": "/assets/images/Untitled 08-07-2024 12-37-07.png", // Digital study - album cover
-    "Digital Study": "/assets/images/Screenshot_2025.04.14_15.02.05.335.png" // Digital study - album cover
+    "Untitled Study": "https://res.cloudinary.com/ddrvulhwz/image/upload/v1774139242/scispace/media/untitled-08-07-2024-12-37-07.png", // Digital study - album cover
+    "Digital Study": "https://res.cloudinary.com/ddrvulhwz/image/upload/v1774139239/scispace/media/screenshot_2025.04.14_15.02.05.335.png" // Digital study - album cover
   };
 
   // Add static assets from different categories
   const staticAssets = [
     // 3D Art
     {
-      src: "/assets/images/glassesroompostpc.png",
+      src: "https://res.cloudinary.com/ddrvulhwz/image/upload/v1774139228/scispace/media/glassesroompostpc.png",
       title: "3D Room Render",
       category: "3D Art",
       type: "image",
       description: "A detailed 3D render of a futuristic room with glass elements and post-processing effects. Showcasing advanced lighting techniques and material properties in a sci-fi environment."
     },
     {
-      src: "/assets/images/glassesroompostpc1.png",
+      src: "https://res.cloudinary.com/ddrvulhwz/image/upload/v1774139229/scispace/media/glassesroompostpc1.png",
       title: "Interior Scene",
       category: "3D Art",
       type: "image",
       description: "An immersive interior scene featuring glass architecture and atmospheric lighting. Demonstrates mastery of volumetric fog, reflections, and spatial composition in 3D art."
     },
     {
-      src: "/assets/images/Pandora.png",
+      src: "https://res.cloudinary.com/ddrvulhwz/image/upload/v1774139237/scispace/media/pandora.png",
       title: "Character Model",
       category: "3D Art",
       type: "image",
       description: "A stylized character model with intricate detailing and dynamic posing. Features custom textures, rigging, and expressive facial features that bring personality to the digital creation."
     },
     {
-      src: "/assets/images/backhumanoid.png",
+      src: "https://res.cloudinary.com/ddrvulhwz/image/upload/v1774139219/scispace/media/backhumanoid.png",
       title: "Sci-Fi Character",
       category: "3D Art",
       type: "image",
@@ -382,14 +382,14 @@ function MixedMediaGallery() {
 
     // 2D Art
     {
-      src: "/assets/images/Sci_Fist.jpg",
+      src: "https://res.cloudinary.com/ddrvulhwz/image/upload/v1774139238/scispace/media/sci_fist.jpg",
       title: "Digital Portrait",
       category: "2D Art",
       type: "image",
       description: "A striking digital portrait combining photorealistic techniques with artistic interpretation. Features dramatic lighting, detailed textures, and emotional depth in the subject's expression."
     },
     {
-      src: "/assets/images/shader_pause.jpg",
+      src: "https://res.cloudinary.com/ddrvulhwz/image/upload/v1774139240/scispace/media/shader_pause.jpg",
       title: "Shader Work",
       category: "2D Art",
       type: "image",
@@ -421,7 +421,7 @@ function MixedMediaGallery() {
 
     // Sketches
     {
-      src: "/assets/sketching/spider 1.JPG",
+      src: "https://res.cloudinary.com/ddrvulhwz/image/upload/v1774139287/scispace/media/spider-1.jpg",
       title: "Life Drawing",
       category: "Sketches",
       type: "image",
@@ -446,7 +446,7 @@ function MixedMediaGallery() {
 
     // Music (represented as audio thumbnails with meaningful album covers)
     {
-      src: "/assets/music/Banger.mp4",
+      src: "https://res.cloudinary.com/ddrvulhwz/video/upload/v1774139289/scispace/music/banger.mp4",
       title: "Banger",
       category: "Music",
       type: "audio",
@@ -454,7 +454,7 @@ function MixedMediaGallery() {
       description: "An energetic electronic composition featuring driving beats and synthesized melodies. Combines modern production techniques with creative sound design for an immersive auditory experience."
     },
     {
-      src: "/assets/music/blaaaaaaaaaaa.mp4",
+      src: "https://res.cloudinary.com/ddrvulhwz/video/upload/v1774139290/scispace/music/blaaaaaaaaaaa.mp4",
       title: "Blaaaaaaaa",
       category: "Music",
       type: "audio",
@@ -462,7 +462,7 @@ function MixedMediaGallery() {
       description: "A minimalist ambient piece designed for contemplation and atmosphere. Uses subtle textures, drones, and spatial effects to create an immersive sonic environment."
     },
     {
-      src: "/assets/music/melancholische scheiße.mp4",
+      src: "https://res.cloudinary.com/ddrvulhwz/video/upload/v1774139295/scispace/music/melancholische-schei%C3%9Fe.mp4",
       title: "Melancholische Scheiße",
       category: "Music",
       type: "audio",
@@ -470,7 +470,7 @@ function MixedMediaGallery() {
       description: "An emotive musical work exploring themes of melancholy and introspection. Features delicate instrumentation, emotional phrasing, and thoughtful harmonic progressions."
     },
     {
-      src: "/assets/music/StrangeV2-1.wav",
+      src: "https://res.cloudinary.com/ddrvulhwz/video/upload/v1774139309/scispace/music/strangev2-1.wav",
       title: "Strange V2-1",
       category: "Music",
       type: "audio",

@@ -221,7 +221,7 @@ function SketchesPage() {
   const galleryItems = [
     // Available Sketches
     {
-      src: "/src/assets/sketching/spider 1.JPG",
+      src: "https://res.cloudinary.com/ddrvulhwz/image/upload/v1774139287/scispace/media/spider-1.jpg",
       alt: "Spider Sketch - Detailed arachnid study",
       title: "Arachnid Study",
       category: "Life Drawing",

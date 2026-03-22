@@ -77,7 +77,7 @@ describe('Music Player Synchronization', () => {
 
       await waitFor(() => {
         expect(mockAudioElement.play).toHaveBeenCalled();
-        expect(mockAudioElement.src).toBe('/src/assets/music/Banger.mp4');
+        expect(mockAudioElement.src).toBe('https://res.cloudinary.com/ddrvulhwz/video/upload/v1774139289/scispace/music/banger.mp4');
       });
     });
 
@@ -90,13 +90,13 @@ describe('Music Player Synchronization', () => {
       // Click first button
       fireEvent.click(sciFistButton);
       await waitFor(() => {
-        expect(mockAudioElement.src).toBe('/src/assets/music/Banger.mp4');
+        expect(mockAudioElement.src).toBe('https://res.cloudinary.com/ddrvulhwz/video/upload/v1774139289/scispace/music/banger.mp4');
       });
 
       // Click second button
       fireEvent.click(shaderPauseButton);
       await waitFor(() => {
-        expect(mockAudioElement.src).toBe('/src/assets/music/melancholische scheiße.mp4');
+        expect(mockAudioElement.src).toBe('https://res.cloudinary.com/ddrvulhwz/video/upload/v1774139295/scispace/music/melancholische-schei%C3%9Fe.mp4');
       });
     });
   });

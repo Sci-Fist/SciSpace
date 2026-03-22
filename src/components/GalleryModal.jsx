@@ -483,26 +483,26 @@ function ModalMusicPlayer({ item }) {
 
   // Centralized album cover mapping for consistent, meaningful cover assignment
   const albumCoverMapping = {
-    "Banger": "/src/assets/images/glassesroompostpc1.png", // Futuristic room - energetic electronic
+    "Banger": "https://res.cloudinary.com/ddrvulhwz/image/upload/v1774139229/scispace/media/glassesroompostpc1.png", // Futuristic room - energetic electronic
     "Blaaaaaaaa": "/src/assets/photography/Sushi-2.jpg", // Sushi - ambient, atmospheric
-    "Melancholische Scheiße": "/src/assets/images/shader_pause.jpg", // Shader work - melancholic, introspective
-    "Strange V2-1": "/src/assets/images/Sci_Fist.jpg", // Digital portrait - experimental, abstract
-    "Strange V2": "/src/assets/images/Sci_Fist.jpg", // Digital portrait - experimental, abstract
+    "Melancholische Scheiße": "https://res.cloudinary.com/ddrvulhwz/image/upload/v1774139240/scispace/media/shader_pause.jpg", // Shader work - melancholic, introspective
+    "Strange V2-1": "https://res.cloudinary.com/ddrvulhwz/image/upload/v1774139238/scispace/media/sci_fist.jpg", // Digital portrait - experimental, abstract
+    "Strange V2": "https://res.cloudinary.com/ddrvulhwz/image/upload/v1774139238/scispace/media/sci_fist.jpg", // Digital portrait - experimental, abstract
     "Chronic Stress Syndrom": "/src/assets/photography/Sushi-1.jpg", // Sushi - meditative, calm
-    "Idee1": "/src/assets/images/backhumanoid.png", // Sci-fi character - conceptual, abstract
+    "Idee1": "https://res.cloudinary.com/ddrvulhwz/image/upload/v1774139219/scispace/media/backhumanoid.png", // Sci-fi character - conceptual, abstract
     "Still": "/src/assets/photography/01090055.jpg", // Architecture - serene, calm
-    "Sci Fist": "/src/assets/images/Sci_Fist.jpg", // Digital portrait - track cover
-    "Shader Pause": "/src/assets/images/shader_pause.jpg", // Shader work - track cover
-    "Sunken": "/src/assets/images/Sunken.jpeg", // Abstract art - track cover
-    "Sword": "/src/assets/images/Sword.png", // Fantasy art - track cover
-    "Pandora": "/src/assets/images/Pandora.png", // Character art - track cover
-    "Back Humanoid": "/src/assets/images/backhumanoid.png", // Sci-fi character - track cover
-    "Glasses Book Room": "/src/assets/images/glasses book room.png", // Room scene - album cover
-    "Glasses Book Room Vol. 2": "/src/assets/images/glasses book room1.png", // Room scene variant - album cover
-    "Room Perspective": "/src/assets/images/glassesroompostpc.png", // Room perspective - album cover
+    "Sci Fist": "https://res.cloudinary.com/ddrvulhwz/image/upload/v1774139238/scispace/media/sci_fist.jpg", // Digital portrait - track cover
+    "Shader Pause": "https://res.cloudinary.com/ddrvulhwz/image/upload/v1774139240/scispace/media/shader_pause.jpg", // Shader work - track cover
+    "Sunken": "https://res.cloudinary.com/ddrvulhwz/image/upload/v1774139240/scispace/media/sunken.jpg", // Abstract art - track cover
+    "Sword": "https://res.cloudinary.com/ddrvulhwz/image/upload/v1774139241/scispace/media/sword.png", // Fantasy art - track cover
+    "Pandora": "https://res.cloudinary.com/ddrvulhwz/image/upload/v1774139237/scispace/media/pandora.png", // Character art - track cover
+    "Back Humanoid": "https://res.cloudinary.com/ddrvulhwz/image/upload/v1774139219/scispace/media/backhumanoid.png", // Sci-fi character - track cover
+    "Glasses Book Room": "https://res.cloudinary.com/ddrvulhwz/image/upload/v1774139222/scispace/media/glasses-book-room.png", // Room scene - album cover
+    "Glasses Book Room Vol. 2": "https://res.cloudinary.com/ddrvulhwz/image/upload/v1774139224/scispace/media/glasses-book-room1.png", // Room scene variant - album cover
+    "Room Perspective": "https://res.cloudinary.com/ddrvulhwz/image/upload/v1774139228/scispace/media/glassesroompostpc.png", // Room perspective - album cover
     "Pixel Art Collection": "/src/assets/images/Sharing my pixel art.png", // Pixel art - album cover
-    "Untitled Study": "/src/assets/images/Untitled 08-07-2024 12-37-07.png", // Digital study - album cover
-    "Digital Study": "/src/assets/images/Screenshot_2025.04.14_15.02.05.335.png" // Digital study - album cover
+    "Untitled Study": "https://res.cloudinary.com/ddrvulhwz/image/upload/v1774139242/scispace/media/untitled-08-07-2024-12-37-07.png", // Digital study - album cover
+    "Digital Study": "https://res.cloudinary.com/ddrvulhwz/image/upload/v1774139239/scispace/media/screenshot_2025.04.14_15.02.05.335.png" // Digital study - album cover
   };
 
   // Get album cover with proper fallback logic
@@ -523,7 +523,7 @@ function ModalMusicPlayer({ item }) {
     }
 
     // Final fallback: Default album cover
-    return "/src/assets/images/glassesroompostpc1.png";
+    return "https://res.cloudinary.com/ddrvulhwz/image/upload/v1774139229/scispace/media/glassesroompostpc1.png";
   };
 
   // Debug logging for modal layout

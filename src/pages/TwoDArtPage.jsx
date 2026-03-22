@@ -201,25 +201,25 @@ function TwoDArtPage() {
 
   // Gallery items data
   const galleryItems = [
-    { src: "/assets/images/glasses book room.png", alt: "Glasses Book Room Study", title: "Glasses Book Room Study", category: "2D Art" },
-    { src: "/assets/images/glasses book room1.png", alt: "Glasses Book Room Composition", title: "Glasses Book Room Composition", category: "2D Art" },
-    { src: "/assets/images/Pandora.png", alt: "Pandora Character Design", title: "Pandora Character Design", category: "2D Art" },
-    { src: "/assets/images/glassesroompostpc.png", alt: "Room Perspective Study", title: "Room Perspective Study", category: "2D Art" },
-    { src: "/assets/images/glassesroompostpc1.png", alt: "Interior Composition", title: "Interior Composition", category: "2D Art" },
-    { src: "/assets/images/glassesroompostpcfromdoor.png", alt: "Door Perspective", title: "Door Perspective", category: "2D Art" },
-    { src: "/assets/images/glassesroompostpcimport.png", alt: "Import Study A", title: "Import Study A", category: "2D Art" },
-    { src: "/assets/images/glassesroompostpcimport (1).png", alt: "Import Study B", title: "Import Study B", category: "2D Art" },
-    { src: "/assets/images/glassesroompostpc (1).png", alt: "Alternative Perspective", title: "Alternative Perspective", category: "2D Art" },
-    { src: "/assets/images/Screenshot_2025.04.14_15.02.05.335.png", alt: "Screenshot Study", title: "Screenshot Study", category: "2D Art" },
+    { src: "https://res.cloudinary.com/ddrvulhwz/image/upload/v1774139222/scispace/media/glasses-book-room.png", alt: "Glasses Book Room Study", title: "Glasses Book Room Study", category: "2D Art" },
+    { src: "https://res.cloudinary.com/ddrvulhwz/image/upload/v1774139224/scispace/media/glasses-book-room1.png", alt: "Glasses Book Room Composition", title: "Glasses Book Room Composition", category: "2D Art" },
+    { src: "https://res.cloudinary.com/ddrvulhwz/image/upload/v1774139237/scispace/media/pandora.png", alt: "Pandora Character Design", title: "Pandora Character Design", category: "2D Art" },
+    { src: "https://res.cloudinary.com/ddrvulhwz/image/upload/v1774139228/scispace/media/glassesroompostpc.png", alt: "Room Perspective Study", title: "Room Perspective Study", category: "2D Art" },
+    { src: "https://res.cloudinary.com/ddrvulhwz/image/upload/v1774139229/scispace/media/glassesroompostpc1.png", alt: "Interior Composition", title: "Interior Composition", category: "2D Art" },
+    { src: "https://res.cloudinary.com/ddrvulhwz/image/upload/v1774139231/scispace/media/glassesroompostpcfromdoor.png", alt: "Door Perspective", title: "Door Perspective", category: "2D Art" },
+    { src: "https://res.cloudinary.com/ddrvulhwz/image/upload/v1774139235/scispace/media/glassesroompostpcimport.png", alt: "Import Study A", title: "Import Study A", category: "2D Art" },
+    { src: "https://res.cloudinary.com/ddrvulhwz/image/upload/v1774139233/scispace/media/glassesroompostpcimport-%281%29.png", alt: "Import Study B", title: "Import Study B", category: "2D Art" },
+    { src: "https://res.cloudinary.com/ddrvulhwz/image/upload/v1774139226/scispace/media/glassesroompostpc-%281%29.png", alt: "Alternative Perspective", title: "Alternative Perspective", category: "2D Art" },
+    { src: "https://res.cloudinary.com/ddrvulhwz/image/upload/v1774139239/scispace/media/screenshot_2025.04.14_15.02.05.335.png", alt: "Screenshot Study", title: "Screenshot Study", category: "2D Art" },
     { src: "/assets/gifs/glassesroombook.gif", alt: "Book Room Animation", title: "Book Room Animation", category: "2D Art" },
     { src: "/assets/gifs/render.gif", alt: "Render Animation A", title: "Render Animation A", category: "2D Art" },
     { src: "/assets/gifs/render223.gif", alt: "Render Animation B", title: "Render Animation B", category: "2D Art" },
 
     // Additional 2D Art Images
-    { src: "/assets/images/Sunken.jpeg", alt: "Sunken - Digital Art Study", title: "Sunken Study", category: "2D Art" },
-    { src: "/assets/images/Sword.png", alt: "Sword Design", title: "Sword Design", category: "2D Art" },
-    { src: "/assets/images/Untitled 08-07-2024 12-37-07.png", alt: "Untitled Digital Study", title: "Digital Study 08-07-2024", category: "2D Art" },
-    { src: "/assets/gifs/Arc_Logo_without_first_shot(Small).gif", alt: "Arc Logo Animation", title: "Arc Logo Animation", category: "2D Art" }
+    { src: "https://res.cloudinary.com/ddrvulhwz/image/upload/v1774139240/scispace/media/sunken.jpg", alt: "Sunken - Digital Art Study", title: "Sunken Study", category: "2D Art" },
+    { src: "https://res.cloudinary.com/ddrvulhwz/image/upload/v1774139241/scispace/media/sword.png", alt: "Sword Design", title: "Sword Design", category: "2D Art" },
+    { src: "https://res.cloudinary.com/ddrvulhwz/image/upload/v1774139242/scispace/media/untitled-08-07-2024-12-37-07.png", alt: "Untitled Digital Study", title: "Digital Study 08-07-2024", category: "2D Art" },
+    { src: "https://res.cloudinary.com/ddrvulhwz/image/upload/v1774139242/scispace/media/arc_logo_without_first_shot%28small%29.gif", alt: "Arc Logo Animation", title: "Arc Logo Animation", category: "2D Art" }
   ];
 
   return (

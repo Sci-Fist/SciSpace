@@ -7,7 +7,7 @@ import { useNowPlaying } from '../context/NowPlayingContext.jsx'; // Import now 
 import { useLogger } from '../hooks/useLogger.js'; // Import logger hook
 import MixedMediaGallery from '../components/MixedMediaGallery.jsx'; // Import extracted gallery component
 import '../styles/pages/_homePage.scss'; // Specific styles for the home page
-import HeroVisual from '../assets/images/glassesroompostpc1.png'; // Import your new image as fallback
+import HeroVisual from 'https://res.cloudinary.com/ddrvulhwz/image/upload/v1774139229/scispace/media/glassesroompostpc1.png'; // Import your new image as fallback
 
 function HomePage() {
   const logger = useLogger();

@@ -11,6 +11,7 @@ import ResumePageControls from './dev-tools/ResumePageControls.jsx';
 import GenericPageControls from './dev-tools/GenericPageControls.jsx';
 import SlideshowControls from './dev-tools/SlideshowControls.jsx';
 import ContentUploadSection from './dev-tools/ContentUploadSection.jsx';
+import CloudinaryUploader from './dev-tools/CloudinaryUploader.jsx';
 import MobileExpandButton from './MobileExpandButton.jsx';
 import '../styles/components/_devSidebar.scss';
 
@@ -609,6 +610,9 @@ function DevSidebar() {
 
             {/* Content Management Section */}
             <ContentUploadSection />
+
+            {/* Cloudinary Uploader */}
+            <CloudinaryUploader />
 
             {/* System Info at bottom */}
             <div className="dev-info">

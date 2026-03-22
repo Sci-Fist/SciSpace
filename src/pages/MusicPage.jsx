@@ -106,32 +106,32 @@ function MusicPage() {
 
   // Centralized album cover mapping for consistent, meaningful cover assignment
   const albumCoverMapping = {
-    "Banger": "/src/assets/images/glassesroompostpc1.png", // Futuristic room - energetic electronic
+    "Banger": "https://res.cloudinary.com/ddrvulhwz/image/upload/v1774139229/scispace/media/glassesroompostpc1.png", // Futuristic room - energetic electronic
     "Blaaaaaaaa": "/src/assets/photography/Sushi-2.jpg", // Sushi - ambient, atmospheric
-    "Melancholische Scheiße": "/src/assets/images/shader_pause.jpg", // Shader work - melancholic, introspective
-    "Strange V2-1": "/src/assets/images/Sci_Fist.jpg", // Digital portrait - experimental, abstract
-    "Strange V2": "/src/assets/images/Sci_Fist.jpg", // Digital portrait - experimental, abstract
+    "Melancholische Scheiße": "https://res.cloudinary.com/ddrvulhwz/image/upload/v1774139240/scispace/media/shader_pause.jpg", // Shader work - melancholic, introspective
+    "Strange V2-1": "https://res.cloudinary.com/ddrvulhwz/image/upload/v1774139238/scispace/media/sci_fist.jpg", // Digital portrait - experimental, abstract
+    "Strange V2": "https://res.cloudinary.com/ddrvulhwz/image/upload/v1774139238/scispace/media/sci_fist.jpg", // Digital portrait - experimental, abstract
     "Chronic Stress Syndrom": "/src/assets/photography/Sushi-1.jpg", // Sushi - meditative, calm
-    "Idee1": "/src/assets/images/backhumanoid.png", // Sci-fi character - conceptual, abstract
+    "Idee1": "https://res.cloudinary.com/ddrvulhwz/image/upload/v1774139219/scispace/media/backhumanoid.png", // Sci-fi character - conceptual, abstract
     "Still": "/src/assets/photography/01090055.jpg", // Architecture - serene, calm
-    "Sci Fist": "/src/assets/images/Sci_Fist.jpg", // Digital portrait - track cover
-    "Shader Pause": "/src/assets/images/shader_pause.jpg", // Shader work - track cover
-    "Sunken": "/src/assets/images/Sunken.jpeg", // Abstract art - track cover
-    "Sword": "/src/assets/images/Sword.png", // Fantasy art - track cover
-    "Pandora": "/src/assets/images/Pandora.png", // Character art - track cover
-    "Back Humanoid": "/src/assets/images/backhumanoid.png", // Sci-fi character - track cover
-    "Glasses Book Room": "/src/assets/images/glasses book room.png", // Room scene - album cover
-    "Glasses Book Room Vol. 2": "/src/assets/images/glasses book room1.png", // Room scene variant - album cover
-    "Room Perspective": "/src/assets/images/glassesroompostpc.png", // Room perspective - album cover
+    "Sci Fist": "https://res.cloudinary.com/ddrvulhwz/image/upload/v1774139238/scispace/media/sci_fist.jpg", // Digital portrait - track cover
+    "Shader Pause": "https://res.cloudinary.com/ddrvulhwz/image/upload/v1774139240/scispace/media/shader_pause.jpg", // Shader work - track cover
+    "Sunken": "https://res.cloudinary.com/ddrvulhwz/image/upload/v1774139240/scispace/media/sunken.jpg", // Abstract art - track cover
+    "Sword": "https://res.cloudinary.com/ddrvulhwz/image/upload/v1774139241/scispace/media/sword.png", // Fantasy art - track cover
+    "Pandora": "https://res.cloudinary.com/ddrvulhwz/image/upload/v1774139237/scispace/media/pandora.png", // Character art - track cover
+    "Back Humanoid": "https://res.cloudinary.com/ddrvulhwz/image/upload/v1774139219/scispace/media/backhumanoid.png", // Sci-fi character - track cover
+    "Glasses Book Room": "https://res.cloudinary.com/ddrvulhwz/image/upload/v1774139222/scispace/media/glasses-book-room.png", // Room scene - album cover
+    "Glasses Book Room Vol. 2": "https://res.cloudinary.com/ddrvulhwz/image/upload/v1774139224/scispace/media/glasses-book-room1.png", // Room scene variant - album cover
+    "Room Perspective": "https://res.cloudinary.com/ddrvulhwz/image/upload/v1774139228/scispace/media/glassesroompostpc.png", // Room perspective - album cover
     "Pixel Art Collection": "/src/assets/images/Sharing my pixel art.png", // Pixel art - album cover
-    "Untitled Study": "/src/assets/images/Untitled 08-07-2024 12-37-07.png", // Digital study - album cover
-    "Digital Study": "/src/assets/images/Screenshot_2025.04.14_15.02.05.335.png" // Digital study - album cover
+    "Untitled Study": "https://res.cloudinary.com/ddrvulhwz/image/upload/v1774139242/scispace/media/untitled-08-07-2024-12-37-07.png", // Digital study - album cover
+    "Digital Study": "https://res.cloudinary.com/ddrvulhwz/image/upload/v1774139239/scispace/media/screenshot_2025.04.14_15.02.05.335.png" // Digital study - album cover
   };
 
   // Music items data for modal with proper album covers
   const musicItems = [
     {
-      src: "/src/assets/music/Banger.mp4",
+      src: "https://res.cloudinary.com/ddrvulhwz/video/upload/v1774139289/scispace/music/banger.mp4",
       alt: "Banger - Electronic Track",
       title: "Banger",
       category: "Music",
@@ -141,7 +141,7 @@ function MusicPage() {
       type: "audio"
     },
     {
-      src: "/src/assets/music/blaaaaaaaaaaa.mp4",
+      src: "https://res.cloudinary.com/ddrvulhwz/video/upload/v1774139290/scispace/music/blaaaaaaaaaaa.mp4",
       alt: "Blaaaaaaaa - Ambient Track",
       title: "Blaaaaaaaa",
       category: "Music",
@@ -151,7 +151,7 @@ function MusicPage() {
       type: "audio"
     },
     {
-      src: "/src/assets/music/melancholische scheiße.mp4",
+      src: "https://res.cloudinary.com/ddrvulhwz/video/upload/v1774139295/scispace/music/melancholische-schei%C3%9Fe.mp4",
       alt: "Melancholische Scheiße - Ambient Track",
       title: "Melancholische Scheiße",
       category: "Music",
@@ -161,7 +161,7 @@ function MusicPage() {
       type: "audio"
     },
     {
-      src: "/src/assets/music/StrangeV2-1.wav",
+      src: "https://res.cloudinary.com/ddrvulhwz/video/upload/v1774139309/scispace/music/strangev2-1.wav",
       alt: "Strange V2-1 - Experimental Track",
       title: "Strange V2-1",
       category: "Music",
@@ -171,7 +171,7 @@ function MusicPage() {
       type: "audio"
     },
     {
-      src: "/src/assets/music/StrangeV2.wav",
+      src: "https://res.cloudinary.com/ddrvulhwz/video/upload/v1774139322/scispace/music/strangev2.wav",
       alt: "Strange V2 - Experimental Track",
       title: "Strange V2",
       category: "Music",
@@ -181,7 +181,7 @@ function MusicPage() {
       type: "audio"
     },
     {
-      src: "/src/assets/music/Chronic Stress Syndrom.mp3",
+      src: "https://res.cloudinary.com/ddrvulhwz/video/upload/v1774139292/scispace/music/chronic-stress-syndrom.mp3",
       alt: "Chronic Stress Syndrom - Ambient Track",
       title: "Chronic Stress Syndrom",
       category: "Music",
@@ -191,7 +191,7 @@ function MusicPage() {
       type: "audio"
     },
     {
-      src: "/src/assets/music/idee1.mp3",
+      src: "https://res.cloudinary.com/ddrvulhwz/video/upload/v1774139294/scispace/music/idee1.mp3",
       alt: "Idee1 - Experimental Track",
       title: "Idee1",
       category: "Music",
@@ -201,7 +201,7 @@ function MusicPage() {
       type: "audio"
     },
     {
-      src: "/src/assets/music/still.mp3",
+      src: "https://res.cloudinary.com/ddrvulhwz/video/upload/v1774139297/scispace/music/still.mp3",
       alt: "Still - Ambient Track",
       title: "Still",
       category: "Music",
@@ -211,7 +211,7 @@ function MusicPage() {
       type: "audio"
     },
     {
-      src: "/src/assets/images/Sci_Fist.jpg",
+      src: "https://res.cloudinary.com/ddrvulhwz/image/upload/v1774139238/scispace/media/sci_fist.jpg",
       alt: "Sci Fist - Track Cover Art",
       title: "Sci Fist",
       category: "Music",
@@ -221,7 +221,7 @@ function MusicPage() {
       type: "image"
     },
     {
-      src: "/src/assets/images/shader_pause.jpg",
+      src: "https://res.cloudinary.com/ddrvulhwz/image/upload/v1774139240/scispace/media/shader_pause.jpg",
       alt: "Shader Pause - Track Cover Art",
       title: "Shader Pause",
       category: "Music",
@@ -231,7 +231,7 @@ function MusicPage() {
       type: "image"
     },
     {
-      src: "/src/assets/images/Sunken.jpeg",
+      src: "https://res.cloudinary.com/ddrvulhwz/image/upload/v1774139240/scispace/media/sunken.jpg",
       alt: "Sunken - Track Cover Art",
       title: "Sunken",
       category: "Music",
@@ -241,7 +241,7 @@ function MusicPage() {
       type: "image"
     },
     {
-      src: "/src/assets/images/Sword.png",
+      src: "https://res.cloudinary.com/ddrvulhwz/image/upload/v1774139241/scispace/media/sword.png",
       alt: "Sword - Track Cover Art",
       title: "Sword",
       category: "Music",
@@ -251,7 +251,7 @@ function MusicPage() {
       type: "image"
     },
     {
-      src: "/src/assets/images/Pandora.png",
+      src: "https://res.cloudinary.com/ddrvulhwz/image/upload/v1774139237/scispace/media/pandora.png",
       alt: "Pandora - Track Cover Art",
       title: "Pandora",
       category: "Music",
@@ -261,7 +261,7 @@ function MusicPage() {
       type: "image"
     },
     {
-      src: "/src/assets/images/backhumanoid.png",
+      src: "https://res.cloudinary.com/ddrvulhwz/image/upload/v1774139219/scispace/media/backhumanoid.png",
       alt: "Back Humanoid - Track Cover Art",
       title: "Back Humanoid",
       category: "Music",
@@ -271,7 +271,7 @@ function MusicPage() {
       type: "image"
     },
     {
-      src: "/src/assets/images/glasses book room.png",
+      src: "https://res.cloudinary.com/ddrvulhwz/image/upload/v1774139222/scispace/media/glasses-book-room.png",
       alt: "Glasses Book Room - Album Cover Art",
       title: "Glasses Book Room",
       category: "Music",
@@ -281,7 +281,7 @@ function MusicPage() {
       type: "image"
     },
     {
-      src: "/src/assets/images/glasses book room1.png",
+      src: "https://res.cloudinary.com/ddrvulhwz/image/upload/v1774139224/scispace/media/glasses-book-room1.png",
       alt: "Glasses Book Room Vol. 2 - Album Cover Art",
       title: "Glasses Book Room Vol. 2",
       category: "Music",
@@ -291,7 +291,7 @@ function MusicPage() {
       type: "image"
     },
     {
-      src: "/src/assets/images/glassesroompostpc.png",
+      src: "https://res.cloudinary.com/ddrvulhwz/image/upload/v1774139228/scispace/media/glassesroompostpc.png",
       alt: "Room Perspective - Album Cover Art",
       title: "Room Perspective",
       category: "Music",
@@ -311,7 +311,7 @@ function MusicPage() {
       type: "image"
     },
     {
-      src: "/src/assets/images/Untitled 08-07-2024 12-37-07.png",
+      src: "https://res.cloudinary.com/ddrvulhwz/image/upload/v1774139242/scispace/media/untitled-08-07-2024-12-37-07.png",
       alt: "Untitled Study - Album Cover Art",
       title: "Untitled Study",
       category: "Music",
@@ -321,7 +321,7 @@ function MusicPage() {
       type: "image"
     },
     {
-      src: "/src/assets/images/Screenshot_2025.04.14_15.02.05.335.png",
+      src: "https://res.cloudinary.com/ddrvulhwz/image/upload/v1774139239/scispace/media/screenshot_2025.04.14_15.02.05.335.png",
       alt: "Digital Study - Album Cover Art",
       title: "Digital Study",
       category: "Music",
@@ -595,7 +595,7 @@ function MusicPage() {
                 <div onClick={(e) => e.stopPropagation()}>
                   <AudioPlayerControls
                     track={{ title: 'Chronic Stress Syndrom', category: 'Music', albumCover: albumCoverMapping["Chronic Stress Syndrom"] }}
-                    audioSrc="/src/assets/music/Chronic Stress Syndrom.mp3"
+                    audioSrc="https://res.cloudinary.com/ddrvulhwz/video/upload/v1774139292/scispace/music/chronic-stress-syndrom.mp3"
                     tracks={musicItems.filter(item => item.isAudio)}
                     currentIndex={activeTrackIndices['chronic-stress-syndrom'] || 5}
                     onTrackChange={(newIndex) => handleTrackChange('chronic-stress-syndrom', newIndex)}
@@ -705,7 +705,7 @@ function MusicPage() {
             style={{ cursor: 'pointer' }}
           >
             <img
-              src="/src/assets/images/Sci_Fist.jpg"
+              src="https://res.cloudinary.com/ddrvulhwz/image/upload/v1774139238/scispace/media/sci_fist.jpg"
               alt="Sci Fist Track Cover"
               className="track-cover-image"
             />
@@ -719,8 +719,8 @@ function MusicPage() {
                   playTrack({
                     title: 'Sci Fist',
                     category: 'Music',
-                    albumCover: '/src/assets/images/Sci_Fist.jpg'
-                  }, '/src/assets/music/Banger.mp4');
+                    albumCover: 'https://res.cloudinary.com/ddrvulhwz/image/upload/v1774139238/scispace/media/sci_fist.jpg'
+                  }, 'https://res.cloudinary.com/ddrvulhwz/video/upload/v1774139289/scispace/music/banger.mp4');
                 }
               }}
               aria-label="Preview Sci Fist"
@@ -735,7 +735,7 @@ function MusicPage() {
             style={{ cursor: 'pointer' }}
           >
             <img
-              src="/src/assets/images/shader_pause.jpg"
+              src="https://res.cloudinary.com/ddrvulhwz/image/upload/v1774139240/scispace/media/shader_pause.jpg"
               alt="Shader Pause Track Cover"
               className="track-cover-image"
             />
@@ -749,8 +749,8 @@ function MusicPage() {
                   playTrack({
                     title: 'Shader Pause',
                     category: 'Music',
-                    albumCover: '/src/assets/images/shader_pause.jpg'
-                  }, '/src/assets/music/melancholische scheiße.mp4');
+                    albumCover: 'https://res.cloudinary.com/ddrvulhwz/image/upload/v1774139240/scispace/media/shader_pause.jpg'
+                  }, 'https://res.cloudinary.com/ddrvulhwz/video/upload/v1774139295/scispace/music/melancholische-schei%C3%9Fe.mp4');
                 }
               }}
               aria-label="Preview Shader Pause"
@@ -765,7 +765,7 @@ function MusicPage() {
             style={{ cursor: 'pointer' }}
           >
             <img
-              src="/src/assets/images/Sunken.jpeg"
+              src="https://res.cloudinary.com/ddrvulhwz/image/upload/v1774139240/scispace/media/sunken.jpg"
               alt="Sunken Track Cover"
               className="track-cover-image"
             />
@@ -779,8 +779,8 @@ function MusicPage() {
                   playTrack({
                     title: 'Sunken',
                     category: 'Music',
-                    albumCover: '/src/assets/images/Sunken.jpeg'
-                  }, '/src/assets/music/StrangeV2-1.wav');
+                    albumCover: 'https://res.cloudinary.com/ddrvulhwz/image/upload/v1774139240/scispace/media/sunken.jpg'
+                  }, 'https://res.cloudinary.com/ddrvulhwz/video/upload/v1774139309/scispace/music/strangev2-1.wav');
                 }
               }}
               aria-label="Preview Sunken"
@@ -795,7 +795,7 @@ function MusicPage() {
             style={{ cursor: 'pointer' }}
           >
             <img
-              src="/src/assets/images/Sword.png"
+              src="https://res.cloudinary.com/ddrvulhwz/image/upload/v1774139241/scispace/media/sword.png"
               alt="Sword Track Cover"
               className="track-cover-image"
             />
@@ -809,8 +809,8 @@ function MusicPage() {
                   playTrack({
                     title: 'Sword',
                     category: 'Music',
-                    albumCover: '/src/assets/images/Sword.png'
-                  }, '/src/assets/music/Chronic Stress Syndrom.mp3');
+                    albumCover: 'https://res.cloudinary.com/ddrvulhwz/image/upload/v1774139241/scispace/media/sword.png'
+                  }, 'https://res.cloudinary.com/ddrvulhwz/video/upload/v1774139292/scispace/music/chronic-stress-syndrom.mp3');
                 }
               }}
               aria-label="Preview Sword"
@@ -825,7 +825,7 @@ function MusicPage() {
             style={{ cursor: 'pointer' }}
           >
             <img
-              src="/src/assets/images/Pandora.png"
+              src="https://res.cloudinary.com/ddrvulhwz/image/upload/v1774139237/scispace/media/pandora.png"
               alt="Pandora Track Cover"
               className="track-cover-image"
             />
@@ -839,8 +839,8 @@ function MusicPage() {
                   playTrack({
                     title: 'Pandora',
                     category: 'Music',
-                    albumCover: '/src/assets/images/Pandora.png'
-                  }, '/src/assets/music/idee1.mp3');
+                    albumCover: 'https://res.cloudinary.com/ddrvulhwz/image/upload/v1774139237/scispace/media/pandora.png'
+                  }, 'https://res.cloudinary.com/ddrvulhwz/video/upload/v1774139294/scispace/music/idee1.mp3');
                 }
               }}
               aria-label="Preview Pandora"
@@ -855,7 +855,7 @@ function MusicPage() {
             style={{ cursor: 'pointer' }}
           >
             <img
-              src="/src/assets/images/backhumanoid.png"
+              src="https://res.cloudinary.com/ddrvulhwz/image/upload/v1774139219/scispace/media/backhumanoid.png"
               alt="Back Humanoid Track Cover"
               className="track-cover-image"
             />
@@ -869,8 +869,8 @@ function MusicPage() {
                   playTrack({
                     title: 'Back Humanoid',
                     category: 'Music',
-                    albumCover: '/src/assets/images/backhumanoid.png'
-                  }, '/src/assets/music/still.mp3');
+                    albumCover: 'https://res.cloudinary.com/ddrvulhwz/image/upload/v1774139219/scispace/media/backhumanoid.png'
+                  }, 'https://res.cloudinary.com/ddrvulhwz/video/upload/v1774139297/scispace/music/still.mp3');
                 }
               }}
               aria-label="Preview Back Humanoid"
@@ -892,7 +892,7 @@ function MusicPage() {
             style={{ cursor: 'pointer' }}
           >
             <img
-              src="/src/assets/images/glasses book room.png"
+              src="https://res.cloudinary.com/ddrvulhwz/image/upload/v1774139222/scispace/media/glasses-book-room.png"
               alt="Glasses Book Room Album Cover"
               className="album-cover-image"
             />
@@ -904,7 +904,7 @@ function MusicPage() {
             style={{ cursor: 'pointer' }}
           >
             <img
-              src="/src/assets/images/glasses book room1.png"
+              src="https://res.cloudinary.com/ddrvulhwz/image/upload/v1774139224/scispace/media/glasses-book-room1.png"
               alt="Glasses Book Room Vol. 2 Album Cover"
               className="album-cover-image"
             />
@@ -916,7 +916,7 @@ function MusicPage() {
             style={{ cursor: 'pointer' }}
           >
             <img
-              src="/src/assets/images/glassesroompostpc.png"
+              src="https://res.cloudinary.com/ddrvulhwz/image/upload/v1774139228/scispace/media/glassesroompostpc.png"
               alt="Room Perspective Album Cover"
               className="album-cover-image"
             />
@@ -940,7 +940,7 @@ function MusicPage() {
             style={{ cursor: 'pointer' }}
           >
             <img
-              src="/src/assets/images/Untitled 08-07-2024 12-37-07.png"
+              src="https://res.cloudinary.com/ddrvulhwz/image/upload/v1774139242/scispace/media/untitled-08-07-2024-12-37-07.png"
               alt="Untitled Study Album Cover"
               className="album-cover-image"
             />
@@ -952,7 +952,7 @@ function MusicPage() {
             style={{ cursor: 'pointer' }}
           >
             <img
-              src="/src/assets/images/Screenshot_2025.04.14_15.02.05.335.png"
+              src="https://res.cloudinary.com/ddrvulhwz/image/upload/v1774139239/scispace/media/screenshot_2025.04.14_15.02.05.335.png"
               alt="Digital Study Album Cover"
               className="album-cover-image"
             />

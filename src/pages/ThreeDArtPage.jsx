@@ -246,27 +246,27 @@ function ThreeDArtPage() {
   // Gallery items data - Enhanced with additional images for testing
   const galleryItems = [
     // Original 3D Art Images
-    { src: "/assets/images/glassesroompostpc.png", alt: "Room Post-Processing Render", title: "Room Post-Processing Render", category: "3D Art" },
-    { src: "/assets/images/glassesroompostpc1.png", alt: "Interior Scene Render", title: "Interior Scene Render", category: "3D Art" },
-    { src: "/assets/images/glassesroompostpcfromdoor.png", alt: "Door Perspective Render", title: "Door Perspective Render", category: "3D Art" },
-    { src: "/assets/images/glassesroompostpcimport.png", alt: "Import Render A", title: "Import Render A", category: "3D Art" },
-    { src: "/assets/images/glassesroompostpcimport (1).png", alt: "Import Render B", title: "Import Render B", category: "3D Art" },
-    { src: "/assets/images/glassesroompostpc (1).png", alt: "Alternative Angle Render", title: "Alternative Angle Render", category: "3D Art" },
-    { src: "/assets/images/glasses book room.png", alt: "Book Room Composition", title: "Book Room Composition", category: "3D Art" },
-    { src: "/assets/images/glasses book room1.png", alt: "Book Room Study", title: "Book Room Study", category: "3D Art" },
-    { src: "/assets/images/Pandora.png", alt: "Pandora 3D Model", title: "Pandora 3D Model", category: "3D Art" },
-    { src: "/assets/images/Screenshot_2025.04.14_15.02.05.335.png", alt: "Technical Screenshot", title: "Technical Screenshot", category: "3D Art" },
+    { src: "https://res.cloudinary.com/ddrvulhwz/image/upload/v1774139228/scispace/media/glassesroompostpc.png", alt: "Room Post-Processing Render", title: "Room Post-Processing Render", category: "3D Art" },
+    { src: "https://res.cloudinary.com/ddrvulhwz/image/upload/v1774139229/scispace/media/glassesroompostpc1.png", alt: "Interior Scene Render", title: "Interior Scene Render", category: "3D Art" },
+    { src: "https://res.cloudinary.com/ddrvulhwz/image/upload/v1774139231/scispace/media/glassesroompostpcfromdoor.png", alt: "Door Perspective Render", title: "Door Perspective Render", category: "3D Art" },
+    { src: "https://res.cloudinary.com/ddrvulhwz/image/upload/v1774139235/scispace/media/glassesroompostpcimport.png", alt: "Import Render A", title: "Import Render A", category: "3D Art" },
+    { src: "https://res.cloudinary.com/ddrvulhwz/image/upload/v1774139233/scispace/media/glassesroompostpcimport-%281%29.png", alt: "Import Render B", title: "Import Render B", category: "3D Art" },
+    { src: "https://res.cloudinary.com/ddrvulhwz/image/upload/v1774139226/scispace/media/glassesroompostpc-%281%29.png", alt: "Alternative Angle Render", title: "Alternative Angle Render", category: "3D Art" },
+    { src: "https://res.cloudinary.com/ddrvulhwz/image/upload/v1774139222/scispace/media/glasses-book-room.png", alt: "Book Room Composition", title: "Book Room Composition", category: "3D Art" },
+    { src: "https://res.cloudinary.com/ddrvulhwz/image/upload/v1774139224/scispace/media/glasses-book-room1.png", alt: "Book Room Study", title: "Book Room Study", category: "3D Art" },
+    { src: "https://res.cloudinary.com/ddrvulhwz/image/upload/v1774139237/scispace/media/pandora.png", alt: "Pandora 3D Model", title: "Pandora 3D Model", category: "3D Art" },
+    { src: "https://res.cloudinary.com/ddrvulhwz/image/upload/v1774139239/scispace/media/screenshot_2025.04.14_15.02.05.335.png", alt: "Technical Screenshot", title: "Technical Screenshot", category: "3D Art" },
 
     // Additional 3D Art Images for Testing
-    { src: "/assets/images/backhumanoid.png", alt: "Back Humanoid Character", title: "Back Humanoid Character", category: "3D Art" },
-    { src: "/assets/images/Sci_Fist.jpg", alt: "Sci-Fi Character Design", title: "Sci-Fi Character Design", category: "3D Art" },
-    { src: "/assets/images/shader_pause.jpg", alt: "Shader Development Work", title: "Shader Development Work", category: "3D Art" },
+    { src: "https://res.cloudinary.com/ddrvulhwz/image/upload/v1774139219/scispace/media/backhumanoid.png", alt: "Back Humanoid Character", title: "Back Humanoid Character", category: "3D Art" },
+    { src: "https://res.cloudinary.com/ddrvulhwz/image/upload/v1774139238/scispace/media/sci_fist.jpg", alt: "Sci-Fi Character Design", title: "Sci-Fi Character Design", category: "3D Art" },
+    { src: "https://res.cloudinary.com/ddrvulhwz/image/upload/v1774139240/scispace/media/shader_pause.jpg", alt: "Shader Development Work", title: "Shader Development Work", category: "3D Art" },
 
     // GIF Animations
     { src: "/assets/gifs/glassesroombook.gif", alt: "Book Room Animation", title: "Book Room Animation", category: "3D Art" },
     { src: "/assets/gifs/render.gif", alt: "Render Sequence A", title: "Render Sequence A", category: "3D Art" },
     { src: "/assets/gifs/render223.gif", alt: "Render Sequence B", title: "Render Sequence B", category: "3D Art" },
-    { src: "/assets/gifs/Sprite-0004.gif", alt: "Sprite Animation Sequence", title: "Sprite Animation Sequence", category: "3D Art" }
+    { src: "https://res.cloudinary.com/ddrvulhwz/image/upload/v1774139260/scispace/media/sprite-0004.gif", alt: "Sprite Animation Sequence", title: "Sprite Animation Sequence", category: "3D Art" }
   ];
 
   return (

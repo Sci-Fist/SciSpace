@@ -122,6 +122,12 @@ build/
 # VS Code files
 .vscode/
 
+# Assets (migrated to Cloudinary)
+/src/assets/
+
+# Scripts output
+scripts/*.json
+
 # Editor config
 .editorconfig
 
