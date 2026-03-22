@@ -5,12 +5,12 @@
   background-color: var(--color-surface-transparent); // Use transparent surface
   backdrop-filter: blur(variables.$blur-strength); // Acrylic blur effect
   padding: variables.$spacing-md variables.$spacing-lg;
-  position: fixed !important; // Fixed positioning to stay above gallery
-  top: 0 !important;
-  left: 0 !important;
-  right: 0 !important;
-  width: 100% !important; // Use 100% instead of 100vw to avoid scroll bar overlap
-  z-index: 15 !important; // Higher than gallery and footer
+  position: fixed; // Fixed positioning to stay above gallery
+  top: 0;
+  left: 0;
+  right: 0;
+  width: 100%; // Use 100% instead of 100vw to avoid scroll bar overlap
+  z-index: 15; // Higher than gallery and footer
   border-bottom: 1px solid rgba(var(--color-primary-rgb), 0.1); // Softer border
   box-shadow: 0 2px 15px rgba(var(--color-background-rgb), 0.3); // Softer shadow
   transition: background-color variables.$transition-speed-normal variables.$transition-ease,
@@ -18,9 +18,9 @@
 
   // Header content container
   .header-content {
-    display: flex !important;
-    align-items: center !important;
-    justify-content: space-between !important; // Space between logo and nav/hamburger
+    display: flex;
+    align-items: center;
+    justify-content: space-between; // Space between logo and nav/hamburger
     max-width: 1200px; // Limit max width for better layout
     margin: 0 auto; // Center the content
     position: relative; // For absolute positioning of theme button

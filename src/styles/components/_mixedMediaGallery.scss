@@ -621,24 +621,24 @@
     // ACRYLIC EFFECT: The play button in music cards in the mixed media gallery
     .music-card-controls button.music-control-btn.music-play-pause.modern-play-btn {
       // ACRYLIC EFFECT: White icon with dark cyan background and frosted glass
-      background: rgba(0, 139, 139, 0.85) !important; // Dark cyan background with slight transparency
-      backdrop-filter: blur(25px) !important; // Enhanced frosted glass effect
-      -webkit-backdrop-filter: blur(25px) !important; // Safari support
-      border: 2px solid rgba(0, 139, 139, 0.7) !important; // Dark cyan border
-      border-radius: 50% !important;
+      background: rgba(0, 139, 139, 0.85); // Dark cyan background with slight transparency
+      backdrop-filter: blur(25px); // Enhanced frosted glass effect
+      -webkit-backdrop-filter: blur(25px); // Safari support
+      border: 2px solid rgba(0, 139, 139, 0.7); // Dark cyan border
+      border-radius: 50%;
       box-shadow:
-        0 10px 35px rgba(0, 139, 139, 0.4) !important, // Enhanced dark cyan glow
-        inset 0 1px 0 rgba(255, 255, 255, 0.15) !important; // Subtle inner highlight
-      color: rgba(255, 255, 255, 0.95) !important; // White icon with slight transparency
-      width: 56px !important;
-      height: 56px !important;
-      display: flex !important;
-      align-items: center !important;
-      justify-content: center !important;
-      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1) !important;
-      position: relative !important;
-      overflow: hidden !important;
-      cursor: pointer !important;
+        0 10px 35px rgba(0, 139, 139, 0.4), // Enhanced dark cyan glow
+        inset 0 1px 0 rgba(255, 255, 255, 0.15); // Subtle inner highlight
+      color: rgba(255, 255, 255, 0.95); // White icon with slight transparency
+      width: 56px;
+      height: 56px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      position: relative;
+      overflow: hidden;
+      cursor: pointer;
 
       // Enhanced acrylic shimmer effect with white highlights
       &::before {

@@ -343,27 +343,27 @@
             }
 
             &.play-pause.enhanced {
-              width: 60px !important;
-              height: 60px !important;
-              font-size: 24px !important;
+              width: 60px;
+              height: 60px;
+              font-size: 24px;
               background: linear-gradient(135deg,
                 var(--color-primary),
                 var(--color-secondary)
-              ) !important;
-              border-color: var(--color-primary) !important;
-              box-shadow: 0 4px 16px rgba(var(--color-primary-rgb), 0.3) !important;
+              );
+              border-color: var(--color-primary);
+              box-shadow: 0 4px 16px rgba(var(--color-primary-rgb), 0.3);
 
               &:hover {
                 background: linear-gradient(135deg,
                   var(--color-secondary),
                   var(--color-primary)
-                ) !important;
-                transform: scale(1.15) translateY(-3px) !important;
-                box-shadow: 0 8px 24px rgba(var(--color-primary-rgb), 0.5) !important;
+                );
+                transform: scale(1.15) translateY(-3px);
+                box-shadow: 0 8px 24px rgba(var(--color-primary-rgb), 0.5);
               }
 
               &:active {
-                transform: scale(0.95) translateY(0) !important;
+                transform: scale(0.95) translateY(0);
               }
             }
 

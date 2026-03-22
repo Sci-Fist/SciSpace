@@ -1622,9 +1622,9 @@
   // Desktop mode - ensure toggle button is visible outside sidebar
   &:not(body.force-mobile-view &) {
     .sidebar-toggle-btn {
-      display: flex !important;
-      visibility: visible !important;
-      opacity: 1 !important;
+      display: flex;
+      visibility: visible;
+      opacity: 1;
     }
   }
 
@@ -1692,12 +1692,12 @@
     }
 
     &.closed {
-      transform: translateX(100%) !important; // Slide right off-screen when closed
+      transform: translateX(100%); // Slide right off-screen when closed
     }
 
     // When open, no transform (visible)
     &:not(.closed) {
-      transform: translateX(0) !important;
+      transform: translateX(0);
     }
 
     .sidebar-toggle-btn {

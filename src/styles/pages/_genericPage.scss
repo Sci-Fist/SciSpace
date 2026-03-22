@@ -18,12 +18,9 @@
   min-height: 100%;
   text-align: center;
 
-  // Handle sidebar expansion - push content to the right
+  // Handle sidebar expansion - reduce available width (content stays centered)
   html[data-sidebar-expanded="true"] & {
-    width: calc(100% - var(--sidebar-width));
-    max-width: calc(100vw - var(--sidebar-width));
-    margin-left: var(--sidebar-width);
-    margin-right: 0;
+    max-width: calc(var(--container-5xl) - var(--sidebar-width-expanded));
   }
 
   // Headings
@@ -505,12 +502,12 @@
 
 // Temporary support for old centering class
 .force-center {
-  text-align: center !important;
-  display: grid !important;
-  place-items: center !important;
+  text-align: center;
+  display: grid;
+  place-items: center;
 
   // Ensure all text children are centered
   p, h1, h2, h3, h4, .about-content, .resume-content-wrapper {
-    text-align: center !important;
+    text-align: center;
   }
 }

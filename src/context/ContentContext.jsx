@@ -1,4 +1,4 @@
-import React, { createContext, useContext, useState, useEffect } from 'react';
+import React, { createContext, useContext, useState, useEffect, useRef } from 'react';
 import {
   storeFile,
   getFilesByPage,
@@ -108,32 +108,56 @@ export const ContentProvider = ({ children }) => {
     }
   }, [uploadedFiles, isLoading]);
 
-  // Save selectedImages to IndexedDB whenever it changes
-  useEffect(() => {
-    if (!isLoading) {
-      storeMetadata('selectedImages', selectedImages).catch(error => {
-        console.error('Error saving selectedImages to IndexedDB:', error);
-      });
-    }
-  }, [selectedImages, isLoading]);
+  /**
+   * Save metadata to IndexedDB with proper synchronization
+   * Uses a debounce mechanism to prevent race conditions when multiple
+   * state changes occur rapidly
+   */
+  const saveQueueRef = useRef(new Map());
+  const saveTimeoutRef = useRef(null);
 
-  // Save slideshowSettings to IndexedDB whenever it changes
   useEffect(() => {
-    if (!isLoading) {
-      storeMetadata('slideshowSettings', slideshowSettings).catch(error => {
-        console.error('Error saving slideshowSettings to IndexedDB:', error);
-      });
-    }
-  }, [slideshowSettings, isLoading]);
+    if (isLoading) return;
 
-  // Save textContent to IndexedDB whenever it changes
-  useEffect(() => {
-    if (!isLoading) {
-      storeMetadata('textContent', textContent).catch(error => {
-        console.error('Error saving textContent to IndexedDB:', error);
-      });
+    // Collect all metadata changes to save
+    const metadataToSave = {
+      selectedImages,
+      slideshowSettings,
+      textContent
+    };
+
+    // Queue all changes
+    Object.entries(metadataToSave).forEach(([key, value]) => {
+      saveQueueRef.current.set(key, value);
+    });
+
+    // Clear any existing timeout
+    if (saveTimeoutRef.current) {
+      clearTimeout(saveTimeoutRef.current);
     }
-  }, [textContent, isLoading]);
+
+    // Debounce saves to prevent race conditions
+    saveTimeoutRef.current = setTimeout(async () => {
+      const queue = new Map(saveQueueRef.current);
+      saveQueueRef.current.clear();
+
+      // Process saves sequentially to prevent IndexedDB race conditions
+      for (const [key, value] of queue) {
+        try {
+          await storeMetadata(key, value);
+        } catch (error) {
+          console.error(`Error saving ${key} to IndexedDB:`, error);
+        }
+      }
+    }, 100); // 100ms debounce delay
+
+    // Cleanup timeout on unmount
+    return () => {
+      if (saveTimeoutRef.current) {
+        clearTimeout(saveTimeoutRef.current);
+      }
+    };
+  }, [selectedImages, slideshowSettings, textContent, isLoading]);
 
   // Convert file to blob URL for display (more efficient for large files)
   const fileToBlobUrl = (file) => {

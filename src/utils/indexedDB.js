@@ -6,13 +6,20 @@ const DB_VERSION = 1;
 const FILES_STORE = 'uploadedFiles';
 const METADATA_STORE = 'fileMetadata';
 
-// Initialize IndexedDB
+// Initialize IndexedDB with singleton pattern to prevent race conditions
+let dbPromise = null;
+
 const initDB = () => {
-  return new Promise((resolve, reject) => {
+  if (dbPromise) {
+    return dbPromise;
+  }
+
+  dbPromise = new Promise((resolve, reject) => {
     const request = indexedDB.open(DB_NAME, DB_VERSION);
 
     request.onerror = () => {
-      console.error('IndexedDB initialization failed');
+      console.error('IndexedDB initialization failed:', request.error);
+      dbPromise = null; // Reset promise to allow retry
       reject(request.error);
     };
 
@@ -35,6 +42,8 @@ const initDB = () => {
       }
     };
   });
+
+  return dbPromise;
 };
 
 // Store a file in IndexedDB

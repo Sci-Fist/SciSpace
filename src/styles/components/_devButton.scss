@@ -44,10 +44,10 @@
   // Ensure button is always visible regardless of view mode
   // Responsive adjustments - force positioning above footer on mobile
   @media (max-width: variables.$breakpoint-sm) {
-    bottom: calc(2.5rem + variables.$spacing-sm) !important; // Position above footer (footer height + spacing)
-    right: auto !important;
-    left: 50% !important;
-    transform: translateX(-50%) !important;
+  bottom: calc(2.5rem + variables.$spacing-sm); // Position above footer (footer height + spacing)
+  right: auto;
+  left: 50%;
+  transform: translateX(-50%);
     padding: variables.$spacing-xs variables.$spacing-sm;
     font-size: variables.$font-size-small * 0.9;
   }
@@ -55,8 +55,8 @@
   // Force visibility in all view modes
   &.active,
   &:not(.active) {
-    display: block !important;
-    visibility: visible !important;
-    opacity: 1 !important;
+    display: block;
+    visibility: visible;
+    opacity: 1;
   }
 }

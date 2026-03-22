@@ -21,14 +21,13 @@ function AboutPage() {
 
   return (
     <section
-      className="about-page generic-page force-center"
+      className="about-page generic-page"
       style={{
         opacity: controls.contentOpacity || 1,
         backgroundImage: getBackgroundPattern(),
         backgroundSize: controls.backgroundPattern === 'dots' ? '20px 20px' :
                        controls.backgroundPattern === 'grid' ? '40px 40px' : 'auto',
         animation: controls.showAnimations !== false ? 'fadeInUp 0.8s ease-out' : 'none'
-        // Remove the manual flex/alignItems here, let .force-center handle it
       }}
     >
       <h2

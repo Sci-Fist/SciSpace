@@ -57,10 +57,9 @@ function ResumePage() {
 
   return (
     <section
-      className={`generic-page resume-page force-center ${getAnimationClass()}`}
+      className={`generic-page resume-page ${getAnimationClass()}`}
       style={{
         opacity: controls.contentOpacity || 1,
-        // Removed maxWidth to allow layout to control it
         lineHeight: controls.lineHeight || 1.6,
         animationDelay: controls.showAnimations !== false ? `${0}s` : '0s'
       }}

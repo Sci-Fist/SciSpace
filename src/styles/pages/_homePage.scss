@@ -448,23 +448,23 @@
 
 // Dynamic column classes for mixed media gallery
 .masonry-cols-3 .mixed-media-item {
-  width: calc(33.333% - 10px) !important;
-  margin-bottom: 15px !important;
+  width: calc(33.333% - 10px);
+  margin-bottom: 15px;
 }
 
 .masonry-cols-4 .mixed-media-item {
-  width: calc(25% - 11.25px) !important;
-  margin-bottom: 15px !important;
+  width: calc(25% - 11.25px);
+  margin-bottom: 15px;
 }
 
 .masonry-cols-5 .mixed-media-item {
-  width: calc(20% - 12px) !important;
-  margin-bottom: 15px !important;
+  width: calc(20% - 12px);
+  margin-bottom: 15px;
 }
 
 .masonry-cols-6 .mixed-media-item {
-  width: calc(16.666% - 12.5px) !important;
-  margin-bottom: 15px !important;
+  width: calc(16.666% - 12.5px);
+  margin-bottom: 15px;
 }
 
 // Individual mixed media item styling
@@ -499,66 +499,66 @@
 
 // List layout for mixed media gallery
 .mixed-media-gallery-list {
-  display: flex !important;
-  flex-direction: column !important;
-  gap: 30px !important;
-  width: 100% !important;
-  margin: 0 auto !important; // Center the list container
-  padding: 0 !important;
-  box-sizing: border-box !important;
-  align-items: stretch !important;
-  text-align: center !important; // Center text content
-  z-index: 1 !important;
+  display: flex;
+  flex-direction: column;
+  gap: 30px;
+  width: 100%;
+  margin: 0 auto; // Center the list container
+  padding: 0;
+  box-sizing: border-box;
+  align-items: stretch;
+  text-align: center; // Center text content
+  z-index: 1;
 }
 
 .mixed-media-gallery-list .mixed-media-item {
-  display: flex !important;
-  flex-direction: row !important;
-  align-items: center !important;
-  gap: 20px !important;
-  width: 100% !important;
-  max-width: none !important;
-  padding: 20px !important;
-  background: rgba(var(--color-background-rgb), 0.95) !important;
-  border-radius: 16px !important;
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1) !important;
-  transition: all var(--transition-normal) !important;
-  border: 2px solid transparent !important;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 20px;
+  width: 100%;
+  max-width: none;
+  padding: 20px;
+  background: rgba(var(--color-background-rgb), 0.95);
+  border-radius: 16px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+  transition: all var(--transition-normal);
+  border: 2px solid transparent;
 }
 
 .mixed-media-gallery-list .mixed-media-item:hover {
-  transform: translateY(-4px) !important;
-  box-shadow: 0 8px 32px rgba(var(--color-primary-rgb), 0.2) !important;
-  border-color: rgba(var(--color-primary-rgb), 0.3) !important;
+  transform: translateY(-4px);
+  box-shadow: 0 8px 32px rgba(var(--color-primary-rgb), 0.2);
+  border-color: rgba(var(--color-primary-rgb), 0.3);
 }
 
 .mixed-media-gallery-list .mixed-media-item img {
-  width: 120px !important;
-  height: 120px !important;
-  object-fit: cover !important;
-  border-radius: 12px !important;
-  flex-shrink: 0 !important;
+  width: 120px;
+  height: 120px;
+  object-fit: cover;
+  border-radius: 12px;
+  flex-shrink: 0;
 }
 
 .mixed-media-gallery-list .mixed-media-item .item-info {
-  flex: 1 !important;
-  display: flex !important;
-  flex-direction: column !important;
-  gap: 8px !important;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
 }
 
 .mixed-media-gallery-list .mixed-media-item .item-title {
-  font-size: var(--font-size-lg) !important;
-  font-weight: 600 !important;
-  color: var(--color-text) !important;
-  margin: 0 !important;
+  font-size: var(--font-size-lg);
+  font-weight: 600;
+  color: var(--color-text);
+  margin: 0;
 }
 
 .mixed-media-gallery-list .mixed-media-item .item-description {
-  font-size: var(--font-size-base) !important;
-  color: var(--color-text-secondary) !important;
-  margin: 0 !important;
-  line-height: 1.5 !important;
+  font-size: var(--font-size-base);
+  color: var(--color-text-secondary);
+  margin: 0;
+  line-height: 1.5;
 }
 
 // Gallery action buttons below the mixed media gallery

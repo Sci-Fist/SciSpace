@@ -96,22 +96,22 @@
 .force-mobile-view {
   // Apply to all screen sizes when forcing mobile view
   .dev-sidebar {
-    width: 100vw !important;
-    height: 100vh !important;
-    top: 0 !important;
-    bottom: 0 !important;
-    left: 0 !important;
-    right: 0 !important;
-    transform: translateX(0) !important; // Start visible (not translated)
-    margin: 0 !important;
-    padding: 0 !important;
-    border: none !important;
-    border-radius: 0 !important;
-    box-sizing: border-box !important;
-    overflow: hidden !important;
-    box-shadow: none !important;
-    background-color: var(--color-surface) !important;
-    z-index: 10001 !important; // Match mobile sidebar z-index
+  width: 100%;
+  height: 100vh;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  transform: translateX(0); // Start visible (not translated)
+  margin: 0;
+  padding: 0;
+  border: none;
+  border-radius: 0;
+  box-sizing: border-box;
+  overflow: hidden;
+  box-shadow: none;
+  background-color: var(--color-surface);
+  z-index: 10001; // Match mobile sidebar z-index
 
     &.closed {
       transform: translateX(100%) !important; // Slide off-screen to the right
