@@ -398,11 +398,11 @@ function MixedMediaGallery() {
 
     // Photography
     {
-      src: "https://res.cloudinary.com/ddrvulhwz/image/upload/v1774139280/scispace/media/sushi-3.jpg",
+      src: "https://res.cloudinary.com/ddrvulhwz/image/upload/v1774139261/scispace/media/01030007.jpg",
       title: "Culinary Photography",
       category: "Photography",
       type: "image",
-      description: "Professional food photography capturing the artistry of sushi presentation. Features careful composition, lighting, and focus on texture, color, and culinary craftsmanship."
+      description: "Professional food photography capturing the artistry of culinary presentation. Features careful composition, lighting, and focus on texture, color, and culinary craftsmanship."
     },
     {
       src: "https://res.cloudinary.com/ddrvulhwz/image/upload/v1774139267/scispace/media/01090060.jpg",
