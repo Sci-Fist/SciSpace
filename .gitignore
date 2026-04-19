@@ -134,3 +134,6 @@ scripts/*.json
 # Vite
 .vite/
 dist/
+
+# Design Mockups
+design/

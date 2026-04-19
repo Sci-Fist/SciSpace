@@ -9,6 +9,7 @@ function AudioPlayerControls({ track, audioSrc, compact = false, tracks = [], cu
   const [isDragging, setIsDragging] = useState(false);
   const [hoveredButton, setHoveredButton] = useState(null);
   const [isMobile, setIsMobile] = useState(false);
+  const [localDuration, setLocalDuration] = useState(0);
 
   const audioRef = useRef(null);
   const progressRef = useRef(null);
@@ -37,11 +38,23 @@ function AudioPlayerControls({ track, audioSrc, compact = false, tracks = [], cu
   // Audio event listeners - only for local audio element when this track is playing
   useEffect(() => {
     const audio = audioRef.current;
-    if (!audio || !isThisTrackPlaying) return;
+    if (!audio) return;
 
+    // Load intrinsic duration immediately regardless of playback state
     const handleLoadedMetadata = () => {
-      // Duration is handled by global context
+      setLocalDuration(audio.duration);
     };
+
+    audio.addEventListener('loadedmetadata', handleLoadedMetadata);
+    if (audio.readyState >= 1) {
+      setLocalDuration(audio.duration);
+    }
+
+    if (!isThisTrackPlaying) {
+      return () => {
+        audio.removeEventListener('loadedmetadata', handleLoadedMetadata);
+      };
+    }
 
     const handleTimeUpdate = () => {
       // Time updates are handled by global context
@@ -51,7 +64,6 @@ function AudioPlayerControls({ track, audioSrc, compact = false, tracks = [], cu
       // Track ending is handled by global context
     };
 
-    audio.addEventListener('loadedmetadata', handleLoadedMetadata);
     audio.addEventListener('timeupdate', handleTimeUpdate);
     audio.addEventListener('ended', handleEnded);
 
@@ -60,7 +72,7 @@ function AudioPlayerControls({ track, audioSrc, compact = false, tracks = [], cu
       audio.removeEventListener('timeupdate', handleTimeUpdate);
       audio.removeEventListener('ended', handleEnded);
     };
-  }, [isThisTrackPlaying]);
+  }, [isThisTrackPlaying, audioSrc]);
 
   // Format time in MM:SS format
   const formatTime = (time) => {
@@ -162,7 +174,10 @@ function AudioPlayerControls({ track, audioSrc, compact = false, tracks = [], cu
     return baseStyle;
   };
 
-  const progressPercentage = globalDuration > 0 ? (globalCurrentTime / globalDuration) * 100 : 0;
+  // Derive explicit rendering values securely. Inactive tracks gracefully default to 0 progress.
+  const displayCurrentTime = isThisTrackPlaying ? globalCurrentTime : 0;
+  const displayDuration = (isThisTrackPlaying && globalDuration > 0) ? globalDuration : localDuration;
+  const progressPercentage = displayDuration > 0 ? (displayCurrentTime / displayDuration) * 100 : 0;
 
   if (compact) {
     return (
@@ -235,10 +250,10 @@ function AudioPlayerControls({ track, audioSrc, compact = false, tracks = [], cu
         </div>
         <div className="time-display">
           <span className="current-time">
-            {formatTime(globalCurrentTime)}
+            {formatTime(displayCurrentTime)}
           </span>
           <span className="duration">
-            {formatTime(globalDuration)}
+            {formatTime(displayDuration)}
           </span>
         </div>
       </div>
