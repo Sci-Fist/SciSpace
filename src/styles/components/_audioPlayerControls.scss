@@ -71,44 +71,30 @@
       position: relative;
       width: 100%;
       height: 8px;
-      background-color: rgba(var(--color-primary-rgb), 0.2);
-      border-radius: 4px;
+      background-color: rgba(var(--color-primary-rgb), 0.1);
+      border: 1px solid rgba(var(--color-primary-rgb), 0.3);
       cursor: pointer;
-      transition: background-color variables.$transition-speed-fast variables.$transition-ease;
-
-      &:hover {
-        background-color: rgba(var(--color-primary-rgb), 0.3);
-      }
 
       .progress-fill {
         height: 100%;
-        background: linear-gradient(90deg, var(--color-primary), var(--color-accent));
-        border-radius: 4px;
+        background: var(--color-primary);
+        box-shadow: 0 0 10px var(--color-primary);
         transition: width variables.$transition-speed-fast variables.$transition-ease;
       }
 
       .progress-handle {
-        position: absolute;
-        top: 50%;
-        transform: translate(-50%, -50%);
-        width: 16px;
-        height: 16px;
-        background-color: var(--color-primary);
-        border: 2px solid var(--color-background);
-        border-radius: 50%;
-        cursor: grab;
-        transition: all variables.$transition-speed-fast variables.$transition-ease;
-        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
-
-        &:hover {
-          transform: translate(-50%, -50%) scale(1.1);
-          background-color: var(--color-accent);
-        }
-
-        &:active {
-          cursor: grabbing;
-          transform: translate(-50%, -50%) scale(1.2);
-        }
+        display: none; // Progress handles break the segmented LED aesthetic
+      }
+    }
+    
+    // Switch to Red when dynamically active
+    .audio-player-controls:has(.play-pause.playing) & .progress-bar {
+      background-color: rgba(var(--color-secondary-rgb), 0.1);
+      border-color: rgba(var(--color-secondary-rgb), 0.3);
+      
+      .progress-fill {
+        background: var(--color-secondary);
+        box-shadow: 0 0 15px var(--color-secondary);
       }
     }
 
@@ -116,14 +102,20 @@
       display: flex;
       justify-content: space-between;
       font-size: variables.$font-size-body-sm;
-      color: var(--color-text-muted);
+      color: var(--color-primary); // Make it cyan by default to match data-pad
       font-family: 'Courier New', monospace;
+      transition: color 0.3s ease;
 
       .current-time,
       .duration {
         min-width: 35px;
         text-align: center;
       }
+    }
+    
+    // Switch numeric readouts to Red when dynamically active
+    .audio-player-controls:has(.play-pause.playing) & .time-display {
+      color: var(--color-secondary);
     }
   }
 
@@ -134,24 +126,26 @@
     gap: variables.$spacing-md;
 
     .control-btn {
-      background: rgba(var(--color-primary-rgb), 0.9);
-      border: 2px solid var(--color-primary);
-      border-radius: 50%;
-      width: 50px;
-      height: 50px;
+      background: transparent;
+      border: 1px solid var(--color-primary);
+      border-radius: 0;
+      width: 36px;
+      height: 36px;
       display: flex;
       align-items: center;
       justify-content: center;
-      font-size: 18px;
-      color: var(--color-text);
+      color: var(--color-primary);
       cursor: pointer;
-      transition: all variables.$transition-speed-fast variables.$transition-ease;
+      clip-path: polygon(20% 0%, 80% 0%, 100% 20%, 100% 80%, 80% 100%, 20% 100%, 0% 80%, 0% 20%);
+      transition: all 0.2s ease;
       outline: none;
 
+      svg { width: 14px; height: 14px; fill: currentColor; }
+
       &:hover:not(:disabled) {
-        background: var(--color-primary);
-        transform: scale(1.05);
-        box-shadow: 0 4px 12px rgba(var(--color-primary-rgb), 0.4);
+        border-color: var(--color-primary);
+        background: rgba(var(--color-primary-rgb), 0.1);
+        box-shadow: 0 0 10px rgba(var(--color-primary-rgb), 0.4);
       }
 
       &:active:not(:disabled) {
@@ -164,32 +158,23 @@
       }
 
       &.play-pause {
-        width: 60px;
-        height: 60px;
-        font-size: 24px;
+        width: 44px;
+        height: 44px;
+        background: rgba(var(--color-primary-rgb), 0.05);
+        color: var(--color-primary);
+
+        svg { width: 18px; height: 18px; }
 
         &.playing {
-          background: var(--color-accent);
-          border-color: var(--color-accent);
-          box-shadow: 0 0 15px rgba(var(--color-accent-rgb), 0.6);
+          background: rgba(var(--color-secondary-rgb), 0.15);
+          border-color: var(--color-secondary);
+          color: var(--color-secondary);
+          box-shadow: 0 0 15px rgba(var(--color-secondary-rgb), 0.4);
 
           &:hover {
-            background: var(--color-accent-hover);
-            border-color: var(--color-accent-hover);
-            box-shadow: 0 0 20px rgba(var(--color-accent-rgb), 0.8);
+            box-shadow: 0 0 20px rgba(var(--color-secondary-rgb), 0.6);
+            background: rgba(var(--color-secondary-rgb), 0.25);
           }
-        }
-      }
-
-      &.skip-backward,
-      &.skip-forward {
-        width: 40px;
-        height: 40px;
-        font-size: 14px;
-        opacity: 0.6;
-
-        &:hover:not(:disabled) {
-          opacity: 1;
         }
       }
     }

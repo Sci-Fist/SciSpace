@@ -22,17 +22,38 @@
     margin-top: variables.$spacing-xl;
 
     .music-item {
-      background-color: var(--color-surface-transparent); // Acrylic background
-      backdrop-filter: blur(variables.$blur-strength); // Acrylic blur effect
-      border-radius: variables.$border-radius-md;
-      padding: variables.$spacing-lg;
-      box-shadow: var(--box-shadow-base); // Use CSS variable
+      background: linear-gradient(135deg, rgba(17, 26, 42, 0.9), rgba(10, 14, 23, 0.95));
+      position: relative;
+      padding: 24px;
+      clip-path: polygon(0 0, calc(100% - 24px) 0, 100% 24px, 100% 100%, 24px 100%, 0 calc(100% - 24px));
+      border: 1px solid rgba(var(--color-primary-rgb), 0.3);
+      box-shadow: 0 0 20px rgba(var(--color-primary-rgb), 0.1);
       text-align: left;
-      transition: transform variables.$transition-speed-normal variables.$transition-ease, box-shadow variables.$transition-speed-normal variables.$transition-ease;
+      transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+
+      &::before {
+        content: '';
+        position: absolute;
+        top: 0; left: 0;
+        width: 100%; height: 2px;
+        background: linear-gradient(90deg, transparent, var(--color-primary), transparent);
+        transition: background 0.3s ease;
+      }
 
       &:hover {
-        transform: translateY(-3px);
-        box-shadow: var(--box-shadow-hover); // Use CSS variable
+        transform: translateY(-5px);
+        border-color: rgba(var(--color-primary-rgb), 0.6);
+        box-shadow: 0 0 30px rgba(var(--color-primary-rgb), 0.2);
+      }
+
+      // Dynamic ACTIVE RED stylings when this track is currently playing
+      &:has(.play-pause.playing) {
+        border-color: rgba(var(--color-secondary-rgb), 0.6);
+        box-shadow: 0 0 30px rgba(var(--color-secondary-rgb), 0.2);
+
+        &::before {
+          background: linear-gradient(90deg, transparent, var(--color-secondary), transparent);
+        }
       }
 
       .music-item-content {
@@ -52,8 +73,15 @@
         width: 100%;
         height: 100%;
         object-fit: cover;
-        border-radius: variables.$border-radius-sm;
-        box-shadow: var(--box-shadow-base);
+        border-radius: 2px;
+        border: 1px solid var(--color-primary);
+        box-shadow: 0 0 10px rgba(var(--color-primary-rgb), 0.3);
+        transition: border-color 0.3s ease, box-shadow 0.3s ease;
+      }
+
+      &:has(.play-pause.playing) .track-album-cover {
+        border-color: var(--color-secondary);
+        box-shadow: 0 0 15px rgba(var(--color-secondary-rgb), 0.5);
       }
 
       .album-cover-fallback {
@@ -74,19 +102,32 @@
       .track-info-section {
         flex: 1;
         min-width: 0; // Allow text to wrap
+        display: flex;
+        flex-direction: column;
+        justify-content: flex-end;
       }
 
       h4 {
-        font-size: variables.$font-size-h4;
-        color: var(--color-primary); // Use CSS variable
-        margin-bottom: variables.$spacing-sm;
-        text-shadow: 0 0 5px rgba(var(--color-primary-rgb), 0.3); // Use CSS variable
+        font-size: 1.4rem;
+        color: var(--color-primary);
+        text-transform: uppercase;
+        letter-spacing: 2px;
+        margin-bottom: 5px;
+        transition: color 0.3s ease;
+        font-family: var(--font-family-body);
+      }
+      
+      &:has(.play-pause.playing) h4 {
+        color: var(--color-secondary);
       }
 
       p {
-        font-size: variables.$font-size-body;
-        color: var(--color-text-muted); // Use CSS variable
-        margin-bottom: variables.$spacing-md;
+        font-size: 0.75rem;
+        color: var(--color-text-muted);
+        text-transform: uppercase;
+        letter-spacing: 1px;
+        margin-bottom: 15px;
+        font-family: 'Courier New', Courier, monospace;
       }
 
       .audio-controls-container {

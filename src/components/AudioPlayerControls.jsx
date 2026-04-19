@@ -2,6 +2,21 @@ import React, { useState, useEffect, useRef } from 'react';
 import { useNowPlaying } from '../context/NowPlayingContext.jsx';
 import '../styles/components/_audioPlayerControls.scss';
 
+const AudioIcons = {
+  SkipBack: () => (
+    <svg viewBox="0 0 24 24"><path d="M11 18V6l-8.5 6 8.5 6zm.5-6l8.5 6V6l-8.5 6z"/></svg>
+  ),
+  Play: () => (
+    <svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
+  ),
+  Pause: () => (
+    <svg viewBox="0 0 24 24"><path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"/></svg>
+  ),
+  SkipForward: () => (
+    <svg viewBox="0 0 24 24"><path d="M4 18l8.5-6L4 6v12zm9-12v12l8.5-6L13 6z"/></svg>
+  )
+};
+
 function AudioPlayerControls({ track, audioSrc, compact = false, tracks = [], currentIndex = 0, onTrackChange, onControlClick }) {
   const { isPlaying: globalIsPlaying, currentTrack: globalCurrentTrack, currentTime: globalCurrentTime, duration: globalDuration, togglePlayPause, seekTo, playTrack } = useNowPlaying();
 
@@ -201,7 +216,7 @@ function AudioPlayerControls({ track, audioSrc, compact = false, tracks = [], cu
           aria-label="Previous track"
           style={getButtonStyle('prev')}
         >
-          ⏮️
+          <AudioIcons.SkipBack />
         </button>
         <button
           className={`control-btn play-pause compact ${isThisTrackPlaying ? 'playing' : ''}`}
@@ -211,7 +226,7 @@ function AudioPlayerControls({ track, audioSrc, compact = false, tracks = [], cu
           aria-label={isThisTrackPlaying ? 'Pause' : 'Play'}
           style={getButtonStyle('play')}
         >
-          {isThisTrackPlaying ? '⏸️' : '▶️'}
+          {isThisTrackPlaying ? <AudioIcons.Pause /> : <AudioIcons.Play />}
         </button>
         <button
           className="control-btn skip-forward compact"
@@ -221,7 +236,7 @@ function AudioPlayerControls({ track, audioSrc, compact = false, tracks = [], cu
           aria-label="Next track"
           style={getButtonStyle('next')}
         >
-          ⏭️
+          <AudioIcons.SkipForward />
         </button>
       </div>
     );
@@ -266,7 +281,7 @@ function AudioPlayerControls({ track, audioSrc, compact = false, tracks = [], cu
           aria-label="Previous track"
           disabled={tracks.length <= 1}
         >
-          ⏮️
+          <AudioIcons.SkipBack />
         </button>
 
         <button
@@ -274,7 +289,7 @@ function AudioPlayerControls({ track, audioSrc, compact = false, tracks = [], cu
           onClick={handlePlayPause}
           aria-label={isThisTrackPlaying ? 'Pause' : 'Play'}
         >
-          {isThisTrackPlaying ? '⏸️' : '▶️'}
+          {isThisTrackPlaying ? <AudioIcons.Pause /> : <AudioIcons.Play />}
         </button>
 
         <button
@@ -283,7 +298,7 @@ function AudioPlayerControls({ track, audioSrc, compact = false, tracks = [], cu
           aria-label="Next track"
           disabled={tracks.length <= 1}
         >
-          ⏭️
+          <AudioIcons.SkipForward />
         </button>
       </div>
 
