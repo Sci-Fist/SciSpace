@@ -12,7 +12,6 @@ function ConditionalDevFeatures() {
   const { theme, toggleTheme } = useTheme();
 
   const handleThemeToggle = (e) => {
-    const newTheme = theme === 'dark' ? 'light' : 'dark';
     toggleTheme();
   };
 
@@ -21,16 +20,17 @@ function ConditionalDevFeatures() {
       {/* Always show DevButton so users can activate dev mode */}
       <DevButton />
 
-      {/* ViewSwitcher should always be visible - allows toggling mobile/desktop views */}
-      <ViewSwitcher />
+      {/* Consolidated floating controls for layout stability */}
+      <div className="floating-dev-controls">
+        <ViewSwitcher />
 
-      {/* Theme toggle button positioned next to ViewSwitcher */}
-      <button
-        onClick={handleThemeToggle}
-        className="theme-toggle-btn"
-      >
-        {theme === 'dark' ? '☀️ Light Mode' : '🌙 Dark Mode'}
-      </button>
+        <button
+          onClick={handleThemeToggle}
+          className="theme-toggle-btn"
+        >
+          {theme === 'dark' ? '☀️ Light Mode' : '🌙 Dark Mode'}
+        </button>
+      </div>
 
       {/* Only show other dev features when dev mode is active */}
       {isDevMode && (

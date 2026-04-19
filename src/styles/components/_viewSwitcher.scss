@@ -1,11 +1,25 @@
 // View Switcher Styles
 @use '../variables';
 
-.view-switcher {
+.floating-dev-controls {
   position: fixed;
   bottom: variables.$spacing-lg;
   left: variables.$spacing-lg;
-  z-index: 1000; // High z-index to appear above content
+  display: flex;
+  align-items: center;
+  gap: variables.$spacing-md;
+  z-index: 1000;
+
+  // Sync with safe area insets for mobile
+  @media (max-width: variables.$breakpoint-sm) {
+    bottom: calc(variables.$spacing-lg + env(safe-area-inset-bottom, 0));
+    left: calc(variables.$spacing-lg + env(safe-area-inset-left, 0));
+    gap: variables.$spacing-sm;
+  }
+}
+
+.view-switcher {
+  // Positioning moved to .floating-dev-controls
 
   .view-btn {
     padding: variables.$spacing-sm variables.$spacing-md;
@@ -47,20 +61,11 @@
       }
     }
   }
-
-  // Adjust position for mobile to account for safe areas
-  @media (max-width: variables.$breakpoint-sm) {
-    bottom: calc(variables.$spacing-lg + env(safe-area-inset-bottom, 0));
-    left: calc(variables.$spacing-lg + env(safe-area-inset-left, 0));
-  }
 }
 
-// Theme toggle button positioned next to ViewSwitcher
+// Theme toggle button styles
 .theme-toggle-btn {
-  position: fixed;
-  bottom: variables.$spacing-lg;
-  left: calc(variables.$spacing-lg + 155px); // Position to the right of ViewSwitcher (120px min-width + spacing + 15px)
-  z-index: 1000; // Same z-index as ViewSwitcher
+  // Positioning moved to .floating-dev-controls
 
   padding: variables.$spacing-sm variables.$spacing-md;
   border: 1px solid rgba(var(--color-primary-rgb), 0.4);
@@ -85,14 +90,12 @@
 
   // Mobile adjustments
   @media (max-width: variables.$breakpoint-sm) {
-    left: calc(variables.$spacing-lg + 125px); // Adjust for smaller mobile button + 15px
-    bottom: calc(variables.$spacing-lg + env(safe-area-inset-bottom, 0));
     font-size: variables.$font-size-small;
     padding: variables.$spacing-xs variables.$spacing-sm;
   }
 }
 
-  // Force mobile view styles
+// Force mobile view styles
 .force-mobile-view {
   // Apply to all screen sizes when forcing mobile view
   .dev-sidebar {

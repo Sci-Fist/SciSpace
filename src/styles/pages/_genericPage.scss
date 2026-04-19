@@ -46,8 +46,10 @@
   // Lists
   ul, ol {
     text-align: left;
+    display: inline-block; // Allow the list block to center-align
     max-width: var(--container-xl);
     margin: 0 auto var(--space-4) auto;
+    padding-left: var(--space-6);
   }
   
   // Links
@@ -120,6 +122,7 @@
       margin-bottom: var(--space-4);
       box-shadow: var(--shadow-md);
       border: 1px solid var(--color-surface-elevated);
+      text-align: center; // Centered process cards
 
       &:hover {
         box-shadow: var(--shadow-lg);
@@ -134,7 +137,7 @@
       }
 
       p {
-        text-align: left;
+        text-align: center;
         font-size: var(--font-size-base);
         margin-bottom: 0;
       }
@@ -181,7 +184,7 @@
       }
 
       p {
-        text-align: left;
+        text-align: center;
         font-size: var(--font-size-base);
         margin-bottom: var(--space-3);
       }
@@ -219,7 +222,7 @@
       padding: var(--space-5);
       box-shadow: var(--shadow-md);
       border: 1px solid var(--color-surface-elevated);
-      text-align: left;
+      text-align: center;
       transition: all var(--transition-normal);
 
       &:hover {
@@ -309,7 +312,7 @@
         color: var(--color-text-muted);
         font-size: var(--font-size-sm);
         margin-bottom: var(--space-4);
-        text-align: left;
+        text-align: center;
       }
 
       .btn {

@@ -68,9 +68,9 @@
   }
 
   // Animation for appearance/disappearance
-  animation: fadeInUp 0.3s ease-out;
+  animation: fadeInUpMobileExpand 0.3s ease-out;
 
-  @keyframes fadeInUp {
+  @keyframes fadeInUpMobileExpand {
     from {
       opacity: 0;
       transform: translateX(-50%) translateY(20px);
