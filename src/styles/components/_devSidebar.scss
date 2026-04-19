@@ -9,23 +9,19 @@
   right: 0; /* Position on the right side */
   height: 100vh; /* Full viewport height */
   width: 300px; /* Default width */
-  background-color: #f0f0f0; /* Default background */
-  border-left: 1px solid #ccc; /* Border on the left side to separate from content */
-  padding: 20px; /* Default padding */
-  box-shadow: -2px 0 5px rgba(0, 0, 0, 0.1); /* Shadow on the left side */
-  z-index: 1000; /* High z-index for overlay */
-  overflow: hidden; /* Prevent sidebar from scrolling, let content handle it */
-  box-sizing: border-box; /* Include padding and border in the element's total width and height */
-  pointer-events: auto; /* Ensure sidebar captures events */
+  background-color: var(--color-surface);
+  border-left: 1px solid rgba(var(--color-primary-rgb), 0.2);
+  padding: 20px;
+  box-shadow: -4px 0 16px rgba(0, 0, 0, 0.25);
+  z-index: var(--z-index-dev-tools);
+  overflow: hidden;
+  box-sizing: border-box;
+  pointer-events: auto;
+  transition: transform var(--transition-normal), width var(--transition-normal);
   
-  // Ensure sidebar doesn't interfere with main content centering
-  &.closed {
-    transform: translateX(100%) !important;
-  }
-  
-  &.open {
-    transform: translateX(0) !important;
-  }
+  // Open / closed states — single authoritative rule each.
+  &.open   { transform: translateX(0); }
+  &.closed { transform: translateX(100%); }
 
   /* Styles for content within the sidebar */
   .sidebar-content {
@@ -91,46 +87,8 @@
     }
   }
 
-  /* Styles for when the sidebar is forced into mobile view */
-  /* This section is complex and might require corresponding JS logic. */
-  /* For now, I'll add a placeholder for it, assuming it might be handled by JS. */
-  &.force-mobile-view {
-    width: 100vw;
-    height: 100vh;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    transform: translateX(0); /* Assume it's visible when force-mobile-view is applied */
-    z-index: 10001;
-    border: none; /* Remove border if it's full screen */
-    box-shadow: none;
-    background-color: var(--color-surface); /* Use surface color for mobile */
-    padding: 12px; /* Padding for safe areas */
-    padding-top: calc(12px + env(safe-area-inset-top, 0));
-    padding-left: calc(12px + env(safe-area-inset-left, 0));
-    padding-right: calc(12px + env(safe-area-inset-right, 0));
-    padding-bottom: calc(12px + env(safe-area-inset-bottom, 0));
-    border: 4px solid #00ffff; /* Thick cyan border */
-    border-radius: 0;
-    box-sizing: border-box;
-    overflow: hidden;
 
-    .sidebar-content {
-      padding: 0; /* Reset padding for mobile content */
-      max-height: calc(100% - 40px); /* Account for potential header/footer space */
-    }
-  }
 
-  /* Styles for when the sidebar is closed (e.g., off-screen) */
-  &.closed {
-    transform: translateX(100%); /* Slide off-screen to the right */
-  }
-
-  /* Styles for when the sidebar is open */
-  &:not(.closed) {
-    transform: translateX(0); /* Visible */
-  }
 
   /* Resize area hover glow effects */
   &:hover {
@@ -352,7 +310,7 @@
         background: var(--color-primary);
         border-radius: 50%;
         transition: background-color variables.$transition-speed-fast variables.$transition-ease;
-yes 
+
         &:hover {
           background: var(--color-secondary);
         }

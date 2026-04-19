@@ -11,7 +11,7 @@ import ConditionalDevFeatures from '../../vision/ConditionalDevFeatures.jsx';
 function MainLayout({ children }) {
   const { getSelectedImage } = useSlideshow();
   const { getPageControls } = usePage();
-  const { isSidebarOpen, isDevMode, isMobileView } = useDevTools();
+  const { isSidebarOpen, isDevMode, isMobileView, sidebarWidth } = useDevTools();
   const logger = useLogger('MainLayout', {
     logMount: true,
     logUnmount: true,
@@ -48,27 +48,17 @@ function MainLayout({ children }) {
 
   }, [backgroundImageSrc, globalControls]);
 
-  // Update sidebar state for CSS Grid layout
-  // For right-side overlay sidebar, we don't need to adjust content width
-  // The sidebar is positioned as an overlay on the right
+  // Sync --sidebar-width CSS variable so _layout.scss can shift the content
+  // centring axis to account for the fixed sidebar overlay.
+  // Value is 0 when the sidebar is closed, hidden, or on mobile.
   useEffect(() => {
-    const root = document.documentElement;
-    const shouldExpand = isSidebarOpen && isDevMode && !isMobileView;
-    // For right-side overlay, we don't need to adjust content width
-    // The sidebar overlays on top of content, doesn't push it
-    root.style.setProperty('--sidebar-width', '0px');
-    
-    // Ensure main content maintains its centering
-    const mainElement = document.querySelector('main');
-    if (mainElement) {
-      mainElement.style.display = 'grid';
-      mainElement.style.placeItems = 'center';
-      mainElement.style.width = '100%';
-      mainElement.style.maxWidth = 'var(--container-5xl)';
-      mainElement.style.margin = '0 auto';
-      mainElement.style.padding = '0 var(--space-4)';
-    }
-  }, [isSidebarOpen, isDevMode, isMobileView]);
+    const effectiveWidth =
+      isSidebarOpen && isDevMode && !isMobileView ? sidebarWidth : 0;
+    document.documentElement.style.setProperty(
+      '--sidebar-width',
+      `${effectiveWidth}px`
+    );
+  }, [isSidebarOpen, isDevMode, isMobileView, sidebarWidth]);
 
   // Layout state logging - simplified
   useEffect(() => {

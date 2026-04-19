@@ -9,67 +9,62 @@
 // ============================================================================
 
 .app-container {
-  // CSS Grid layout for the entire application
   display: grid;
   grid-template-areas:
     "header"
-    "main"; /* Default: single column for header and main */
-  grid-template-columns: 1fr; /* Default: main content takes full width */
+    "main";
+  grid-template-columns: 1fr;
   grid-template-rows: var(--header-height) 1fr;
 
+  position: relative;
   min-height: 100vh;
   width: 100vw;
+  box-sizing: border-box;
 
-  // Dynamic background styling from CSS custom properties
-  background-image: var(--app-background-image, none);
-  background-size: var(--app-background-size, cover);
-  background-position: var(--app-background-position, center);
-  background-repeat: var(--app-background-repeat, no-repeat);
-  background-attachment: var(--app-background-attachment, fixed);
-  opacity: var(--app-background-opacity, 1);
-  filter: var(--app-background-filter, none);
+  // When the dev sidebar is open (desktop only), shift the content centring
+  // axis so content stays centred in the *visible* area rather than the full
+  // viewport (which the sidebar partially covers). --sidebar-width is written
+  // to :root by MainLayout and resets to 0 when the sidebar closes.
+  padding-right: var(--sidebar-width, 0px);
+  transition: padding-right var(--transition-normal);
 
-  // Retro-futuristic grid overlay
+  // ── Retro grid overlay ────────────────────────────────────────────────────
+  // Rendered above the background image (z-index -1 vs -2) so the grid lines
+  // appear on top of any custom background.
   &::before {
     content: '';
     position: fixed;
-    top: 0;
-    left: 0;
-    width: 100vw;
-    height: 100vh;
+    inset: 0;
     background-image:
-      linear-gradient(to right, rgba(var(--color-text-rgb), 0.03) 1px, transparent 1px),
+      linear-gradient(to right,  rgba(var(--color-text-rgb), 0.03) 1px, transparent 1px),
       linear-gradient(to bottom, rgba(var(--color-text-rgb), 0.03) 1px, transparent 1px);
     background-size: 20px 20px;
     pointer-events: none;
-    z-index: var(--z-index-base);
+    z-index: -1;
     opacity: 0.8;
+  }
+
+  // ── Dynamic background image ───────────────────────────────────────────────
+  // CRITICAL: Isolated to this pseudo-element so that --app-background-opacity
+  // and --app-background-filter (set by dev tools) only affect the background
+  // layer and never bleed onto page content or UI elements.
+  &::after {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image:      var(--app-background-image, none);
+    background-size:       var(--app-background-size, cover);
+    background-position:   var(--app-background-position, center);
+    background-repeat:     var(--app-background-repeat, no-repeat);
+    background-attachment: var(--app-background-attachment, fixed);
+    opacity: var(--app-background-opacity, 1);
+    filter:  var(--app-background-filter, none);
+    pointer-events: none;
+    z-index: -2;
   }
 }
 
-// When sidebar is expanded, adjust the layout of the app-container
-.app-container {
-  // Sidebar expansion constraints now handled by individual page styles
-  // Main element no longer centers itself - pages handle their own centering
-  
-  // Ensure main content area maintains its centering despite any overrides
-  > main {
-    width: 100%;
-    max-width: var(--container-5xl);
-    margin: 0 auto;
-    padding: 0 var(--space-4);
-  }
-  
-  // Ensure all page content is uniformly centered
-  > main {
-    display: grid;
-    place-items: center;
-    width: 100%;
-    max-width: var(--container-5xl);
-    margin: 0 auto;
-    padding: 0 var(--space-4);
-  }
-}
+
 
 
 
@@ -89,21 +84,17 @@
 // ============================================================================
 
 .app-container > main {
+  grid-area: main;
   position: relative;
-  grid-area: main; /* Explicitly assign main to its area */
   z-index: var(--z-index-base);
   min-height: calc(100vh - var(--header-height));
 
-  // Center content within the main area
+  // Full-width slot — individual page sections centre themselves with
+  // max-width + margin: auto. Adding max-width or place-items here would
+  // fight the page-level centering and cause the left-shift bug.
   width: 100%;
-  max-width: var(--container-5xl);
-  margin: 0 auto;
   padding: 0 var(--space-4);
 }
-
-// ============================================================================
-// CONTAINER UTILITY CLASSES
-// ============================================================================
 
 // ============================================================================
 // CONTAINER UTILITY CLASSES
@@ -165,53 +156,21 @@
 // ============================================================================
 
 @media (max-width: 640px) {
-  .app-container > main {
-    padding: var(--space-2);
-
-    > * {
-      padding: var(--space-2);
-    }
-  }
-
-  .container {
-    padding-left: var(--space-2);
-    padding-right: var(--space-2);
-  }
+  .app-container > main { padding: var(--space-2); }
+  .container { padding-inline: var(--space-2); }
 }
 
 @media (max-width: 768px) {
-  .app-container > main {
-    padding: var(--space-3);
-
-    > * {
-      padding: var(--space-3);
-    }
-  }
-
-  .container {
-    padding-left: var(--space-3);
-    padding-right: var(--space-3);
-  }
+  .app-container > main { padding: var(--space-3); }
+  .container { padding-inline: var(--space-3); }
 }
 
 @media (min-width: 1024px) {
-  .app-container > main {
-    padding: var(--space-6);
-
-    > * {
-      padding: var(--space-6);
-    }
-  }
+  .app-container > main { padding: var(--space-6); }
 }
 
 @media (min-width: 1280px) {
-  .app-container > main {
-    padding: var(--space-8);
-
-    > * {
-      padding: var(--space-8);
-    }
-  }
+  .app-container > main { padding: var(--space-8); }
 }
 
 // ============================================================================
@@ -236,46 +195,5 @@
   margin: 0 auto;
 }
 
-// ============================================================================
-// VIEW SWITCHER CONTENT OVERRIDES
-// ============================================================================
 
-// Override ViewSwitcher body classes to prevent them from affecting main content centering
-// These styles ensure that ViewSwitcher only affects the sidebar and ViewSwitcher itself,
-// not the main content layout
-.force-mobile-view,
-.force-desktop-view {
-  // Ensure main content area maintains its centering despite ViewSwitcher overrides
-  .app-container > main {
-    width: 100%;
-    max-width: var(--container-5xl);
-    margin: 0 auto;
-    padding: 0 var(--space-4);
-    display: grid;
-    place-items: center;
-  }
-  
-  // Ensure generic page content maintains centering
-  .generic-page {
-    place-items: center !important;
-    width: 100% !important;
-    max-width: var(--container-5xl) !important;
-    margin: 0 auto !important;
-  }
-  
-  // Ensure specific page content wrappers maintain centering
-  .about-content,
-  .resume-content,
-  .contact-content,
-  .blog-content,
-  .process-content,
-  .testimonials-content,
-  .shop-content,
-  .links-content {
-    place-items: center !important;
-    width: 100% !important;
-    max-width: var(--container-5xl) !important;
-    margin: 0 auto !important;
-  }
-}
 
