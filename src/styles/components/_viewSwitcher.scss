@@ -146,6 +146,9 @@
   .dev-sidebar:not(.closed) ~ * {
     overflow: hidden !important;
   }
+  
+  // DO NOT override main content centering - let generic page styles handle this
+  // Remove any styles that might interfere with .generic-page centering
 }
 
 // Force desktop view styles
@@ -205,4 +208,7 @@
       }
     }
   }
+  
+  // DO NOT override main content centering - let generic page styles handle this
+  // Remove any styles that might interfere with .generic-page centering
 }

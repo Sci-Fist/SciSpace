@@ -48,14 +48,27 @@
 }
 
 // When sidebar is expanded, adjust the layout of the app-container
-html[data-sidebar-expanded="true"] .app-container {
-  grid-template-areas:
-    "header header"
-    "main main"; /* Adjust to accommodate sidebar as an overlay */
-  grid-template-columns: 1fr; /* Main content remains 1fr */
-
+.app-container {
   // Sidebar expansion constraints now handled by individual page styles
   // Main element no longer centers itself - pages handle their own centering
+  
+  // Ensure main content area maintains its centering despite any overrides
+  > main {
+    width: 100%;
+    max-width: var(--container-5xl);
+    margin: 0 auto;
+    padding: 0 var(--space-4);
+  }
+  
+  // Ensure all page content is uniformly centered
+  > main {
+    display: grid;
+    place-items: center;
+    width: 100%;
+    max-width: var(--container-5xl);
+    margin: 0 auto;
+    padding: 0 var(--space-4);
+  }
 }
 
 
@@ -81,9 +94,11 @@ html[data-sidebar-expanded="true"] .app-container {
   z-index: var(--z-index-base);
   min-height: calc(100vh - var(--header-height));
 
-  // No padding - centering handled by page content
+  // Center content within the main area
   width: 100%;
-  // Removed: max-width and margin centering - now handled by individual pages
+  max-width: var(--container-5xl);
+  margin: 0 auto;
+  padding: 0 var(--space-4);
 }
 
 // ============================================================================
@@ -203,33 +218,8 @@ html[data-sidebar-expanded="true"] .app-container {
 // VIEW SWITCHER - Global Layout Overrides
 // ============================================================================
 
-// Force mobile view - simulate mobile viewport for entire application
-body.force-mobile-view {
-  .app-container {
-    width: 100%; // Allow it to take the full width of its constrained parent
-    max-width: var(--breakpoint-sm); // Use breakpoint variable for consistent mobile width
-    margin: 0 auto; // Center it
-    overflow-x: hidden;
-    min-height: 100vh; // Ensure it still takes full height
-    // Removed transform: scale; for natural reflow
-  }
-
-  // Prevent scrolling outside the simulated viewport
-  html, body {
-    overflow: hidden;
-  }
-}
-
-// Force desktop view - ensure full desktop layout
-body.force-desktop-view {
-  .app-container {
-    width: 100%; // Reset to full width
-    max-width: 100%;
-    margin: 0;
-    overflow-x: auto;
-    transform: none;
-  }
-}
+// Note: force-mobile-view and force-desktop-view styles have been moved to
+// their respective component files to avoid interfering with main layout centering
 
 // ============================================================================
 // LEGACY COMPATIBILITY - Remove after full migration
@@ -244,5 +234,48 @@ body.force-desktop-view {
 .page-content {
   width: 100%;
   margin: 0 auto;
+}
+
+// ============================================================================
+// VIEW SWITCHER CONTENT OVERRIDES
+// ============================================================================
+
+// Override ViewSwitcher body classes to prevent them from affecting main content centering
+// These styles ensure that ViewSwitcher only affects the sidebar and ViewSwitcher itself,
+// not the main content layout
+.force-mobile-view,
+.force-desktop-view {
+  // Ensure main content area maintains its centering despite ViewSwitcher overrides
+  .app-container > main {
+    width: 100%;
+    max-width: var(--container-5xl);
+    margin: 0 auto;
+    padding: 0 var(--space-4);
+    display: grid;
+    place-items: center;
+  }
+  
+  // Ensure generic page content maintains centering
+  .generic-page {
+    place-items: center !important;
+    width: 100% !important;
+    max-width: var(--container-5xl) !important;
+    margin: 0 auto !important;
+  }
+  
+  // Ensure specific page content wrappers maintain centering
+  .about-content,
+  .resume-content,
+  .contact-content,
+  .blog-content,
+  .process-content,
+  .testimonials-content,
+  .shop-content,
+  .links-content {
+    place-items: center !important;
+    width: 100% !important;
+    max-width: var(--container-5xl) !important;
+    margin: 0 auto !important;
+  }
 }
 

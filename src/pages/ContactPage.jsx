@@ -128,7 +128,13 @@ function ContactPage() {
         '--background-pattern': controls.backgroundPattern && controls.backgroundPattern !== 'none' ? 'block' : 'none',
         '--pattern-opacity': controls.backgroundPatternOpacity || 0.1,
         '--pattern-color': controls.backgroundPatternColor || '#00e6e6',
-        animationDelay: controls.showAnimations !== false ? `${controls.animationDelay || 0}s` : '0s'
+        animationDelay: controls.showAnimations !== false ? `${controls.animationDelay || 0}s` : '0s',
+        // Force centering to override any ViewSwitcher conflicts
+        display: 'grid',
+        placeItems: 'center',
+        width: '100%',
+        maxWidth: 'var(--container-5xl)',
+        margin: '0 auto'
       }}
     >
       <div

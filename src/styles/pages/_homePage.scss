@@ -9,10 +9,8 @@
   margin: 0 auto;
   min-height: 100%;
 
-  // Handle sidebar expansion - reduce available width
-  html[data-sidebar-expanded="true"] & {
-    max-width: calc(var(--container-7xl) - var(--sidebar-width-expanded));
-  }
+  // Sidebar is a right-side overlay, doesn't affect content width
+  // Content remains centered regardless of sidebar state
 
   // Page-specific spacing and layout
   padding: var(--space-8) var(--space-4);

@@ -18,10 +18,8 @@
   min-height: 100%;
   text-align: center;
 
-  // Handle sidebar expansion - reduce available width (content stays centered)
-  html[data-sidebar-expanded="true"] & {
-    max-width: calc(var(--container-5xl) - var(--sidebar-width-expanded));
-  }
+  // Sidebar is a right-side overlay, doesn't affect content width
+  // Content remains centered regardless of sidebar state
 
   // Headings
   h1, h2, h3, h4, h5, h6 {
@@ -50,6 +48,35 @@
     text-align: left;
     max-width: var(--container-xl);
     margin: 0 auto var(--space-4) auto;
+  }
+  
+  // Override ViewSwitcher body classes to prevent them from affecting content centering
+  // These styles ensure that ViewSwitcher only affects the sidebar and ViewSwitcher itself,
+  // not the main content layout
+  .force-mobile-view &,
+  .force-desktop-view & {
+    // Ensure generic page content maintains centering
+    place-items: center !important;
+    width: 100% !important;
+    max-width: var(--container-5xl) !important;
+    margin: 0 auto !important;
+    text-align: center !important;
+    
+    // Ensure specific page content wrappers maintain centering
+    .about-content,
+    .resume-content,
+    .contact-content,
+    .blog-content,
+    .process-content,
+    .testimonials-content,
+    .shop-content,
+    .links-content {
+      place-items: center !important;
+      width: 100% !important;
+      max-width: var(--container-5xl) !important;
+      margin: 0 auto !important;
+      text-align: center !important;
+    }
   }
 
   // Links
@@ -209,7 +236,7 @@
 .testimonials-page {
   .testimonials-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
     gap: var(--space-6);
     width: 100%;
     max-width: var(--container-5xl);
@@ -266,7 +293,7 @@
 .shop-page {
   .shop-items-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
     gap: var(--space-6);
     width: 100%;
     max-width: var(--container-5xl);

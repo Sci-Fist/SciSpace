@@ -49,11 +49,25 @@ function MainLayout({ children }) {
   }, [backgroundImageSrc, globalControls]);
 
   // Update sidebar state for CSS Grid layout
-  // Must match the same conditions as DevToolsContext for --sidebar-width
+  // For right-side overlay sidebar, we don't need to adjust content width
+  // The sidebar is positioned as an overlay on the right
   useEffect(() => {
     const root = document.documentElement;
     const shouldExpand = isSidebarOpen && isDevMode && !isMobileView;
-    root.setAttribute('data-sidebar-expanded', shouldExpand ? 'true' : 'false');
+    // For right-side overlay, we don't need to adjust content width
+    // The sidebar overlays on top of content, doesn't push it
+    root.style.setProperty('--sidebar-width', '0px');
+    
+    // Ensure main content maintains its centering
+    const mainElement = document.querySelector('main');
+    if (mainElement) {
+      mainElement.style.display = 'grid';
+      mainElement.style.placeItems = 'center';
+      mainElement.style.width = '100%';
+      mainElement.style.maxWidth = 'var(--container-5xl)';
+      mainElement.style.margin = '0 auto';
+      mainElement.style.padding = '0 var(--space-4)';
+    }
   }, [isSidebarOpen, isDevMode, isMobileView]);
 
   // Layout state logging - simplified

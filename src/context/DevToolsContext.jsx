@@ -48,13 +48,8 @@ export const DevToolsProvider = ({ children }) => {
     }
   }, [isDevMode]);
 
-  // Set CSS custom properties for sidebar width to enable content pushing
-  // Only push content on desktop, not on mobile where overlay is preferred
-  useEffect(() => {
-    const shouldPushContent = isSidebarOpen && isDevMode && !isMobileView;
-    const cssSidebarWidth = shouldPushContent ? `${sidebarWidth}px` : '0px';
-    document.documentElement.style.setProperty('--sidebar-width', cssSidebarWidth);
-  }, [isSidebarOpen, isDevMode, sidebarWidth, isMobileView]);
+  // Note: --sidebar-width is now managed by MainLayout to ensure proper synchronization
+  // with the data-sidebar-expanded attribute logic
 
   useEffect(() => {
     localStorage.setItem('devSidebarOpen', isSidebarOpen);

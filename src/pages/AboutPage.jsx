@@ -27,7 +27,13 @@ function AboutPage() {
         backgroundImage: getBackgroundPattern(),
         backgroundSize: controls.backgroundPattern === 'dots' ? '20px 20px' :
                        controls.backgroundPattern === 'grid' ? '40px 40px' : 'auto',
-        animation: controls.showAnimations !== false ? 'fadeInUp 0.8s ease-out' : 'none'
+        animation: controls.showAnimations !== false ? 'fadeInUp 0.8s ease-out' : 'none',
+        // Force centering to override any ViewSwitcher conflicts
+        display: 'grid',
+        placeItems: 'center',
+        width: '100%',
+        maxWidth: 'var(--container-5xl)',
+        margin: '0 auto'
       }}
     >
       <h2

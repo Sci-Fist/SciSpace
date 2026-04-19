@@ -23,10 +23,8 @@
   max-width: var(--container-7xl);
   margin: 0 auto;
 
-  // Handle sidebar expansion - reduce available width
-  html[data-sidebar-expanded="true"] & {
-    max-width: calc(var(--container-7xl) - var(--sidebar-width-expanded));
-  }
+  // Sidebar is a right-side overlay, doesn't affect content width
+  // Content remains centered regardless of sidebar state
 
   // Ensure content is properly constrained within the layout
   > * {
@@ -120,7 +118,7 @@
 // Grid Layout - CSS Grid for uniform arrangement
 .gallery-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
   gap: var(--space-4);
   width: 100%;
   align-items: start;

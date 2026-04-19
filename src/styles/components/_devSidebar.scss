@@ -17,6 +17,15 @@
   overflow: hidden; /* Prevent sidebar from scrolling, let content handle it */
   box-sizing: border-box; /* Include padding and border in the element's total width and height */
   pointer-events: auto; /* Ensure sidebar captures events */
+  
+  // Ensure sidebar doesn't interfere with main content centering
+  &.closed {
+    transform: translateX(100%) !important;
+  }
+  
+  &.open {
+    transform: translateX(0) !important;
+  }
 
   /* Styles for content within the sidebar */
   .sidebar-content {

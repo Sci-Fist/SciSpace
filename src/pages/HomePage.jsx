@@ -247,7 +247,7 @@ function HomePage() {
                 opacity: controls.artButtonOpacity || 1
               }}
             >
-              {getTextContent('home.artButtonText') || 'Explore 3D Art'}
+              {getTextContent('home.artButtonText') || 'Explore Art'}
             </a>
             <a
               href="/music"
