@@ -268,7 +268,7 @@ function ContentUploadSection() {
           <h5>Detected Assets ({currentUploads.length})</h5>
           <div className="file-list">
             {currentUploads.map(file => (
-              <div key={file.id} className={ile-item }>
+              <div key={file.id} className="file-item">
                 <div className="file-info">
                   <img src={file.url || file.src} alt={file.name} className="file-preview" />
                   <div className="file-details">
