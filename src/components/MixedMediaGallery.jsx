@@ -3,7 +3,7 @@ import { useLogger } from '../hooks/useLogger.js';
 import { useFileManager } from '../context/FileManagerContext.jsx';
 import { useSlideshow } from '../context/SlideshowContext.jsx';
 import MusicCard from './MusicCard.jsx';
-import HomeGalleryModal from './HomeGalleryModal.jsx';
+import { GalleryModal } from './GalleryModal.jsx';
 
 // Mixed Media Gallery Component - Advanced masonry system with music playback
 function MixedMediaGallery() {
@@ -684,7 +684,7 @@ function MixedMediaGallery() {
       </div>
 
       {/* Gallery Modal - Popout functionality */}
-      <HomeGalleryModal
+      <GalleryModal
         isOpen={isModalOpen}
         onClose={closeModal}
         items={displayItems}

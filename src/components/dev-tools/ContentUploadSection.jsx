@@ -25,12 +25,12 @@ function ImageSlideshow({ images, onSelectImage }) {
           >
             {image.needsReupload ? (
               <div className="thumbnail-placeholder">
-                <span>🔄</span>
+                <span>??</span>
                 <small>Re-upload</small>
               </div>
             ) : (
               <img
-                src={image.url}
+                src={image.url || image.src}
                 alt={image.name}
                 onError={(e) => {
                   e.target.style.display = 'none';
@@ -39,7 +39,7 @@ function ImageSlideshow({ images, onSelectImage }) {
               />
             )}
             <div className="thumbnail-error" style={{ display: 'none' }}>
-              ✕
+              ?
             </div>
           </button>
         ))}
@@ -57,35 +57,24 @@ function CollapsibleGallery({ category, files, onSelectImage, selectedImage }) {
   } = useContent();
 
   const [isExpanded, setIsExpanded] = useState(false);
-  const [galleryLayout, setGalleryLayout] = useState('list'); // Individual layout state for each gallery
+  const [galleryLayout, setGalleryLayout] = useState('list');
   const [showLayoutDropdown, setShowLayoutDropdown] = useState(false);
   const dropdownRef = useRef(null);
 
-  // Close dropdown when clicking outside
   useEffect(() => {
     const handleClickOutside = (event) => {
       if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
         setShowLayoutDropdown(false);
       }
     };
-
-    if (showLayoutDropdown) {
-      document.addEventListener('mousedown', handleClickOutside);
-    }
-
-    return () => {
-      document.removeEventListener('mousedown', handleClickOutside);
-    };
+    if (showLayoutDropdown) document.addEventListener('mousedown', handleClickOutside);
+    return () => document.removeEventListener('mousedown', handleClickOutside);
   }, [showLayoutDropdown]);
+
   const categoryFiles = files.filter(file => file.category === category.name);
-  const categoryImages = categoryFiles.filter(file => file.type.startsWith('image/'));
+  const categoryImages = categoryFiles.filter(file => file.type?.startsWith('image/') || !file.type); // Support bootstrapped images with missing type
 
-  // Get slideshow settings for this category
   const slideshowSettings = getSlideshowSettings(currentPage, category.name);
-
-  // Debug: Log gallery data (removed console.log spam)
-
-  // Show gallery even if empty, but indicate no files
   const hasFiles = categoryFiles.length > 0;
   const hasImages = categoryImages.length > 0;
 
@@ -96,264 +85,48 @@ function CollapsibleGallery({ category, files, onSelectImage, selectedImage }) {
   return (
     <div className="category-gallery">
       <div className="gallery-header">
-        <button
-          className="gallery-toggle-btn"
-          onClick={() => setIsExpanded(!isExpanded)}
-        >
+        <button className="gallery-toggle-btn" onClick={() => setIsExpanded(!isExpanded)}>
           <span className="gallery-icon">{category.icon}</span>
-          <span className="gallery-title">{category.name} Gallery</span>
+          <span className="gallery-title">{category.name}</span>
           <span className="gallery-count">({categoryFiles.length})</span>
-          <span className="gallery-arrow">{isExpanded ? '▼' : '▶'}</span>
+          <span className="gallery-arrow">{isExpanded ? '?' : '?'}</span>
         </button>
 
-        {/* Slideshow Enable Checkbox - Always visible */}
-        {hasImages && (
+        {hasImages && currentPage === '/' && (
           <label className="slideshow-enable-label compact">
             <input
               type="checkbox"
               checked={slideshowSettings.enabled || false}
               onChange={() => toggleSlideshowEnabled(currentPage, category.name)}
             />
-            <span>Slideshow</span>
-            {slideshowSettings.enabled && (
-              <span className="status-indicator enabled small">●</span>
-            )}
+            <span>Show</span>
           </label>
         )}
       </div>
 
       {isExpanded && (
         <div className="gallery-content">
-          {/* Layout Selector - Top Left of Gallery */}
-          <div className="gallery-layout-selector">
-            <div className="layout-dropdown" ref={dropdownRef}>
-              <button
-                className="layout-dropdown-trigger"
-                onClick={() => setShowLayoutDropdown(!showLayoutDropdown)}
-              >
-                {galleryLayout === 'list' && '📋 List'}
-                {galleryLayout === 'grid-small' && '🔍 Small Grid'}
-                {galleryLayout === 'grid-medium' && '📐 Medium Grid'}
-                {galleryLayout === 'icons-only' && '🎯 Icons Only'}
-                <span className="dropdown-arrow">{showLayoutDropdown ? '▲' : '▼'}</span>
-              </button>
-
-              {showLayoutDropdown && (
-                <div className="layout-dropdown-menu">
-                  <button
-                    className={`layout-option ${galleryLayout === 'list' ? 'active' : ''}`}
-                    onClick={() => {
-                      setGalleryLayout('list');
-                      setShowLayoutDropdown(false);
-                    }}
-                  >
-                    📋 List
-                  </button>
-                  <button
-                    className={`layout-option ${galleryLayout === 'grid-small' ? 'active' : ''}`}
-                    onClick={() => {
-                      setGalleryLayout('grid-small');
-                      setShowLayoutDropdown(false);
-                    }}
-                  >
-                    🔍 Small Grid
-                  </button>
-                  <button
-                    className={`layout-option ${galleryLayout === 'grid-medium' ? 'active' : ''}`}
-                    onClick={() => {
-                      setGalleryLayout('grid-medium');
-                      setShowLayoutDropdown(false);
-                    }}
-                  >
-                    📐 Medium Grid
-                  </button>
-                  <button
-                    className={`layout-option ${galleryLayout === 'icons-only' ? 'active' : ''}`}
-                    onClick={() => {
-                      setGalleryLayout('icons-only');
-                      setShowLayoutDropdown(false);
-                    }}
-                  >
-                    🎯 Icons Only
-                  </button>
-                </div>
-              )}
+          {currentPage === '/' && (
+            <div className="mode-tabs">
+              <button className={`mode-tab ${!slideshowSettings.enabled ? 'active' : ''}`} onClick={() => !slideshowSettings.enabled ? null : toggleSlideshowEnabled(currentPage, category.name)}>Gallery</button>
+              <button className={`mode-tab ${slideshowSettings.enabled ? 'active' : ''}`} onClick={() => slideshowSettings.enabled ? null : toggleSlideshowEnabled(currentPage, category.name)}>Slides</button>
             </div>
-          </div>
+          )}
 
-          {/* Mode Tabs */}
-          <div className="mode-tabs">
-            <button
-              className={`mode-tab ${!slideshowSettings.enabled ? 'active' : ''}`}
-              onClick={() => toggleSlideshowEnabled(currentPage, category.name)}
-            >
-              Gallery
-            </button>
-            <button
-              className={`mode-tab ${slideshowSettings.enabled ? 'active' : ''}`}
-              onClick={() => toggleSlideshowEnabled(currentPage, category.name)}
-            >
-              Slideshow
-            </button>
-          </div>
-
-          {/* Gallery Mode */}
-          {!slideshowSettings.enabled && (
+          {(!slideshowSettings.enabled || currentPage !== '/') && (
             <div className="mode-content">
               {hasFiles ? (
-                <div className={`gallery-grid layout-${galleryLayout}`}>
+                <div className={`gallery-grid layout-grid-small`}>
                   {categoryFiles.map(file => (
-                    <div
-                      key={file.id}
-                      className={`gallery-item ${selectedImage === file.id ? 'selected' : ''}`}
-                      onClick={() => onSelectImage(file.id)}
-                    >
-                      {file.type.startsWith('image/') && (
-                        file.needsReupload ? (
-                          <div className="image-placeholder">
-                            <span>🔄 Re-upload needed</span>
-                            <small>Browser restart</small>
-                          </div>
-                        ) : (
-                          <img
-                            src={file.url}
-                            alt={file.name}
-                            className="gallery-image"
-                            onError={(e) => {
-                              console.error('Image failed to load:', file.name, 'URL length:', file.url?.length, 'URL start:', file.url?.substring(0, 50));
-                              // Show a placeholder instead of hiding
-                              e.target.src = `data:image/svg+xml;base64,${btoa(`
-                                <svg width="80" height="80" xmlns="http://www.w3.org/2000/svg">
-                                  <rect width="80" height="80" fill="#f0f0f0"/>
-                                  <text x="40" y="45" text-anchor="middle" font-family="Arial" font-size="10" fill="#666">
-                                    Image Error
-                                  </text>
-                                </svg>
-                              `)}`;
-                              e.target.style.opacity = '0.5';
-                            }}
-                            onLoad={() => {
-                              console.log('Image loaded successfully:', file.name);
-                            }}
-                          />
-                        )
-                      )}
-                      <div className="gallery-overlay">
-                        <span className="gallery-filename">{file.name}</span>
-                        <span className="gallery-size">{(file.size / 1024 / 1024).toFixed(2)} MB</span>
-                      </div>
-                      {selectedImage === file.id && (
-                        <div className="selection-indicator">✓</div>
-                      )}
+                    <div key={file.id} className={`gallery-item ${selectedImage === file.id ? 'selected' : ''}`} onClick={() => onSelectImage(file.id)}>
+                      <img src={file.url || file.src} alt={file.name} className="gallery-image" />
+                      {selectedImage === file.id && <div className="selection-indicator">✓</div>}
                     </div>
                   ))}
                 </div>
-              ) : (
-                <div className="gallery-empty">
-                  <p>No files uploaded to this category yet.</p>
-                  <small>Click the upload button above to add files.</small>
-                </div>
-              )}
+              ) : <div className="gallery-empty">No files in category.</div>}
             </div>
           )}
-
-          {/* Slideshow Mode */}
-          {slideshowSettings.enabled && (
-            <div className="mode-content">
-              {/* Image Selection for Slideshow */}
-              {hasImages && (
-                <div className="slideshow-image-selection">
-                  <h6>Select Images for Slideshow ({slideshowSettings.images?.length || 0} selected)</h6>
-                  <div className={`gallery-grid slideshow-selection-grid layout-${galleryLayout}`}>
-                    {categoryImages.map(file => {
-                      const isSelectedForSlideshow = slideshowSettings.images?.includes(file.id) || false;
-                      return (
-                        <div
-                          key={file.id}
-                          className={`gallery-item slideshow-selectable ${isSelectedForSlideshow ? 'slideshow-selected' : ''}`}
-                          onClick={() => handleSlideshowImageToggle(file.id)}
-                        >
-                          {file.needsReupload ? (
-                            <div className="image-placeholder">
-                              <span>🔄 Re-upload needed</span>
-                              <small>Browser restart</small>
-                            </div>
-                          ) : (
-                            <img
-                              src={file.url}
-                              alt={file.name}
-                              className="gallery-image"
-                              onError={(e) => {
-                                console.error('Image failed to load:', file.name);
-                                e.target.src = `data:image/svg+xml;base64,${btoa(`
-                                  <svg width="80" height="80" xmlns="http://www.w3.org/2000/svg">
-                                    <rect width="80" height="80" fill="#f0f0f0"/>
-                                    <text x="40" y="45" text-anchor="middle" font-family="Arial" font-size="10" fill="#666">
-                                      Image Error
-                                    </text>
-                                  </svg>
-                                `)}`;
-                              }}
-                            />
-                          )}
-                          <div className="gallery-overlay">
-                            <span className="gallery-filename">{file.name}</span>
-                            <span className="gallery-size">{(file.size / 1024 / 1024).toFixed(2)} MB</span>
-                          </div>
-                          {isSelectedForSlideshow && (
-                            <div className="slideshow-selection-indicator">🎠</div>
-                          )}
-                        </div>
-                      );
-                    })}
-                  </div>
-                </div>
-              )}
-
-              {!hasImages && (
-                <div className="gallery-empty">
-                  <p>No images in this category for slideshow.</p>
-                  <small>Upload images to this category first.</small>
-                </div>
-              )}
-            </div>
-          )}
-        </div>
-      )}
-    </div>
-  );
-}
-
-// Collapsible Slideshow Component for each category
-function CollapsibleSlideshow({ category, files }) {
-  const [isExpanded, setIsExpanded] = useState(false);
-  const categoryImages = files.filter(file => file.category === category.name && file.type.startsWith('image/'));
-
-  const hasImages = categoryImages.length > 0;
-
-  return (
-    <div className="category-slideshow">
-      <button
-        className="slideshow-toggle-btn"
-        onClick={() => setIsExpanded(!isExpanded)}
-        disabled={!hasImages}
-      >
-        <span className="slideshow-icon">🎠</span>
-        <span className="slideshow-title">{category.name} Slideshow</span>
-        <span className="slideshow-count">({categoryImages.length})</span>
-        <span className="slideshow-arrow">{isExpanded ? '▼' : '▶'}</span>
-      </button>
-
-      {isExpanded && hasImages && (
-        <div className="slideshow-content">
-          <ImageSlideshow images={categoryImages} />
-        </div>
-      )}
-
-      {isExpanded && !hasImages && (
-        <div className="slideshow-empty">
-          <p>No images in this category to display in slideshow.</p>
-          <small>Upload images to this category first.</small>
         </div>
       )}
     </div>
@@ -365,288 +138,108 @@ function ContentUploadSection() {
   const {
     addUploadedFiles,
     removeUploadedFile,
-    selectImage,
-    getSelectedImage,
+    updateMediaItem,
     getUploadedFiles,
-    toggleSlideshowEnabled,
-    toggleSlideshowImage
+    getSelectedImage,
+    selectImage,
+    isLoading
   } = useContent();
-  const fileInputRef = useRef(null);
+
+  const [editingFileId, setEditingFileId] = useState(null);
+  const [editData, setEditData] = useState({ name: '', category: '' });
 
   const getUploadOptions = () => {
     switch (currentPage) {
-      case '/':
-        return {
-          title: 'Content Management',
-          sectionTitle: 'Homepage Assets',
-          description: 'Manage and upload homepage visual content',
-          categories: [
-            { name: 'Hero Images', accept: 'image/*', icon: '🖼️', description: 'Main banner images' },
-            { name: 'Background Images', accept: 'image/*', icon: '🎨', description: 'Background visuals' },
-            { name: 'Logo/Icon', accept: 'image/*', icon: '⭐', description: 'Branding elements' }
-          ]
-        };
       case '/2d-art':
         return {
-          title: 'Content Management',
           sectionTitle: '2D Art Assets',
-          description: 'Upload and manage 2D artwork files',
+          description: 'Manage 2D artwork and illustrations.',
           categories: [
-            { name: 'Digital Paintings', accept: 'image/*', icon: '🎨', description: 'Finished paintings' },
-            { name: 'Illustrations', accept: 'image/*', icon: '✏️', description: 'Vector/digital illustrations' },
-            { name: 'Concept Art', accept: 'image/*', icon: '💡', description: 'Design concepts' },
-            { name: 'Sketches', accept: 'image/*', icon: '📝', description: 'Preliminary drawings' }
+            { name: 'Digital Paintings', accept: 'image/*', icon: '??', description: 'Finished works' },
+            { name: 'Illustrations', accept: 'image/*', icon: '??', description: 'Line art/vectors' },
+            { name: 'Concept Art', accept: 'image/*', icon: '??', description: 'Design sketches' },
+            { name: '2D Art', accept: 'image/*', icon: '??', description: 'General 2D' }
           ]
         };
       case '/3d-art':
         return {
-          title: 'Content Management',
           sectionTitle: '3D Art Assets',
-          description: 'Upload 3D models, renders, and project files',
+          description: 'Manage 3D renders and models.',
           categories: [
-            { name: '3D Renders', accept: 'image/*', icon: '🎯', description: 'Final rendered images' },
-            { name: 'Model Files', accept: 'image/*,.obj,.fbx,.blend,.gltf,.glb', icon: '📦', description: '3D model files' },
-            { name: 'Textures', accept: 'image/*', icon: '🧵', description: 'Material textures' },
-            { name: 'Project Files', accept: '.blend,.fbx,.obj', icon: '📁', description: 'Software project files' }
+            { name: 'Renders', accept: 'image/*', icon: '??', description: 'Final renders' },
+            { name: 'Models', accept: 'image/*,.obj,.fbx', icon: '??', description: '3D assets' },
+            { name: 'Characters', accept: 'image/*', icon: '??', description: '3D characters' },
+            { name: 'Environments', accept: 'image/*', icon: '??', description: 'Scene assets' }
           ]
         };
-      case '/music':
+      case '/sketches':
         return {
-          title: 'Content Management',
-          sectionTitle: 'Music Assets',
-          description: 'Upload audio tracks and music files',
+          sectionTitle: 'Sketch Assets',
+          description: 'Manage traditional and digital sketches.',
           categories: [
-            { name: 'Full Tracks', accept: 'audio/*,.wav,.mp3,.flac,.ogg', icon: '🎵', description: 'Complete songs' },
-            { name: 'Demos', accept: 'audio/*,.wav,.mp3,.flac,.ogg', icon: '🎼', description: 'Work-in-progress' },
-            { name: 'Stems', accept: 'audio/*,.wav,.mp3,.flac,.ogg', icon: '🎛️', description: 'Individual elements' },
-            { name: 'Loops', accept: 'audio/*,.wav,.mp3,.flac,.ogg', icon: '🔄', description: 'Reusable loops' }
+            { name: 'Life Drawing', accept: 'image/*', icon: '??', description: 'Anatomy studies' },
+            { name: 'Concepts', accept: 'image/*', icon: '??', description: 'Early designs' }
           ]
         };
-      case '/blog':
+      case '/photography':
         return {
-          title: 'Content Management',
-          sectionTitle: 'Blog Content',
-          description: 'Upload blog posts and related media',
+          sectionTitle: 'Photography Assets',
+          description: 'Manage professional photo series.',
           categories: [
-            { name: 'Blog Posts', accept: '.md,.txt,.doc,.docx', icon: '📝', description: 'Written articles' },
-            { name: 'Articles', accept: '.md,.txt,.doc,.docx', icon: '📰', description: 'Long-form content' },
-            { name: 'Images', accept: 'image/*', icon: '🖼️', description: 'Blog post images' },
-            { name: 'Documents', accept: '.pdf,.doc,.docx', icon: '📄', description: 'Supporting files' }
+            { name: 'Food Photography', accept: 'image/*', icon: '??', description: 'Culinary' },
+            { name: 'Architecture', accept: 'image/*', icon: '??', description: 'Structures' },
+            { name: 'Urban', accept: 'image/*', icon: '???', description: 'Cityscapes' },
+            { name: 'Video', accept: 'video/*', icon: '??', description: 'Motion' }
           ]
         };
-      case '/about':
+      case '/':
         return {
-          title: 'Content Management',
-          sectionTitle: 'About Page Assets',
-          description: 'Upload personal and professional content',
+          sectionTitle: 'Homepage Assets',
+          description: 'Manage hero slideshow and background visuals.',
           categories: [
-            { name: 'Profile Photos', accept: 'image/*', icon: '👤', description: 'Personal photos' },
-            { name: 'Resume/CV', accept: '.pdf,.doc,.docx', icon: '📋', description: 'Resume documents' },
-            { name: 'Portfolio PDFs', accept: '.pdf', icon: '📖', description: 'Portfolio files' },
-            { name: 'Certificates', accept: 'image/*,.pdf', icon: '🏆', description: 'Achievement certificates' }
-          ]
-        };
-      case '/resume':
-        return {
-          title: 'Content Management',
-          sectionTitle: 'Resume Assets',
-          description: 'Upload resume and career documents',
-          categories: [
-            { name: 'Resume PDF', accept: '.pdf,.doc,.docx', icon: '📄', description: 'Main resume file' },
-            { name: 'Cover Letter', accept: '.pdf,.doc,.docx', icon: '✉️', description: 'Cover letter' },
-            { name: 'Portfolio', accept: '.pdf,.zip', icon: '💼', description: 'Work samples' },
-            { name: 'References', accept: '.pdf,.doc,.docx', icon: '👥', description: 'Reference letters' }
-          ]
-        };
-      case '/contact':
-        return {
-          title: 'Content Management',
-          sectionTitle: 'Contact Assets',
-          description: 'Upload contact-related images and files',
-          categories: [
-            { name: 'Profile Images', accept: 'image/*', icon: '📸', description: 'Professional photos' },
-            { name: 'Business Cards', accept: 'image/*,.pdf', icon: '💳', description: 'Contact cards' },
-            { name: 'Contact Photos', accept: 'image/*', icon: '🤝', description: 'Meeting/event photos' }
-          ]
-        };
-      case '/process':
-        return {
-          title: 'Content Management',
-          sectionTitle: 'Process Documentation',
-          description: 'Upload workflow and tutorial content',
-          categories: [
-            { name: 'Workflow Images', accept: 'image/*', icon: '⚙️', description: 'Process diagrams' },
-            { name: 'Tutorials', accept: 'video/*,.pdf', icon: '🎥', description: 'How-to guides' },
-            { name: 'Process Docs', accept: '.pdf,.doc,.docx', icon: '📋', description: 'Documentation' },
-            { name: 'Videos', accept: 'video/*', icon: '🎬', description: 'Process videos' }
-          ]
-        };
-      case '/testimonials':
-        return {
-          title: 'Content Management',
-          sectionTitle: 'Testimonials',
-          description: 'Upload client testimonials and reviews',
-          categories: [
-            { name: 'Client Photos', accept: 'image/*', icon: '👥', description: 'Client headshots' },
-            { name: 'Testimonial Letters', accept: '.pdf,.doc,.docx', icon: '💌', description: 'Written testimonials' },
-            { name: 'Project Images', accept: 'image/*', icon: '🖼️', description: 'Project screenshots' }
-          ]
-        };
-      case '/shop':
-        return {
-          title: 'Content Management',
-          sectionTitle: 'Shop Assets',
-          description: 'Upload product images and digital goods',
-          categories: [
-            { name: 'Product Images', accept: 'image/*', icon: '🛍️', description: 'Product photos' },
-            { name: 'Digital Downloads', accept: '.zip,.rar,.pdf', icon: '📦', description: 'Downloadable files' },
-            { name: 'Previews', accept: 'image/*,video/*', icon: '👀', description: 'Product previews' },
-            { name: 'Assets', accept: '*/*', icon: '📁', description: 'Additional assets' }
-          ]
-        };
-      case '/links':
-        return {
-          title: 'Content Management',
-          sectionTitle: 'Link Assets',
-          description: 'Upload social media and link icons',
-          categories: [
-            { name: 'Social Icons', accept: 'image/*,.ico,.png', icon: '🔗', description: 'Social media icons' },
-            { name: 'Platform Logos', accept: 'image/*,.ico,.png', icon: '🌐', description: 'Platform logos' },
-            { name: 'Link Images', accept: 'image/*', icon: '📎', description: 'Link thumbnails' }
+            { name: 'Hero Images', accept: 'image/*', icon: '???', description: 'Hero slideshow images' },
+            { name: 'Background Images', accept: 'image/*', icon: '??', description: 'Page backgrounds' },
+            { name: 'Logo/Icon', accept: 'image/*', icon: '?', description: 'Brand elements' }
           ]
         };
       default:
-        return {
-          title: 'Content Management',
-          sectionTitle: 'General Upload',
-          description: 'Upload files for this page',
-          categories: [
-            { name: 'General Files', accept: '*/*', icon: '📁', description: 'Any file type' }
-          ]
-        };
+        return { sectionTitle: 'Media Management', description: 'Manage page media.', categories: [{ name: 'General', accept: '*/*', icon: '??', description: 'Any file' }] };
     }
   };
 
   const uploadOptions = getUploadOptions();
-
-  const handleFileUpload = async (event) => {
-    const files = Array.from(event.target.files);
-
-    const newUploads = files.map((file, index) => ({
-      id: Date.now() + index,
-      name: file.name,
-      size: file.size,
-      type: file.type,
-      uploadedAt: new Date().toLocaleString(),
-      file: file // Keep reference to original file
-    }));
-
-    await addUploadedFiles(currentPage, newUploads);
-
-    // Reset file input
-    if (fileInputRef.current) {
-      fileInputRef.current.value = '';
-    }
-
-    // Log upload for development purposes
-    console.log(`Uploaded ${files.length} files to ${currentPage}:`, newUploads);
-  };
-
-  const removeFile = (fileId) => {
-    removeUploadedFile(currentPage, fileId);
-  };
-
-  const downloadFile = (file) => {
-    if (file.dataUrl) {
-      // Create download link for base64 data
-      const link = document.createElement('a');
-      link.href = file.dataUrl;
-      link.download = file.name;
-      document.body.appendChild(link);
-      link.click();
-      document.body.removeChild(link);
-    } else if (file.url) {
-      // Fallback for blob URLs
-      const link = document.createElement('a');
-      link.href = file.url;
-      link.download = file.name;
-      document.body.appendChild(link);
-      link.click();
-      document.body.removeChild(link);
-    }
-  };
-
   const currentUploads = getUploadedFiles(currentPage);
 
+  const startEditing = (file) => {
+    setEditingFileId(file.id);
+    setEditData({ name: file.name, category: file.category });
+  };
+
+  const saveEdit = async () => {
+    await updateMediaItem(currentPage, editingFileId, editData);
+    setEditingFileId(null);
+  };
+
   const handleCategoryUpload = async (category) => {
-    // Create a temporary file input for this category
     const input = document.createElement('input');
     input.type = 'file';
     input.accept = category.accept;
     input.multiple = true;
     input.onchange = async (e) => {
-      const files = Array.from(e.target.files);
-
-      // Upload each file to Cloudinary
-      const uploadPromises = files.map(async (file, index) => {
-        try {
-          // Upload to Cloudinary
-          const cloudinaryResult = await uploadToCloudinary(file, `portfolio/${category.name.toLowerCase().replace(/\s+/g, '-')}`);
-
-          return {
-            id: Date.now() + index,
-            name: file.name,
-            size: file.size,
-            type: file.type,
-            category: category.name,
-            uploadedAt: new Date().toLocaleString(),
-            url: cloudinaryResult.url,
-            publicId: cloudinaryResult.publicId,
-            cloudinary: true
-          };
-        } catch (error) {
-          console.error(`Failed to upload ${file.name} to Cloudinary:`, error);
-          // Fallback to local storage
-          return {
-            id: Date.now() + index,
-            name: file.name,
-            size: file.size,
-            type: file.type,
-            category: category.name,
-            uploadedAt: new Date().toLocaleString(),
-            file: file,
-            uploadError: error.message
-          };
-        }
-      });
-
-      const newUploads = await Promise.all(uploadPromises);
-      const uploadedFiles = await addUploadedFiles(currentPage, newUploads);
-
-      // Auto-enable slideshow and select images for Hero Images on homepage
-      if (currentPage === '/' && category.name === 'Hero Images' && uploadedFiles.length > 0) {
-        toggleSlideshowEnabled(currentPage, 'Hero Images');
-        uploadedFiles.forEach(file => {
-          if (file.type.startsWith('image/')) {
-            toggleSlideshowImage(currentPage, 'Hero Images', file.id);
-          }
-        });
-      }
-
-      console.log(`Uploaded ${files.length} files to ${currentPage} - ${category.name}:`, newUploads);
+      const files = Array.from(e.target.files).map((f, i) => ({
+        id: `up-${Date.now()}-${i}`,
+        name: f.name,
+        size: f.size,
+        type: f.type,
+        category: category.name,
+        file: f
+      }));
+      await addUploadedFiles(currentPage, files);
     };
     input.click();
   };
 
-  const handleSelectImage = (categoryName, imageId) => {
-    selectImage(currentPage, categoryName, imageId);
-
-    // Log selection for development
-    const selectedFile = currentUploads.find(file => file.id === imageId);
-    if (selectedFile) {
-      console.log(`Selected image: ${selectedFile.name} (${selectedFile.category}) for ${currentPage}`);
-    }
-  };
+  if (isLoading) return <div className="loading-compact">Syncing assets...</div>;
 
   return (
     <div className="content-upload-section">
@@ -656,20 +249,14 @@ function ContentUploadSection() {
       <div className="upload-categories">
         {uploadOptions.categories.map((category, index) => (
           <div key={index} className="category-section">
-            <button
-              className="category-upload-btn"
-              onClick={() => handleCategoryUpload(category)}
-              title={category.description}
-            >
+            <button className="category-upload-btn" onClick={() => handleCategoryUpload(category)}>
               <span className="category-icon">{category.icon}</span>
               <span className="category-name">{category.name}</span>
-              <span className="category-desc">{category.description}</span>
             </button>
-
             <CollapsibleGallery
               category={category}
               files={currentUploads}
-              onSelectImage={(imageId) => handleSelectImage(category.name, imageId)}
+              onSelectImage={(id) => selectImage(currentPage, category.name, id)}
               selectedImage={getSelectedImage(currentPage, category.name)?.id}
             />
           </div>
@@ -678,68 +265,42 @@ function ContentUploadSection() {
 
       {currentUploads.length > 0 && (
         <div className="uploaded-files">
-          <h5>Uploaded Files ({currentUploads.length})</h5>
+          <h5>Detected Assets ({currentUploads.length})</h5>
           <div className="file-list">
             {currentUploads.map(file => (
-              <div key={file.id} className="file-item">
+              <div key={file.id} className={ile-item }>
                 <div className="file-info">
-                  {file.type.startsWith('image/') && (
-                    <img
-                      src={file.url}
-                      alt={file.name}
-                      className="file-preview"
-                    />
-                  )}
+                  <img src={file.url || file.src} alt={file.name} className="file-preview" />
                   <div className="file-details">
-                    <span className="file-name">{file.name}</span>
-                    <span className="file-size">
-                      {(file.size / 1024 / 1024).toFixed(2)} MB
-                    </span>
-                    <span className="file-date">{file.uploadedAt}</span>
-                    {file.category && (
-                      <span className="file-category">{file.category}</span>
-                    )}
-                    {file.folder && (
-                      <span className="file-folder">📁 {file.folder}</span>
+                    {editingFileId === file.id ? (
+                      <>
+                        <input className="edit-input" value={editData.name} onChange={e => setEditData({...editData, name: e.target.value})} />
+                        <select className="edit-select" value={editData.category} onChange={e => setEditData({...editData, category: e.target.value})}>
+                          {uploadOptions.categories.map(c => <option key={c.name} value={c.name}>{c.name}</option>)}
+                        </select>
+                      </>
+                    ) : (
+                      <>
+                        <span className="file-name">{file.name}</span>
+                        <span className="file-category">{file.category}</span>
+                        {file.isBootstrapped && <span className="boot-tag">Stored</span>}
+                      </>
                     )}
                   </div>
                 </div>
                 <div className="file-actions">
-                  <button
-                    className="download-file-btn"
-                    onClick={() => downloadFile(file)}
-                    title="Download file"
-                  >
-                    ⬇️
-                  </button>
-                  <button
-                    className="remove-file-btn"
-                    onClick={() => removeFile(file.id)}
-                    title="Remove file"
-                  >
-                    ✕
-                  </button>
+                  {editingFileId === file.id ? (
+                    <button onClick={saveEdit} className="action-btn save">??</button>
+                  ) : (
+                    <button onClick={() => startEditing(file)} className="action-btn edit">??</button>
+                  )}
+                  <button onClick={() => removeUploadedFile(currentPage, file.id)} className="action-btn delete">?</button>
                 </div>
               </div>
             ))}
           </div>
         </div>
       )}
-
-      {/* Image Slideshow Section */}
-      {currentUploads.length > 0 && (
-        <div className="image-slideshow-section">
-          <h5>Image Slideshow ({currentUploads.filter(file => file.type.startsWith('image/')).length} images)</h5>
-          <ImageSlideshow images={currentUploads.filter(file => file.type.startsWith('image/'))} />
-        </div>
-      )}
-
-      <div className="upload-stats">
-        <small>
-          {currentUploads.length} files uploaded •
-          Total size: {(currentUploads.reduce((total, file) => total + file.size, 0) / 1024 / 1024).toFixed(2)} MB
-        </small>
-      </div>
     </div>
   );
 }

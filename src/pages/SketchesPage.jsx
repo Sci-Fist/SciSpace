@@ -1,408 +1,162 @@
 import React, { useState, useEffect } from 'react';
+import { useContent } from '../context/ContentContext.jsx';
 import { GalleryModal } from '../components/GalleryModal.jsx';
 import '../styles/pages/_portfolioPage.scss';
 
 /**
  * SketchesPage Component - Traditional and Digital Sketching Portfolio
- *
- * 🎯 ACHIEVEMENT: Dedicated sketching portfolio showcasing artistic foundations
- * - Traditional and digital sketching techniques
- * - Artistic process and creative exploration
- * - Consistent with existing portfolio page architecture
- * - Focus on artistic development and conceptual work
- *
- * 🚀 KEY FEATURES:
- * - Dynamic column calculation (3-6 columns based on viewport width)
- * - View switcher with dropdown (Grid, Masonry, List)
- * - Space-filling algorithm for optimal sketch arrangement
- * - True masonry layout using CSS columns for natural flow
- * - Real-time responsive adjustment on viewport resize
- * - Traditional and digital sketching presentation
- * - Full viewport width layout overriding layout
- *
- * 🔧 TECHNICAL IMPLEMENTATION:
- * - CSS custom properties for dynamic column count
- * - Masonry algorithm: places items in shortest column first
- * - Flexbox grid with calculated flex-basis for controlled columns
- * - CSS columns for true masonry behavior
- * - !important overrides for layout system
- * - Sketch-specific metadata and artistic context
  */
 function SketchesPage() {
-  // 🎯 CORE STATE MANAGEMENT
-  const [columns, setColumns] = useState(4); // Dynamic column count (3-6 based on viewport)
-  const [currentLayout, setCurrentLayout] = useState('masonry'); // Current layout mode
-  const [showLayoutModal, setShowLayoutModal] = useState(false); // Layout selector modal
-  const [imageDimensions, setImageDimensions] = useState({}); // Cache for image dimensions
-  const [sortedIndices, setSortedIndices] = useState([]); // Sorted indices for grid view
-  const [masonryColumns, setMasonryColumns] = useState([]); // Masonry column arrangement
+  const { registerPageMedia, getGalleryMedia, isLoading } = useContent();
+  const [columns, setColumns] = useState(4);
+  const [currentLayout, setCurrentLayout] = useState('masonry');
+  const [showLayoutModal, setShowLayoutModal] = useState(false);
+  const [imageDimensions, setImageDimensions] = useState({});
 
-  // 🎯 MODAL STATE MANAGEMENT - Popout functionality
   const [selectedItemIndex, setSelectedItemIndex] = useState(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
 
-  // Calculate dynamic columns based on viewport width
+  // 1. Initial Defaults for Bootstrapping
+  const defaultGalleryItems = [
+    {
+      src: "https://res.cloudinary.com/ddrvulhwz/image/upload/v1774139287/scispace/media/spider-1.jpg",
+      alt: "Spider Sketch",
+      title: "Arachnid Study",
+      category: "Life Drawing",
+      medium: "Pencil on Paper",
+      description: "Anatomical study of form and texture."
+    }
+  ];
+
+  // 2. Seeding
+  useEffect(() => {
+    registerPageMedia('/sketches', defaultGalleryItems);
+  }, []); // eslint-disable-line react-hooks/exhaustive-deps
+
+  // 3. Dynamic Data
+  const galleryItems = getGalleryMedia('/sketches');
+
   const calculateColumns = (width) => {
-    if (width >= 1400) return 6;      // Large desktop
-    if (width >= 1200) return 5;      // Desktop
-    if (width >= 992) return 4;       // Small desktop/tablet
-    if (width >= 768) return 3;       // Tablet portrait
-    return Math.max(3, Math.min(6, Math.floor(width / 200))); // Minimum 3 columns for masonry
+    if (width >= 1400) return 6;
+    if (width >= 1200) return 5;
+    if (width >= 992) return 4;
+    if (width >= 768) return 3;
+    return Math.max(3, Math.min(6, Math.floor(width / 200)));
   };
 
-  // Update columns on resize
   useEffect(() => {
-    const handleResize = () => {
-      const newColumns = calculateColumns(window.innerWidth);
-      setColumns(newColumns);
-    };
-
-    // Set initial columns
+    const handleResize = () => setColumns(calculateColumns(window.innerWidth));
     handleResize();
-
     window.addEventListener('resize', handleResize);
     return () => window.removeEventListener('resize', handleResize);
   }, []);
 
-  // Handle image load for space-filling algorithm
   const handleImageLoad = (index, img) => {
-    const dimensions = {
-      width: img.naturalWidth,
-      height: img.naturalHeight,
-      aspectRatio: img.naturalWidth / img.naturalHeight,
-      area: img.naturalWidth * img.naturalHeight
-    };
-
     setImageDimensions(prev => ({
       ...prev,
-      [index]: dimensions
+      [index]: { width: img.naturalWidth, height: img.naturalHeight }
     }));
-
-    // Trigger space-filling sort when all images loaded
-    if (Object.keys(imageDimensions).length + 1 >= galleryItems.length && currentLayout === 'grid') {
-      setTimeout(() => {
-        const sorted = getSortedIndicesForGrid();
-        setSortedIndices(sorted);
-      }, 100);
-    }
   };
 
-  // Space-filling algorithm for optimal image ordering
-  const getSortedIndicesForGrid = () => {
-    const totalImages = galleryItems.length;
-    const loadedImages = Object.keys(imageDimensions).length;
-
-    if (loadedImages < totalImages) {
-      return Array.from({ length: totalImages }, (_, i) => i);
-    }
-
-    // Sort by space efficiency (lower aspect ratio deviation = better fit)
-    const sortedIndices = Array.from({ length: totalImages }, (_, i) => i).sort((a, b) => {
-      const dimA = imageDimensions[a];
-      const dimB = imageDimensions[b];
-
-      if (!dimA || !dimB) return 0;
-
-      // Calculate efficiency score (closer to 1:1 aspect ratio = better)
-      const scoreA = Math.abs(dimA.aspectRatio - 1) * dimA.area;
-      const scoreB = Math.abs(dimB.aspectRatio - 1) * dimB.area;
-
-      return scoreA - scoreB;
-    });
-
-    return sortedIndices;
-  };
-
-  // Advanced Masonry layout algorithm - arrange images in columns using height-based packing
-  const arrangeMasonryLayout = () => {
-    if (currentLayout !== 'masonry') {
-      return [];
-    }
-
-    const loadedImages = Object.keys(imageDimensions);
-    if (loadedImages.length === 0) {
-      // If no images loaded yet, distribute evenly across columns
-      const columnItems = Array.from({ length: columns }, () => []);
-      galleryItems.forEach((_, imageIndex) => {
-        columnItems[imageIndex % columns].push(imageIndex);
-      });
-      return columnItems;
-    }
-
-    const columnHeights = new Array(columns).fill(0);
-    const columnItems = Array.from({ length: columns }, () => []);
-
-    // Sort loaded images by height (tallest first for better packing)
-    const sortedByHeight = loadedImages.map(Number).sort((a, b) => {
-      const heightA = imageDimensions[a]?.height || 200;
-      const heightB = imageDimensions[b]?.height || 200;
-      return heightB - heightA; // Tallest first
-    });
-
-    // Place each loaded image in the shortest column
-    sortedByHeight.forEach((imageIndex) => {
-      const shortestColumnIndex = columnHeights.indexOf(Math.min(...columnHeights));
-      columnItems[shortestColumnIndex].push(imageIndex);
-      columnHeights[shortestColumnIndex] += imageDimensions[imageIndex]?.height || 200;
-    });
-
-    // Add unloaded images to columns (distribute evenly)
-    const unloadedImages = galleryItems.map((_, i) => i).filter(i => !loadedImages.includes(i.toString()));
-    unloadedImages.forEach((imageIndex, i) => {
-      columnItems[i % columns].push(imageIndex);
-    });
-
-    return columnItems;
-  };
-
-  // Update masonry layout when layout changes or images load
-  useEffect(() => {
-    if (currentLayout === 'masonry') {
-      const masonryArrangement = arrangeMasonryLayout();
-      setMasonryColumns(masonryArrangement);
-    } else if (currentLayout === 'grid') {
-      // For grid layout, use masonry algorithm for intelligent space filling
-      const masonryArrangement = arrangeMasonryLayout();
-      setMasonryColumns(masonryArrangement);
-    } else {
-      setSortedIndices([]);
-      setMasonryColumns([]);
-    }
-  }, [currentLayout, imageDimensions, columns]);
-
-  // 🎯 MODAL HANDLERS - Popout functionality
-  const openModal = (itemIndex) => {
-    setSelectedItemIndex(itemIndex);
+  const openModal = (index) => {
+    setSelectedItemIndex(index);
     setIsModalOpen(true);
-    document.body.style.overflow = 'hidden'; // Prevent scroll
+    document.body.style.overflow = 'hidden';
   };
 
   const closeModal = () => {
     setIsModalOpen(false);
     setSelectedItemIndex(null);
-    document.body.style.overflow = 'auto'; // Restore scroll
+    document.body.style.overflow = 'auto';
   };
 
   const navigateModal = (direction) => {
-    const currentIndex = selectedItemIndex;
-    const newIndex = currentIndex + direction;
-    const maxIndex = galleryItems.length - 1;
-
-    if (newIndex >= 0 && newIndex <= maxIndex) {
-      setSelectedItemIndex(newIndex);
-    }
+    const newIdx = selectedItemIndex + direction;
+    if (newIdx >= 0 && newIdx < galleryItems.length) setSelectedItemIndex(newIdx);
   };
 
-  // 🎯 KEYBOARD EVENT HANDLING - Popout functionality
   useEffect(() => {
     const handleKeyDown = (e) => {
       if (!isModalOpen) return;
-
-      switch (e.key) {
-        case 'Escape':
-          closeModal();
-          break;
-        case 'ArrowLeft':
-          navigateModal(-1);
-          break;
-        case 'ArrowRight':
-          navigateModal(1);
-          break;
-      }
+      if (e.key === 'Escape') closeModal();
+      if (e.key === 'ArrowLeft') navigateModal(-1);
+      if (e.key === 'ArrowRight') navigateModal(1);
     };
+    document.addEventListener('keydown', handleKeyDown);
+    return () => document.removeEventListener('keydown', handleKeyDown);
+  }, [isModalOpen, selectedItemIndex, galleryItems.length]);
 
-    if (isModalOpen) {
-      document.addEventListener('keydown', handleKeyDown);
-      return () => document.removeEventListener('keydown', handleKeyDown);
-    }
-  }, [isModalOpen, selectedItemIndex]);
-
-  // Gallery items data - Traditional and Digital Sketching Portfolio
-  const galleryItems = [
-    // Available Sketches
-    {
-      src: "https://res.cloudinary.com/ddrvulhwz/image/upload/v1774139287/scispace/media/spider-1.jpg",
-      alt: "Spider Sketch - Detailed arachnid study",
-      title: "Arachnid Study",
-      category: "Life Drawing",
-      medium: "Pencil on Paper",
-      description: "Detailed anatomical study of a spider, exploring form, texture, and movement through traditional sketching techniques"
-    }
-  ];
+  if (isLoading) return <div className="loading-state">Initialising Aether Stream...</div>;
 
   return (
     <section className="portfolio-page">
       <h2>Sketching Portfolio</h2>
-      <p>Explore my collection of sketches, from traditional life drawing to conceptual explorations and artistic studies.</p>
+      <p>Traditional and digital studies exploring form, process, and foundations.</p>
 
       {/* View Style Selector with Dropdown */}
       <div className="view-style-selector">
-        <button
-          className="view-style-btn main-btn"
-          onClick={() => setShowLayoutModal(true)}
-        >
+        <button className="view-style-btn" onClick={() => setShowLayoutModal(!showLayoutModal)}>
           {currentLayout.charAt(0).toUpperCase() + currentLayout.slice(1)} View
           <span className="dropdown-arrow">▼</span>
         </button>
 
-        {/* Layout Modal */}
         {showLayoutModal && (
           <>
-            <div
-              className="modal-backdrop"
-              onClick={() => setShowLayoutModal(false)}
-            />
+            <div className="modal-backdrop" onClick={() => setShowLayoutModal(false)} />
             <div className="layout-modal">
               <h4>Choose Layout</h4>
               <div className="modal-options">
-                <button
-                  className={`modal-option ${currentLayout === 'grid' ? 'active' : ''}`}
-                  onClick={() => {
-                    setCurrentLayout('grid');
-                    setShowLayoutModal(false);
-                  }}
-                >
-                  <span className="option-icon">⊞</span>
-                  <span>Grid</span>
-                </button>
-                <button
-                  className={`modal-option ${currentLayout === 'masonry' ? 'active' : ''}`}
-                  onClick={() => {
-                    setCurrentLayout('masonry');
-                    setShowLayoutModal(false);
-                  }}
-                >
-                  <span className="option-icon">⊟</span>
-                  <span>Masonry</span>
-                </button>
-                <button
-                  className={`modal-option ${currentLayout === 'list' ? 'active' : ''}`}
-                  onClick={() => {
-                    setCurrentLayout('list');
-                    setShowLayoutModal(false);
-                  }}
-                >
-                  <span className="option-icon">☰</span>
-                  <span>List</span>
-                </button>
+                {[
+                  { id: 'grid', label: 'Grid', icon: '⊞' },
+                  { id: 'masonry', label: 'Masonry', icon: '⊟' },
+                  { id: 'list', label: 'List', icon: '☰' }
+                ].map(opt => (
+                  <button
+                    key={opt.id}
+                    className={`modal-option ${currentLayout === opt.id ? 'active' : ''}`}
+                    onClick={() => {
+                      setCurrentLayout(opt.id);
+                      setShowLayoutModal(false);
+                    }}
+                  >
+                    <span className="option-icon">{opt.icon}</span>
+                    <span>{opt.label}</span>
+                  </button>
+                ))}
               </div>
             </div>
           </>
         )}
       </div>
 
-      {/* Dynamic Gallery - Grid, Masonry, or List Layout */}
-      {currentLayout === 'masonry' ? (
-        /* Masonry Layout - True masonry with CSS columns */
-        <div
-          className={`gallery-masonry masonry-cols-${columns}`}
-          style={{
-            '--masonry-columns': columns,
-            columnCount: columns, // Fallback for browsers that don't support CSS custom properties
-            columnGap: '15px'
-          }}
-        >
-          {/* Render all items in masonry layout */}
-          {galleryItems.map((item, imageIndex) => (
-            <div
-              key={imageIndex}
-              className="gallery-item masonry-item"
-              data-title={item.title}
-              onClick={() => openModal(imageIndex)}
-              style={{ cursor: 'pointer' }}
-            >
-              <img
-                src={item.src}
-                alt={item.alt}
-                loading="lazy"
-                onLoad={(e) => handleImageLoad(imageIndex, e.target)}
-              />
-            </div>
-          ))}
-        </div>
-      ) : currentLayout === 'list' ? (
-        /* List Layout - Single column with detailed item cards */
-        <div className="gallery-list">
-          {/* Render items in ordered list format */}
-          {galleryItems.map((item, imageIndex) => (
-            <div
-              key={imageIndex}
-              className="gallery-item"
-              data-title={item.title}
-              onClick={() => openModal(imageIndex)}
-              style={{ cursor: 'pointer' }}
-            >
-              <img
-                src={item.src}
-                alt={item.alt}
-                loading="lazy"
-                onLoad={(e) => handleImageLoad(imageIndex, e.target)}
-              />
-              <div className="item-info">
-                <h3 className="item-title">{item.title}</h3>
-                <p className="item-description">
-                  <strong>{item.category}</strong> • <em>{item.medium}</em><br />
-                  {item.description}
-                </p>
+      <div className="gallery-container">
+        {currentLayout === 'masonry' || currentLayout === 'grid' ? (
+          <div className="gallery-masonry" style={{ '--masonry-columns': columns }}>
+            {galleryItems.map((item, i) => (
+              <div key={item.id || i} className="gallery-item" onClick={() => openModal(i)} data-title={item.title}>
+                <img src={item.src} alt={item.alt} loading="lazy" onLoad={(e) => handleImageLoad(i, e.target)} />
               </div>
-            </div>
-          ))}
-        </div>
-      ) : (
-        /* Grid Layout - Intelligent masonry-based arrangement */
-        <div className={`gallery-grid grid-cols-${columns}`}>
-          {/* Use masonry algorithm for intelligent space filling */}
-          {masonryColumns.length > 0 ? (
-            // Render items in masonry-arranged columns
-            masonryColumns.flat().map((imageIndex) => {
-              const item = galleryItems[imageIndex];
-              return (
-                <div
-                  key={imageIndex}
-                  className="gallery-item"
-                  data-title={item.title}
-                  onClick={() => openModal(imageIndex)}
-                  style={{ cursor: 'pointer' }}
-                >
-                  <img
-                    src={item.src}
-                    alt={item.alt}
-                    loading="lazy"
-                    onLoad={(e) => handleImageLoad(imageIndex, e.target)}
-                  />
+            ))}
+          </div>
+        ) : (
+          <div className="gallery-list">
+            {galleryItems.map((item, i) => (
+              <div key={item.id || i} className="gallery-item" onClick={() => openModal(i)}>
+                <img src={item.src} alt={item.alt} />
+                <div className="item-info">
+                  <h3 className="item-title">{item.title}</h3>
+                  <p className="item-description">
+                    <strong>{item.category}</strong> • <em>{imageDimensions[i]?.width ? `${imageDimensions[i].width}x${imageDimensions[i].height}` : 'Calculating...'}</em><br />
+                    {item.alt}
+                  </p>
                 </div>
-              );
-            })
-          ) : (
-            // Fallback: render all items
-            galleryItems.map((item, index) => (
-              <div
-                key={index}
-                className="gallery-item"
-                data-title={item.title}
-                onClick={() => openModal(index)}
-                style={{ cursor: 'pointer' }}
-              >
-                <img
-                  src={item.src}
-                  alt={item.alt}
-                  loading="lazy"
-                  onLoad={(e) => handleImageLoad(index, e.target)}
-                />
               </div>
-            ))
-          )}
-        </div>
-      )}
+            ))}
+          </div>
+        )}
+      </div>
 
-      {/* Gallery Modal - Popout functionality */}
-      <GalleryModal
-        isOpen={isModalOpen}
-        onClose={closeModal}
-        items={galleryItems}
-        currentIndex={selectedItemIndex}
-        onNavigate={navigateModal}
-      />
+      <GalleryModal isOpen={isModalOpen} onClose={closeModal} items={galleryItems} currentIndex={selectedItemIndex} onNavigate={navigateModal} />
     </section>
   );
 }

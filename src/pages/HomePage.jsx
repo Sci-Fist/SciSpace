@@ -15,48 +15,45 @@
  * - MixedMediaGallery: Gallery component for mixed media display
  */
 import React, { useState, useEffect, useRef } from 'react';
-import { usePage } from '../context/PageContext.jsx'; // Import page context
-import { useFileManager } from '../context/FileManagerContext.jsx'; // Import file manager context
-import { useSlideshow } from '../context/SlideshowContext.jsx'; // Import slideshow context
-import { useTextContent } from '../context/TextContentContext.jsx'; // Import text content context
-import { useLogger } from '../hooks/useLogger.js'; // Import logger hook
-import MixedMediaGallery from '../components/MixedMediaGallery.jsx'; // Import extracted gallery component
-import '../styles/pages/_homePage.scss'; // Specific styles for the home page
-const HeroVisual = 'https://res.cloudinary.com/ddrvulhwz/image/upload/v1774139229/scispace/media/glassesroompostpc1.png'; // Your hero image from Cloudinary
+import { usePage } from '../context/PageContext.jsx';
+import { useFileManager } from '../context/FileManagerContext.jsx';
+import { useSlideshow } from '../context/SlideshowContext.jsx';
+import { useTextContent } from '../context/TextContentContext.jsx';
+import { useContent } from '../context/ContentContext.jsx';
+import { useLogger } from '../hooks/useLogger.js';
+import MixedMediaGallery from '../components/MixedMediaGallery.jsx';
+import '../styles/pages/_homePage.scss';
+
+// Default homepage hero images (seeded into DevSidebar for slideshow management)
+const DEFAULT_HERO_IMAGES = [
+  { src: 'https://res.cloudinary.com/ddrvulhwz/image/upload/v1774139229/scispace/media/glassesroompostpc1.png', alt: 'Interior Scene Render', title: 'Interior Scene', category: 'Hero Images' },
+  { src: 'https://res.cloudinary.com/ddrvulhwz/image/upload/v1774139228/scispace/media/glassesroompostpc.png', alt: 'Room Post-Processing', title: 'Room Post-Processing', category: 'Hero Images' },
+  { src: 'https://res.cloudinary.com/ddrvulhwz/image/upload/v1774139231/scispace/media/glassesroompostpcfromdoor.png', alt: 'Door Perspective Render', title: 'Door Perspective', category: 'Hero Images' },
+  { src: 'https://res.cloudinary.com/ddrvulhwz/image/upload/v1774139235/scispace/media/glassesroompostpcimport.png', alt: 'Import Render A', title: 'Import Render A', category: 'Hero Images' },
+];
+
+const HeroVisual = DEFAULT_HERO_IMAGES[0].src;
 
 function HomePage() {
   const logger = useLogger();
+  const { registerPageMedia } = useContent();
 
-  logger.debug('Component rendering started', {
-    timestamp: new Date().toISOString(),
-    location: window.location.pathname
-  }, 'home');
+  // Seed hero images into context so DevSidebar can display and manage them
+  useEffect(() => {
+    registerPageMedia('/', DEFAULT_HERO_IMAGES);
+  }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
-  const { getPageControls } = usePage();
   const { getSelectedImage, getEnabledSlideshows } = useSlideshow();
   const { getUploadedFiles } = useFileManager();
   const { getTextContent } = useTextContent();
+  const { getPageControls } = usePage();
   const controls = getPageControls('/');
-
-  logger.debug('Page controls loaded', {
-    controls,
-    hasControls: !!controls,
-    controlKeys: controls ? Object.keys(controls) : []
-  }, 'home');
 
   const [currentHeroIndex, setCurrentHeroIndex] = useState(0);
   const [nextHeroIndex, setNextHeroIndex] = useState(1);
   const [isHeroPlaying, setIsHeroPlaying] = useState(true);
   const [isHeroTransitioning, setIsHeroTransitioning] = useState(false);
   const heroIntervalRef = useRef(null);
-
-  logger.debug('State initialized', {
-    currentHeroIndex,
-    nextHeroIndex,
-    isHeroPlaying,
-    isHeroTransitioning,
-    timestamp: new Date().toISOString()
-  }, 'home');
 
   // Get hero images from slideshow and selected images
   const enabledSlideshows = getEnabledSlideshows('/');

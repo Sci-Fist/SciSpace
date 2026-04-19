@@ -65,7 +65,7 @@ export const storeFile = async (fileData) => {
         reject(request.error);
       };
 
-      transaction.oncomplete = () => db.close();
+
     });
   } catch (error) {
     console.error('Error storing file in IndexedDB:', error);
@@ -96,7 +96,7 @@ export const getFile = async (fileId) => {
         reject(request.error);
       };
 
-      transaction.oncomplete = () => db.close();
+
     });
   } catch (error) {
     console.error('Error retrieving file from IndexedDB:', error);
@@ -125,7 +125,7 @@ export const getFilesByPage = async (page) => {
         reject(request.error);
       };
 
-      transaction.oncomplete = () => db.close();
+
     });
   } catch (error) {
     console.error('Error retrieving files by page from IndexedDB:', error);
@@ -156,7 +156,7 @@ export const getFilesByCategory = async (page, category) => {
         reject(request.error);
       };
 
-      transaction.oncomplete = () => db.close();
+
     });
   } catch (error) {
     console.error('Error retrieving files by category from IndexedDB:', error);
@@ -183,7 +183,7 @@ export const deleteFile = async (fileId) => {
         reject(request.error);
       };
 
-      transaction.oncomplete = () => db.close();
+
     });
   } catch (error) {
     console.error('Error deleting file from IndexedDB:', error);
@@ -210,7 +210,7 @@ export const storeMetadata = async (key, data) => {
         reject(request.error);
       };
 
-      transaction.oncomplete = () => db.close();
+
     });
   } catch (error) {
     console.error('Error storing metadata in IndexedDB:', error);
@@ -241,7 +241,7 @@ export const getMetadata = async (key) => {
         reject(request.error);
       };
 
-      transaction.oncomplete = () => db.close();
+
     });
   } catch (error) {
     console.error('Error retrieving metadata from IndexedDB:', error);
@@ -273,7 +273,7 @@ export const clearAllData = async () => {
       clearFiles.onerror = () => reject(clearFiles.error);
       clearMetadata.onerror = () => reject(clearMetadata.error);
 
-      transaction.oncomplete = () => db.close();
+
     });
   } catch (error) {
     console.error('Error clearing IndexedDB data:', error);
@@ -304,7 +304,7 @@ export const getStorageInfo = async () => {
         reject(request.error);
       };
 
-      transaction.oncomplete = () => db.close();
+
     });
   } catch (error) {
     console.error('Error getting storage info from IndexedDB:', error);

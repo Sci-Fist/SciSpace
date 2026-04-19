@@ -1,4 +1,4 @@
-import React, { createContext, useContext, useState, useEffect, useRef } from 'react';
+import React, { createContext, useContext, useState, useEffect, useRef, useCallback } from 'react';
 import {
   storeFile,
   getFilesByPage,
@@ -27,6 +27,7 @@ export const ContentProvider = ({ children }) => {
   const [selectedImages, setSelectedImages] = useState({});
   const [slideshowSettings, setSlideshowSettings] = useState({});
   const [textContent, setTextContent] = useState({});
+  const [bootstrappedPages, setBootstrappedPages] = useState({});
   const [isLoading, setIsLoading] = useState(true);
 
   // Load data from IndexedDB on mount
@@ -55,43 +56,19 @@ export const ContentProvider = ({ children }) => {
 
         // Load metadata
         const savedSelectedImages = await getMetadata('selectedImages');
-        if (savedSelectedImages) {
-          setSelectedImages(savedSelectedImages);
-        }
+        if (savedSelectedImages) setSelectedImages(savedSelectedImages);
 
         const savedSlideshowSettings = await getMetadata('slideshowSettings');
-        if (savedSlideshowSettings) {
-          setSlideshowSettings(savedSlideshowSettings);
-        }
+        if (savedSlideshowSettings) setSlideshowSettings(savedSlideshowSettings);
 
         const savedTextContent = await getMetadata('textContent');
-        if (savedTextContent) {
-          setTextContent(savedTextContent);
-        }
+        if (savedTextContent) setTextContent(savedTextContent);
 
-        // Removed console.log to prevent spam
+        const savedBootstrapped = await getMetadata('bootstrappedPages');
+        if (savedBootstrapped) setBootstrappedPages(savedBootstrapped);
+
       } catch (error) {
         console.error('Error loading data from IndexedDB:', error);
-        // Fallback to localStorage for migration
-        try {
-          const localFiles = localStorage.getItem('uploadedFiles');
-          if (localFiles) {
-            const parsed = JSON.parse(localFiles);
-            setUploadedFiles(parsed);
-          }
-
-          const localSelected = localStorage.getItem('selectedImages');
-          if (localSelected) {
-            setSelectedImages(JSON.parse(localSelected));
-          }
-
-          const localSlideshow = localStorage.getItem('slideshowSettings');
-          if (localSlideshow) {
-            setSlideshowSettings(JSON.parse(localSlideshow));
-          }
-        } catch (fallbackError) {
-          console.error('Fallback to localStorage also failed:', fallbackError);
-        }
       } finally {
         setIsLoading(false);
       }
@@ -100,48 +77,30 @@ export const ContentProvider = ({ children }) => {
     loadData();
   }, []);
 
-  // Save uploadedFiles to IndexedDB whenever it changes
-  useEffect(() => {
-    if (!isLoading) {
-      // Files are already saved individually in addUploadedFiles
-      // This effect is mainly for consistency
-    }
-  }, [uploadedFiles, isLoading]);
-
-  /**
-   * Save metadata to IndexedDB with proper synchronization
-   * Uses a debounce mechanism to prevent race conditions when multiple
-   * state changes occur rapidly
-   */
+  // Save metadata to IndexedDB
   const saveQueueRef = useRef(new Map());
   const saveTimeoutRef = useRef(null);
 
   useEffect(() => {
     if (isLoading) return;
 
-    // Collect all metadata changes to save
     const metadataToSave = {
       selectedImages,
       slideshowSettings,
-      textContent
+      textContent,
+      bootstrappedPages
     };
 
-    // Queue all changes
     Object.entries(metadataToSave).forEach(([key, value]) => {
       saveQueueRef.current.set(key, value);
     });
 
-    // Clear any existing timeout
-    if (saveTimeoutRef.current) {
-      clearTimeout(saveTimeoutRef.current);
-    }
+    if (saveTimeoutRef.current) clearTimeout(saveTimeoutRef.current);
 
-    // Debounce saves to prevent race conditions
     saveTimeoutRef.current = setTimeout(async () => {
       const queue = new Map(saveQueueRef.current);
       saveQueueRef.current.clear();
 
-      // Process saves sequentially to prevent IndexedDB race conditions
       for (const [key, value] of queue) {
         try {
           await storeMetadata(key, value);
@@ -149,35 +108,75 @@ export const ContentProvider = ({ children }) => {
           console.error(`Error saving ${key} to IndexedDB:`, error);
         }
       }
-    }, 100); // 100ms debounce delay
+    }, 100);
 
-    // Cleanup timeout on unmount
     return () => {
-      if (saveTimeoutRef.current) {
-        clearTimeout(saveTimeoutRef.current);
-      }
+      if (saveTimeoutRef.current) clearTimeout(saveTimeoutRef.current);
     };
-  }, [selectedImages, slideshowSettings, textContent, isLoading]);
+  }, [selectedImages, slideshowSettings, textContent, bootstrappedPages, isLoading]);
 
-  // Convert file to blob URL for display (more efficient for large files)
-  const fileToBlobUrl = (file) => {
-    return URL.createObjectURL(file);
-  };
-
-  // Convert file to base64 data URL for persistence
+  // Convert file to data URL for persistence
   const fileToDataUrl = (file) => {
     return new Promise((resolve, reject) => {
       const reader = new FileReader();
-      reader.onload = () => {
-        resolve(reader.result);
-      };
-      reader.onerror = (error) => {
-        console.error('FileReader error:', error);
-        reject(error);
-      };
+      reader.onload = () => resolve(reader.result);
+      reader.onerror = (error) => reject(error);
       reader.readAsDataURL(file);
     });
   };
+
+  /**
+   * Register Page Media (Bootstrapping)
+   * Always syncs bootstrapped items from latest code defaults.
+   * Custom uploaded items are preserved.
+   * This ensures stale/broken default URLs are always corrected.
+   */
+  const registerPageMedia = useCallback(async (page, defaultItems) => {
+    if (isLoading) return;
+
+    const existingFiles = uploadedFiles[page] || [];
+
+    // Separate user-uploaded files from bootstrapped defaults
+    const userUploads = existingFiles.filter(f => !f.isBootstrapped);
+
+    // Always re-create bootstrapped items from latest defaults
+    const bootstrappedItems = defaultItems.map((item, index) => ({
+      id: `boot-${page}-${index}`,
+      name: item.title || item.alt || `Media ${index}`,
+      title: item.title,
+      alt: item.alt,
+      category: item.category || 'General',
+      page: page,
+      src: item.src,
+      url: item.src,
+      size: 0,
+      type: item.isVideo ? 'video/mp4' : 'image/jpeg',
+      isBootstrapped: true,
+      uploadedAt: Date.now()
+    }));
+
+    // Persist updated bootstrapped items to IndexedDB
+    for (const item of bootstrappedItems) {
+      try {
+        await storeFile(item);
+      } catch (e) {
+        // Silent fail – state update below will still work
+      }
+    }
+
+    // Merge: bootstrapped defaults + any user uploads
+    const merged = [...bootstrappedItems, ...userUploads];
+
+    setUploadedFiles(prev => ({
+      ...prev,
+      [page]: merged
+    }));
+
+    setBootstrappedPages(prev => ({
+      ...prev,
+      [page]: true
+    }));
+  }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
   // Add uploaded files
   const addUploadedFiles = async (page, files) => {
@@ -187,205 +186,97 @@ export const ContentProvider = ({ children }) => {
           const originalFile = file.file || file;
           const dataUrl = await fileToDataUrl(originalFile);
 
-          // Create file object for IndexedDB storage
           const fileData = {
             id: file.id || `${Date.now()}-${Math.random().toString(36).substr(2, 9)}`,
             name: file.name,
             category: file.category,
             page: page,
             dataUrl: dataUrl,
-            url: dataUrl, // Use data URL for display
-            folder: getCategoryFolder(file.category),
+            url: dataUrl,
             size: originalFile.size,
             type: originalFile.type,
-            lastModified: originalFile.lastModified,
             uploadedAt: Date.now()
           };
 
-          // Store in IndexedDB
           await storeFile(fileData);
-
           return fileData;
         })
       );
 
-      // Update state
       setUploadedFiles(prev => ({
         ...prev,
         [page]: [...(prev[page] || []), ...filesWithUrls]
       }));
 
       return filesWithUrls;
-
     } catch (error) {
       console.error('Error storing files in IndexedDB:', error);
-
-      // Fallback: still update state even if IndexedDB fails
-      const filesWithUrls = await Promise.all(
-        files.map(async (file) => {
-          const originalFile = file.file || file;
-          const dataUrl = await fileToDataUrl(originalFile);
-
-          return {
-            ...file,
-            id: file.id || `${Date.now()}-${Math.random().toString(36).substr(2, 9)}`,
-            dataUrl,
-            url: dataUrl,
-            folder: getCategoryFolder(file.category),
-            storageWarning: 'Failed to save permanently - may not persist after restart'
-          };
-        })
-      );
-
-      setUploadedFiles(prev => ({
-        ...prev,
-        [page]: [...(prev[page] || []), ...filesWithUrls]
-      }));
-
-      return filesWithUrls;
+      return [];
     }
   };
 
-  // Get folder path for category
-  const getCategoryFolder = (category) => {
-    const folderMap = {
-      'Hero Images': 'hero-images',
-      'Background Images': 'background-images',
-      'Logo/Icon': 'logo-icons',
-      'Digital Paintings': '2d-art/digital-paintings',
-      'Illustrations': '2d-art/illustrations',
-      'Concept Art': '2d-art/concept-art',
-      'Sketches': '2d-art/sketches',
-      '3D Renders': '3d-art/renders',
-      'Model Files': '3d-art/models',
-      'Textures': '3d-art/textures',
-      'Project Files': '3d-art/projects',
-      'Full Tracks': 'music/full-tracks',
-      'Demos': 'music/demos',
-      'Stems': 'music/stems',
-      'Loops': 'music/loops',
-      'Blog Posts': 'blog/posts',
-      'Articles': 'blog/articles',
-      'Images': 'blog/images',
-      'Documents': 'blog/documents',
-      'Profile Photos': 'about/profile-photos',
-      'Resume/CV': 'about/resume',
-      'Portfolio PDFs': 'about/portfolio',
-      'Certificates': 'about/certificates',
-      'Resume PDF': 'resume/pdf',
-      'Cover Letter': 'resume/cover-letter',
-      'Portfolio': 'resume/portfolio',
-      'References': 'resume/references',
-      'Profile Images': 'contact/profile-images',
-      'Business Cards': 'contact/business-cards',
-      'Contact Photos': 'contact/photos',
-      'Workflow Images': 'process/workflow-images',
-      'Tutorials': 'process/tutorials',
-      'Process Docs': 'process/docs',
-      'Videos': 'process/videos',
-      'Client Photos': 'testimonials/client-photos',
-      'Testimonial Letters': 'testimonials/letters',
-      'Project Images': 'testimonials/project-images',
-      'Product Images': 'shop/product-images',
-      'Digital Downloads': 'shop/downloads',
-      'Previews': 'shop/previews',
-      'Assets': 'shop/assets',
-      'Social Icons': 'links/social-icons',
-      'Platform Logos': 'links/platform-logos',
-      'Link Images': 'links/images'
-    };
-    return folderMap[category] || 'general';
+  // Update a media item's metadata
+  const updateMediaItem = async (page, fileId, updates) => {
+    const pageFiles = uploadedFiles[page] || [];
+    const fileIndex = pageFiles.findIndex(f => f.id === fileId);
+    
+    if (fileIndex === -1) return;
+
+    const updatedFile = { ...pageFiles[fileIndex], ...updates };
+    
+    // Persist to IndexedDB
+    await storeFile(updatedFile);
+
+    // Update state
+    setUploadedFiles(prev => {
+      const newFiles = [...(prev[page] || [])];
+      newFiles[fileIndex] = updatedFile;
+      return { ...prev, [page]: newFiles };
+    });
   };
 
   // Remove uploaded file
   const removeUploadedFile = async (page, fileId) => {
     try {
-      // Delete from IndexedDB first
       await deleteFile(fileId);
     } catch (error) {
       console.error('Error deleting file from IndexedDB:', error);
-      // Continue with state update even if IndexedDB delete fails
     }
 
-    // Update state
-    setUploadedFiles(prev => {
-      const pageFiles = prev[page] || [];
-      const fileToRemove = pageFiles.find(file => file.id === fileId);
-
-      // Clean up the object URL if it exists
-      if (fileToRemove && fileToRemove.url) {
-        URL.revokeObjectURL(fileToRemove.url);
-      }
-
-      return {
-        ...prev,
-        [page]: pageFiles.filter(file => file.id !== fileId)
-      };
-    });
-
-    // Also remove from selected images if it was selected
-    setSelectedImages(prev => {
-      const pageSelections = prev[page] || {};
-      const updatedSelections = { ...pageSelections };
-
-      // Remove the file from any category selections
-      Object.keys(updatedSelections).forEach(category => {
-        if (updatedSelections[category] === fileId) {
-          delete updatedSelections[category];
-        }
-      });
-
-      return {
-        ...prev,
-        [page]: updatedSelections
-      };
-    });
+    setUploadedFiles(prev => ({
+      ...prev,
+      [page]: (prev[page] || []).filter(file => file.id !== fileId)
+    }));
   };
 
-  // Select an image for a specific page and category
+  // Getters
+  const getUploadedFiles = (page) => uploadedFiles[page] || [];
+  
+  const getGalleryMedia = (page) => {
+    // Return all media for this page (bootstrapped + uploaded)
+    // Map internal schema to page-friendly schema
+    return (uploadedFiles[page] || []).map(file => ({
+      id: file.id,
+      src: file.url || file.src,
+      alt: file.alt || file.name,
+      title: file.title || file.name,
+      category: file.category,
+      isVideo: file.type?.startsWith('video/')
+    }));
+  };
+
   const selectImage = (page, category, fileId) => {
     setSelectedImages(prev => ({
       ...prev,
-      [page]: {
-        ...(prev[page] || {}),
-        [category]: fileId
-      }
+      [page]: { ...(prev[page] || {}), [category]: fileId }
     }));
   };
 
-  // Get selected image for a specific page and category
   const getSelectedImage = (page, category) => {
     const pageSelections = selectedImages[page] || {};
     const selectedFileId = pageSelections[category];
-
     if (!selectedFileId) return null;
-
-    const pageFiles = uploadedFiles[page] || [];
-    return pageFiles.find(file => file.id === selectedFileId) || null;
-  };
-
-  // Get all uploaded files for a page
-  const getUploadedFiles = (page) => {
-    return uploadedFiles[page] || [];
-  };
-
-  // Get uploaded files for a specific category on a page
-  const getCategoryFiles = (page, category) => {
-    return (uploadedFiles[page] || []).filter(file => file.category === category);
-  };
-
-  // Slideshow management functions
-  const setSlideshowMode = (page, category, mode) => {
-    setSlideshowSettings(prev => ({
-      ...prev,
-      [page]: {
-        ...(prev[page] || {}),
-        [category]: {
-          ...(prev[page]?.[category] || { mode: 'gallery', enabled: false, images: [] }),
-          mode
-        }
-      }
-    }));
+    return (uploadedFiles[page] || []).find(file => file.id === selectedFileId) || null;
   };
 
   const toggleSlideshowEnabled = (page, category) => {
@@ -403,8 +294,8 @@ export const ContentProvider = ({ children }) => {
 
   const toggleSlideshowImage = (page, category, imageId) => {
     setSlideshowSettings(prev => {
-      const currentSettings = prev[page]?.[category] || { mode: 'gallery', enabled: false, images: [] };
-      const images = currentSettings.images || [];
+      const current = prev[page]?.[category] || { mode: 'gallery', enabled: false, images: [] };
+      const images = current.images || [];
       const isSelected = images.includes(imageId);
 
       return {
@@ -412,10 +303,8 @@ export const ContentProvider = ({ children }) => {
         [page]: {
           ...(prev[page] || {}),
           [category]: {
-            ...currentSettings,
-            images: isSelected
-              ? images.filter(id => id !== imageId)
-              : [...images, imageId]
+            ...current,
+            images: isSelected ? images.filter(id => id !== imageId) : [...images, imageId]
           }
         }
       };
@@ -429,57 +318,56 @@ export const ContentProvider = ({ children }) => {
   const getEnabledSlideshows = (page) => {
     const pageSettings = slideshowSettings[page] || {};
     return Object.entries(pageSettings)
-      .filter(([category, settings]) => settings.enabled)
+      .filter(([, settings]) => settings.enabled)
       .map(([category, settings]) => ({
         category,
         images: settings.images || []
       }));
   };
 
-  // Text content management functions
-  const getTextContent = (contentKey) => {
-    return textContent[contentKey] || '';
+  const getCategoryFiles = (page, category) => {
+    return (uploadedFiles[page] || []).filter(file => file.category === category);
   };
 
-  const updateTextContent = (contentKey, value) => {
-    setTextContent(prev => ({
+  const setSlideshowMode = (page, category, mode) => {
+    setSlideshowSettings(prev => ({
       ...prev,
-      [contentKey]: value
+      [page]: {
+        ...(prev[page] || {}),
+        [category]: {
+          ...(prev[page]?.[category] || { mode: 'gallery', enabled: false, images: [] }),
+          mode
+        }
+      }
     }));
   };
 
-  const getAllTextContent = () => {
-    return textContent;
-  };
-
-  const resetTextContent = (contentKey) => {
-    setTextContent(prev => {
-      const newContent = { ...prev };
-      delete newContent[contentKey];
-      return newContent;
-    });
-  };
-
   const value = {
+    isLoading,
     uploadedFiles,
     selectedImages,
     slideshowSettings,
-    textContent,
+    registerPageMedia,
+    getGalleryMedia,
+    updateMediaItem,
     addUploadedFiles,
     removeUploadedFile,
     selectImage,
     getSelectedImage,
     getUploadedFiles,
     getCategoryFiles,
+    getEnabledSlideshows,
     setSlideshowMode,
     toggleSlideshowEnabled,
     toggleSlideshowImage,
     getSlideshowSettings,
-    getEnabledSlideshows,
-    getTextContent,
-    updateTextContent,
-    getAllTextContent,
-    resetTextContent
+    getTextContent: (key) => textContent[key] || '',
+    updateTextContent: (key, value) => setTextContent(prev => ({ ...prev, [key]: value })),
+    resetTextContent: (key) => setTextContent(prev => {
+      const next = { ...prev };
+      delete next[key];
+      return next;
+    })
   };
 
   return (
