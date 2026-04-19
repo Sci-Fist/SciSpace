@@ -109,13 +109,13 @@
     display: flex;
     flex-direction: column;
     padding: var(--space-4) var(--space-5);
-    background: rgba(var(--color-surface-rgb), 0.98);
+    background: rgba(var(--color-surface-rgb), 0.1);
     border: 3px solid rgba(var(--color-primary-rgb), 0.2);
     border-radius: var(--radius-lg);
     flex-shrink: 0;
 
     &:hover {
-      background: rgba(var(--color-surface-rgb), 1);
+      background: rgba(var(--color-surface-rgb), 0.15);
       border-color: rgba(var(--color-primary-rgb), 0.4);
       transform: translateY(-3px);
       box-shadow: 0 8px 24px rgba(var(--color-primary-rgb), 0.2);
@@ -124,8 +124,8 @@
     // Enhanced music card styles
     &.enhanced {
       background: linear-gradient(135deg,
-        rgba(var(--color-surface-rgb), 0.95),
-        rgba(var(--color-background-rgb), 0.98)
+        rgba(var(--color-surface-rgb), 0.1),
+        rgba(var(--color-background-rgb), 0.05)
       );
       border: 2px solid rgba(var(--color-primary-rgb), 0.3);
       border-radius: 20px;
