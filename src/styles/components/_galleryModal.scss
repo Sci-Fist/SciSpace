@@ -147,21 +147,28 @@
 
 .media-wrapper {
   position: relative;
-  overflow: hidden;
-  display: flex;
-  justify-content: center;
+  overflow: hidden; 
+  display: grid; // Restore CSS grid for native vertical expansion!
+  grid-template-areas: "stack";
+  justify-items: center;
   align-items: center;
   border-radius: var(--radius-md) var(--radius-md) 0 0;
-  border: 1px solid rgba(255, 255, 255, 0.05);
   box-shadow: 0 20px 50px rgba(0, 0, 0, 0.6);
+  background: rgba(0, 0, 0, 0.3); 
+  max-width: 100%; 
+  transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
-.modal-image {
+.modal-image,
+.modal-music-player {
+  grid-area: stack;
+  margin: auto; // Center perfectly when parent frame vertically expands
   opacity: 1 !important; 
   max-width: 100%;
   max-height: 70vh;
   object-fit: contain;
   display: block;
+  border-radius: var(--radius-md) var(--radius-md) 0 0; // Curve top corners
 }
 
 // =============================================================================
@@ -198,27 +205,49 @@
 }
 
 .modal-description-overlay {
-  position: absolute;
-  bottom: 0;
-  left: 0;
-  right: 0;
+  grid-area: stack;
+  align-self: end; // Stays anchored to bottom of grid
+  
+  // MAGIC OVERRIDE: Prevent the text's natural width from ballooning the grid column,
+  // while forcing it to identically trace the exact width of the parent (the image).
+  width: 0; 
+  min-width: 100%;
+  
+  // MAGIC OVERRIDE: Prevent hidden collapsed text from making the grid row taller than the image
+  min-height: 0;
+
   display: flex;
   flex-direction: column;
-  background: rgba(0, 0, 0, 0.7);
-  backdrop-filter: blur(12px);
-  border-top: 1px solid rgba(var(--color-primary-rgb), 0.2);
-  transform: translateY(100%);
-  transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
-  padding: 24px 48px;
-  padding-bottom: 32px;
+  background: linear-gradient(
+    to top, 
+    rgba(0, 0, 0, 0.95) 0%, 
+    rgba(0, 0, 0, 0.6) 60%, 
+    transparent 100%
+  );
+  backdrop-filter: blur(24px);
+  -webkit-backdrop-filter: blur(24px);
+  mask-image: linear-gradient(to top, black 50%, transparent 100%);
+  -webkit-mask-image: linear-gradient(to top, black 50%, transparent 100%);
+  border-top: none; 
   z-index: 10;
   
-  // Make the overlay slightly taller than its content to ensure a comfortable fit
-  align-items: center;
-
+  // Uses max-height for upward sliding growth, physically pushing the grid cell's
+  // vertical track height up if it exceeds the tiny image height!
+  max-height: 0;
+  opacity: 0;
+  padding: 0 32px; 
+  overflow: hidden;
+  transition: max-height 0.5s cubic-bezier(0.16, 1, 0.3, 1), 
+              opacity 0.4s ease, 
+              padding 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+  
   &.expanded {
-    transform: translateY(0);
+    max-height: 60vh; 
+    padding: 48px 32px 32px 32px;
+    opacity: 1;
   }
+  
+  justify-content: flex-end;
 
   .description-content {
     width: 100%;
@@ -236,30 +265,92 @@
   }
 }
 
-.description-toggle-btn-external {
-  background: rgba(0, 0, 0, 0.4);
-  backdrop-filter: blur(12px);
-  border: 1px solid rgba(var(--color-primary-rgb), 0.2);
+// ---------------------------------------------------------
+// MUSIC PLAYER OVERRIDE: SLIDE TO RIGHT INSTEAD OF UP
+// ---------------------------------------------------------
+.media-wrapper.is-music {
+  grid-template-areas: "stack description"; // Create side-by-side split
+  justify-content: center; // Keep wrapper horizontally centered
+
+  .modal-description-overlay {
+    grid-area: description; // Move it to the right column
+    align-self: stretch; // Occupy full height of the music player natively
+    
+    // Disable all vertical overrides used by the standard image overlay
+    min-height: auto; 
+    max-height: none; 
+    width: auto; 
+    min-width: 0;
+
+    // Reset flex alignment to center text vertically rather than sticking to bottom
+    justify-content: center;
+    
+    // Morph the gradient mask to fade smoothly into the player on its left
+    background: linear-gradient(
+      to left, 
+      rgba(0, 0, 0, 0.95) 0%, 
+      rgba(0, 0, 0, 0.6) 60%, 
+      transparent 100%
+    );
+    mask-image: linear-gradient(to left, black 50%, transparent 100%);
+    -webkit-mask-image: linear-gradient(to left, black 50%, transparent 100%);
+    
+    // Collapsed state logic switched completely to horizontal constraints
+    max-width: 0;
+    padding: 32px 0; // Keep vertical padding, zero out horizontal padding
+    transition: max-width 0.5s cubic-bezier(0.16, 1, 0.3, 1), 
+                opacity 0.4s ease, 
+                padding 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+    
+    &.expanded {
+      max-width: 350px; // Grow sideways to this limit
+      padding: 32px 48px 32px 24px;
+    }
+    
+    .description-content {
+      width: 250px; // Freeze text width strictly to prevent reflow judder during horizontal animation
+      text-align: left;
+    }
+  }
+}
+
+.description-lock-btn {
+  position: absolute;
+  bottom: 16px;
+  right: 16px;
+  background: rgba(0, 0, 0, 0.5);
+  backdrop-filter: blur(8px);
+  border: 1px solid rgba(var(--color-primary-rgb), 0.3);
   color: var(--color-primary);
-  font-weight: 600;
-  cursor: pointer;
-  font-size: var(--font-size-xs);
+  border-radius: 50%; // Circular
+  width: 36px;
+  height: 36px;
   display: flex;
   align-items: center;
-  gap: 8px;
-  padding: 6px 16px;
-  border-radius: var(--radius-sm);
-  transition: background 0.3s ease, border-color 0.3s ease, transform 0.2s ease;
-  z-index: 10;
-
-  &:hover { 
-    background: rgba(var(--color-primary-rgb), 0.15); 
-    border-color: rgba(var(--color-primary-rgb), 0.5);
-    transform: translateY(-2px);
+  justify-content: center;
+  cursor: pointer;
+  z-index: 20; // Ensure it floats above the gradient overlay
+  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+  
+  svg {
+    width: 14px;
+    height: 14px;
+    transition: transform 0.3s ease;
   }
   
-  .toggle-icon {
-    font-size: 8px;
+  &:hover {
+    background: rgba(var(--color-primary-rgb), 0.2);
+    transform: scale(1.1);
+  }
+  
+  &.locked {
+    background: rgba(var(--color-primary-rgb), 0.2);
+    border-color: var(--color-primary);
+    box-shadow: 0 0 12px rgba(var(--color-primary-rgb), 0.4);
+    
+    svg {
+      transform: scale(1.1); // Small pop when locked
+    }
   }
 }
 

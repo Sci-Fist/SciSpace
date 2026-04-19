@@ -35,6 +35,18 @@ const GalleryIcons = {
       <path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24"></path>
       <line x1="1" y1="1" x2="23" y2="23"></line>
     </svg>
+  ),
+  Lock: () => (
+    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+      <rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect>
+      <path d="M7 11V7a5 5 0 0 1 10 0v4"></path>
+    </svg>
+  ),
+  Unlock: () => (
+    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+      <rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect>
+      <path d="M7 11V7a5 5 0 0 1 9.9-1"></path>
+    </svg>
   )
 };
 
@@ -43,11 +55,13 @@ const GalleryIcons = {
  */
 function GalleryModal({ isOpen, onClose, items, currentIndex, onNavigate }) {
   const logger = useLogger('GalleryModal', { logMount: true });
-  const [isDescriptionExpanded, setIsDescriptionExpanded] = useState(false);
+  const [isDescriptionLocked, setIsDescriptionLocked] = useState(false);
   const [isHovered, setIsHovered] = useState(false);
   const [areControlsHidden, setAreControlsHidden] = useState(false);
   
   const currentItem = items[currentIndex];
+  // Determine if media is an audio player to orchestrate split-panel layout
+  const isMusic = currentItem ? ((currentItem.src && currentItem.src.endsWith('.mp3')) || currentItem.category === 'Music') : false;
   const modalRef = useRef(null);
 
   useEffect(() => {
@@ -143,8 +157,8 @@ function GalleryModal({ isOpen, onClose, items, currentIndex, onNavigate }) {
             </div>
           )}
 
-          <div className="media-wrapper">
-            {(currentItem.src && currentItem.src.endsWith('.mp3')) || currentItem.category === 'Music' ? (
+          <div className={`media-wrapper ${isMusic ? 'is-music' : ''}`}>
+            {isMusic ? (
               <ModalMusicPlayer item={currentItem} />
             ) : (
               <img
@@ -156,25 +170,27 @@ function GalleryModal({ isOpen, onClose, items, currentIndex, onNavigate }) {
 
             {/* Description Overlay - Slides up over media */}
             {!areControlsHidden && (
-              <div className={`modal-description-overlay ${isDescriptionExpanded || isHovered ? 'expanded' : ''}`}>
+              <div className={`modal-description-overlay ${isDescriptionLocked || isHovered ? 'expanded' : ''}`}>
                 <div className="description-content">
                   <p className="modal-description">{currentItem.description || currentItem.alt}</p>
                 </div>
               </div>
             )}
-          </div>
 
-          {/* External toggle button completely decoupled from media boundaries */}
-          {!areControlsHidden && (
-            <button 
-              className="description-toggle-btn-external" 
-              onClick={() => setIsDescriptionExpanded(!isDescriptionExpanded)}
-              title="Toggle Description Permanently"
-            >
-              <span className="toggle-text">Description</span>
-              <span className="toggle-icon">{isDescriptionExpanded || isHovered ? '▼' : '▲'}</span>
-            </button>
-          )}
+            {/* Hover-activated Lock Button for pinning the description */}
+            {!areControlsHidden && (isHovered || isDescriptionLocked) && (
+              <button 
+                className={`description-lock-btn ${isDescriptionLocked ? 'locked' : 'unlocked'}`}
+                onClick={(e) => {
+                  e.stopPropagation();
+                  setIsDescriptionLocked(!isDescriptionLocked);
+                }}
+                title={isDescriptionLocked ? "Unlock Description" : "Pin Description Open"}
+              >
+                {isDescriptionLocked ? <GalleryIcons.Lock /> : <GalleryIcons.Unlock />}
+              </button>
+            )}
+          </div>
         </div>
       </div>
     </div>
