@@ -131,9 +131,15 @@ scripts/*.json
 # Editor config
 .editorconfig
 
+# Editor config
+.editorconfig
+
 # Vite
 .vite/
 dist/
 
 # Design Mockups
 design/
+
+# Automation Scripts
+/batch/
